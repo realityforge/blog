@@ -1,0 +1,102 @@
+/*
+Theme Name: Exile
+Theme URI: http://frostpress.com/themes/exile/
+Description: Simple and elegant two-column theme in soft white and brown colors.
+Version: 1.1.4
+Author: Frostpress
+Author URI: http://frostpress.com
+Tags: light, white, brown, two-columns, right-sidebar, fixed-width, sticky-post, threaded-comments
+
+This theme is released under GPL (http://www.opensource.org/licenses/gpl-3.0.html)
+
+"Greater indeed are pleasures that are shared."
+*/
+
+/* basic */
+	body { margin:0; padding:0; background:#D9D7CC url('') center top repeat-y; font:normal 12px/170% Verdana, Helvetica, Tahoma, sans-serif; color:#333333; }
+	a { color:#AD1F1F; text-decoration:none; outline:none; }
+	a:hover { text-decoration:none; color:#E98383; }
+	a img { border:0; }
+	a:img { border:0; }
+	blockquote { padding:1px 10 1px 10; margin:10 0 10 10; background-color:#F2F2F2; }
+	blockquote blockquote { background-color:#E1E1E1; display:inline-block; }
+	pre { padding:5px 10 5px 10; margin:10 0 10 0; background-color:#F2F2F2; line-height:160%; overflow:auto; }
+	input, select, textarea { padding:5px; font:12px Verdana, Arial, sans-serif; color:#333333; background-color:#F7F8F9; border:solid 1px #D3DADE; }
+	input:hover, select:hover, textarea:hover { border-color:#BCC6CB; }
+	textarea { line-height:160%; }
+	form { margin:0; padding:0; }
+	ul { list-style:square; }
+	p { margin:11px 0 11px 0; }
+	acronym, abbr { cursor:help; border-bottom:1px dashed #999; }
+	code { font:1.1em 'Courier New', Courier, Fixed; }
+	h1, h2, h3, h4, h5, h6 { font-family:Tahoma, Verdana, Arial, sans-serif; line-height:130%; }
+	h1 { font-size:19px; }
+	h2 { font-size:16px; }
+	h3 { font-size:14px; }
+	h4 { font-size:12px; }
+	h5 { font-size:11px; }
+	h6 { font-size:10px; }
+
+/* layout */
+	#wrap { width:990; margin:0 auto 0; overflow:hidden; }
+	#c1 { width:710; float:left; overflow:hidden; padding:0; margin:0; background:url('images/bg_c1.gif') 0 top repeat-y; }
+	#c2 { width:250; float:left; overflow:hidden; padding:10px; margin:135px 0 0 10px; line-height:160%; color:#666666; background:#FFFFFF url('images/bg_c2.gif') left top repeat-y; border-bottom:solid 10px #e6e4da; border-top:solid 10px #e6e4da; }
+
+	#header { overflow:hidden; margin:10px 10 0 110px; background:#FFFFFF url('') left top no-repeat; }
+
+	#logo { overflow:hidden; width:580; height:125px; display:block; background:#FFFFFF url('images/logo.jpg') right top no-repeat; }
+		#logo:hover { text-decoration:none; }
+		#logo h1 { padding:55px 0 0 10; margin:0; font:normal 28px Verdana, Arial, sans-serif; color:#FFCC99; }
+		#logo h4 { padding:5px 0 0 10; margin:0; font:italic 11px Verdana, Arial, sans-serif; color:#FFFFFF; }
+
+	/* menu */
+	#menu { overflow:hidden; float:right; margin:0 10px 0 10px; }
+	#menu ul { list-style:none; list-style-image:none; margin:0; padding:0; overflow:hidden; padding:0 0 0 0; }
+	#menu ul li { padding:0; margin:0; display:inline; }
+	#menu ul li a { display:block; padding:4px 5px 4px 5px; float:left; text-decoration:none; margin-left:10px; color:#777777; }
+	#menu ul li a:hover { text-decoration:none; background-color:#E9EBEF; }
+	#menu li.current_page_item a, #menu li.current_page_item a:hover { background-color:#E9EBEF; color:#333333; }
+
+/* post */
+	.post { overflow:hidden; clear:both; margin:0 0 0 0; padding:0; }
+
+	.post-c1 { float:left; width:100px; overflow:hidden; margin-top:10px; color:#FFFFFF; background-color:#5E6588; }
+	.page .post-c1 { background:none; }
+		.post-date { padding:4px; font-size:16px; text-align:center; line-height:150%; }
+	
+	.post-c2 { float:left; width:580px; overflow:hidden; padding:10px; background-color:#FFFFFF; }
+		.post-head { overflow:hidden; margin-bottom:10px; }
+			.post-head h1 { margin:0; padding:0; color:#FFFFFF; font:normal 16px/150% Verdana, Helvetica, Arial, sans-serif; }
+			.post-head h1 a { color:#333333; background-color:#E9EBEF; padding:4px 8px 4px 8px; display:inline-block; border:0; }
+			.post-head h1 a:hover { background-color:#DDE0E6; color:#333333; }
+		.post-text { overflow:hidden; width:100%; }
+		.post-foot { border-top:solid 2px #F4F4F4; overflow:hidden; padding:8px 0 8px 0; font-size:11px; line-height:170%; color:#858585; margin-top:10px; }
+			.post-foot a { color:#D37C7C; }
+			.post-foot a:hover { color:#AD1F1F; }
+
+/* widgets */
+	#search input.text { margin-left:5px;padding:7px;width:170px; }
+
+	#widgets { list-style:none; list-style-image:none; margin:10; padding:0; }
+	.widget { padding:0 0 30px 0; }
+	.widget ul { margin:0 0 0 15px; padding:0; }
+	.widget ul li { padding:5px 0 0 0; }
+	.widget h2, .submenu h2 { margin:0 0 5px 0; padding:0; color:#5E6588; font:normal 16px/160% Verdana, Tahoma, sans-serif; }
+	.subscribe {display: block; height: 32px; padding-left:44px; font-family:Tahoma, Verdana, Arial, sans-serif; line-height:130%; font-size:26px; background: url('images/feed-icon-32x32.png') left top no-repeat}
+
+/* footer */
+	#footer { font:8pt Verdana, Arial, sans-serif; color:#999999; text-align:center; padding:15px; margin-left: auto; margin-right: auto; }
+	#footer a { color:#999999; border-bottom:dotted 1px #999999; }
+
+/* Wordpress defaults */
+	.navigation { overflow:hidden; margin-left:100; text-align: center; padding:15px; border-bottom:solid 10px #e6e4da; }
+	p img { padding: 0; max-width: 100%; }
+	img.centered { display: block; margin-left: auto; margin-right: auto; }
+	img.alignright { padding:0; margin:0 0 2px 7px; display: inline; }
+	img.alignleft { padding:0; margin:0 7px 2px 0; display: inline; }
+	.alignright { float: right; }
+	.alignleft { float: left }
+
+	/* Captions */
+	.aligncenter, div.aligncenter { display: block; margin-left: auto; margin-right: auto; }
+	/* End captions */

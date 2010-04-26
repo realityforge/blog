@@ -1,0 +1,9 @@
+markdown: rdiscount
+pygments: true
+blog:
+    title: RealityForge.org
+    subtitle: A little short for a storm trooper
+    url: http://www.realityforge.org
+    author: Peter Donald
+    email: peter@realityforge.org
+    google_query_prefix: site:realityforge.org
