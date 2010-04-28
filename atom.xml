@@ -15,7 +15,6 @@ layout: nil
  </author>
 
  {% for post in site.posts %}
- {% if post.layout == 'post' %}
  <entry>
    <title>{{ post.title }}</title>
    <link href="{{ site.blog.url }}{{ post.url }}"/>
@@ -23,7 +22,6 @@ layout: nil
    <id>{{ site.blog.url }}{{ post.id }}</id>
    <content type="html">{{ post.content | xml_escape }}</content>
  </entry>
- {% endif %}
  {% endfor %}
  
 </feed>
