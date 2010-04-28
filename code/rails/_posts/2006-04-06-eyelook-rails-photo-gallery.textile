@@ -1,0 +1,27 @@
+--- 
+layout: post
+title: "Eyelook: Rails photo gallery"
+---
+Eyelook is a photo gallery I created over a weekend when I was home sick. It is amazing how productive rails can make you because within 8 hours I had the code in place and had set it up on my personal web server. 
+
+Very little of that time was spent coding - most of it was spent working on re-arranging the xhtml+css or figuring out how to go about "Loading Binary Data into Rails Fixtures.":http://www.realityforge.org/articles/2006/04/06/loading-binary-data-into-rails-fixtures
+
+Every eyelook application has a set of users who have a list of albums with pictures. The image data is stored in the database and cached on the filesystem on demand. This way a backup of the database backs up the complete system. 
+
+An example of users page that lists galleries is
+
+"!http://www.realityforge.org/files/album_list_small.jpg!":/files/album_list.jpg
+
+You can select one of these galleries and it will bring up a list of images such as
+
+"!http://www.realityforge.org/files/photo_list_small.jpg!":/files/photo_list.jpg
+
+From there you can either download the original or can view a larger lightbox style image
+
+"!http://www.realityforge.org/files/lightbox_small.jpg!":/files/lightbox.jpg
+
+The admin section is not as sexy but it is functional.
+
+You can grab the source from subversion via the following command. Read the README.txt for installation instructions.
+
+svn co "http://www.realityforge.org/svn/code/eyelook/trunk":http://www.realityforge.org/svn/code/eyelook/trunk eyelook

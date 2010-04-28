@@ -1,0 +1,34 @@
+--- 
+layout: post
+title: Testing Helpers in Rails
+---
+It can be useful at times to unit test helpers to make sure they generate correct html. It is not obvious how to do this at first. So far I have been testing my helper by defining a class "MyClass" at the top of my unit test and including all the appropriate modules. I also need to define a url_for method if I ever want to test helpers that generate links.
+
+The code follows (Replace MyHelper with your appropriate helper class);
+
+{% highlight ruby %}
+class MyClass
+  include ERB::Util
+  include ActionView::Helpers::TagHelper
+  include ActionView::Helpers::UrlHelper
+  include MyHelper
+
+  def url_for(options)
+    ActionController::Routing::Routes.reload if ActionController::Routing::Routes.empty?
+    generated_path, extra_keys = ActionController::Routing::Routes.generate_extras(options, {})
+    generated_path
+  end
+end
+{% endhighlight %}
+
+Then in my tests I do something like;
+
+{% highlight ruby %}
+def test_revision_link
+  assert_equal(
+    "<a href=\"http://svn.sourceforge.net/viewvc/jikesrvm?view=rev&amp;revision=22\">22</a>", 
+    MyClass.new.revision_link(22))
+end
+{% endhighlight %}
+
+Seems easy enough to do in retrospect but things usually do.

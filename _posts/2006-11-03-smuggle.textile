@@ -1,0 +1,11 @@
+--- 
+layout: post
+title: Smuggle
+---
+I needed to mirror some galleries from one "smugmug":http://www.smugmug.com/ "account":http://bluemeanie.smugmug.com/ to "another":http://lumc.smugmug.com/. I thought about doing it manually but that idea seemed like way too much work. 
+
+I found a python "script":http://www.dgrin.com/showthread.php?t=3853 by rutt that did a little bit of what I wanted and went to work hacking. This resulted in "smuggle.py":http://www.realityforge.org/svn/code/smuggle/trunk/smuggle.py that may be useful if you ever have to programatically interact with the smugmug APIs. It will probably evolve as my needs change and as I actually start to learn python. 
+
+The source is available from subversion. Enjoy!
+
+svn co "http://www.realityforge.org/svn/code/smuggle/trunk/":http://www.realityforge.org/svn/code/smuggle/trunk/ smuggle

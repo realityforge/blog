@@ -1,0 +1,35 @@
+--- 
+layout: post
+title: Rails Plugin to Help Debug Views
+---
+The debug_view_helper plugin was developed to make it easy to add debug information into your views. It was derived from techniques described in "HowtoDebugViews":http://wiki.rubyonrails.com/rails/pages/HowtoDebugViews  and it makes it possible to expose the followng following debug data;
+
+* Request Parameters
+* Session Variables
+* Flash Variables
+* Assigned Template Variables
+
+Typically you add code such as the following to the bottom of your layout that exposes the debug button in development mode.
+
+{% highlight ruby %}
+<% if RAILS_ENV == 'development' %>
+<center>
+  <button onclick="show_debug_popup(); return false;">
+    Show debug popup
+  </button>
+</center>
+<%= debug_popup %>
+<% end %>
+{% endhighlight %}
+
+You can grab the plugin from subversion at;
+
+"http://www.realityforge.org/svn/code/debug-view-helper/trunk/":http://www.realityforge.org/svn/code/debug-view-helper/trunk/
+
+**Update:** Added the ability to add inline debug information via the following. Suggestion by  John Dell.
+
+{% highlight ruby %}
+<% if RAILS_ENV == 'development' %>
+<%= debug_inline %>
+<% end %>
+{% endhighlight %}

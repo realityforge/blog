@@ -1,0 +1,37 @@
+--- 
+layout: post
+title: Typo Category feed
+---
+I did not realize that my blog was subscribed over at "JavaBlogs.com":http://www.javablogs.com so when I wrote my recent entry on "AAA in rails":http://www.realityforge.org/articles/2005/11/12/aaa_in_rails I was surprised to get a comment like this "one":http://www.realityforge.org/articles/2005/11/12/aaa_in_rails#comment-2 and despite the tone he did have a point. I should not have it subscribed at java blogs. The version of "Typo":http://typo.leetsoft.com/trac/ I am using did not seem to support category based rss feeds. So I did a quick google for answers and found that "others":http://www.eric-stewart.com/blog/articles/2005/06/03/tweakin-typo had added support this and it had even landed on the "issue tracker":http://typo.leetsoft.com/trac.cgi/ticket/22 . So I had a quick browse and decided it was easier to write myself and added a route and a quick hack to <code>app/controllers/xml_controller.rb</code> from 
+
+{% highlight ruby %}
+ def rss
+    @articles = Article.find(:all, :conditions => 'published=1', 
+ :order => 'created_at DESC', 
+                             :limit => config[:limit_rss_display])
+  end
+{% endhighlight %}
+
+to
+
+{% highlight ruby %}
+ def rss
+    joins = nil
+    conditions = 'published=1'
+    if params[:category]
+    conditions = ['published = 1 AND categories.name = ? AND 
+                    articles_categories.article_id = articles.id AND 
+                     articles_categories.category_id = categories.id', 
+                    params[:category] ]
+      joins = ', categories, articles_categories'
+    end
+    @articles = Article.find(:all, 
+                             :select => 'articles.*',
+                             :conditions => conditions, 
+                             :joins => joins, 
+               :order => 'created_at DESC', 
+                             :limit => config[:limit_rss_display])
+  end
+{% endhighlight %}
+
+And it took me less than 15 minutes which includes time to go and make a coffee. Now that is why I have come to like rails. I may have been able to do the same in another framework but chances are I would have had to guess the table names, file locations, foreign keys etc. With rails I don't really have to think if the app follows the conventions.

@@ -1,0 +1,28 @@
+--- 
+layout: post
+title: About Me
+---
+You have reached the home page of me - Peter Donald.
+On this site you will find a collection of information
+about me and my interests. I am currently enrolled as a
+research student at "La Trobe University":http://www.latrobe.edu.au in Melbourne, 
+Australia. I returned to studies after a brief, three-year 
+stint in the real world.
+
+Music is my passion and I am always on the lookout for
+new and interesting styles to sample. Aside from music
+I am also interested in the enabling technology for
+virtual environments (such as 3D games or simulations).
+My research focuses on network infrastructure for
+virtual environments.
+
+At one stage I was involved in a number of opensource
+organizations and was active in technology standardization
+organizations such as the Java Community Process. Over
+time my involvement in technology-oriented pursuits has
+decreased as my interests have changed.
+
+Feel free to browse the site and if you need to contact
+me, my email address is below, encoded as an image to decrease the chance it will be harvested by a spam bot.
+
+<img src="/files/email.png" alt="Email Address"/>

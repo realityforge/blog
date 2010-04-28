@@ -1,0 +1,15 @@
+--- 
+layout: post
+title: Distributed Objects + Area of Interest Management?
+---
+A year and a half ago I went back to university to get my PhD and just recently I have put my studies on temporary hold. I originally went back to research middleware for distributed virtual environments (DVEs). Translated this is essentially the network software architecture for massively distributed virtual environments such as games (ala World Of Warcraft), military simulations or some of the 3D social environments.
+
+This essentially translates into a software architecture that supports a massive number of distributed objects. There is one authoritative version of each object/attribute and when this version is changed the change is distributed to all interested nodes. Consider a 3D world where a user interacts with the world through an avatar. The users node is interested in any changes to the world that are visible to the avatar. The avatar can move as can other objects in the world and if an object enters the avatars area of interest the entire state is sent to the users node, as do all changes to that object until the object moves out of the avatars area of interest at which point the user node discards the object.
+
+This is a relatively simple problem until you introduce latency into the system. The question of whether to transmit a change C from node P to node Q depends on the state of the avatar A for node Q. Avatar A is a distributed object itself with the authoritative state on node Q. So node P must extrapolate the state of A to determine whether the change C is in the potential area of interest for A. Usually node P will also take into account the delay between it transmitting the update and node Q receiving the update. Thus the state of A in node P is extrapolated for a duration of the latency of P->Q + the latency of Q -> P. Even this is relatively simple until you realize that you want to scale this up to 10's of 1000's of different nodes.
+
+Now I am working back at my old company two days a week and I have the need for such a toolkit. Over several years we have developed a client-server application to manage resources for fire fighters. The clients login to the server and register interest in "Management Projects" (MPs). The state of the MP and all resources under that project (such as people, vehicles and equipment) is transmitted to the client as are any subsequent changes. If a resource is removed from a MP, the client no longer tracks the resource. If a resource is added to a MP, the state of the resource is transmitted to the client who begins tracking the resource.
+
+Our framework for managing the distributed objects has evolved over several years and has many warts. The state on the clients can be several MB and given that many of the clients are running over modem lines we have had to do several things at both the service level and distributed object level to get this platform working for us.
+
+My question is there a java library out there that solves this sort of problem? How have other people tackled this area?

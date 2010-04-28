@@ -1,0 +1,21 @@
+--- 
+layout: post
+title: Removing Stale Rails Sessions
+---
+By default rails does not clear out stale sessions from the session store. To implement this feature I added the following small snippet of code;
+
+{% highlight ruby %}
+class SessionCleaner
+  def self.remove_stale_sessions
+    CGI::Session::ActiveRecordStore::Session.
+      destroy_all( ['updated_on <?', 20.minutes.ago] ) 
+  end
+end
+{% endhighlight %}
+
+And then invoke the remove_stale_sessions method every 10 minutes via;
+
+<pre>
+*/10 * * * * ruby /full/path/to/script/runner 
+   -e production "SessionCleaner.remove_stale_sessions"
+</pre>
