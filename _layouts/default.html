@@ -1,72 +1,68 @@
-<html xmlns="http://www.w3.org/1999/xhtml"> 
- 
-<head profile="http://gmpg.org/xfn/11"> 
-    <title>{{ page.title }}</title>
-    <meta name="author" content="{{ site.blog.author }}" />
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
-    <link href="/atom.xml" rel="alternate" title="{{ page.blog.title }}" type="application/atom+xml" />
-	<link rel="icon" href="/favicon.ico" type="image/x-icon" /> 
- 	<link rel='index' title='RealityForge.org' href='{{ site.blog.url }}' /> 
+<html xmlns="http://www.w3.org/1999/xhtml">
 
-    <!-- syntax highlighting CSS -->
-    <link rel="stylesheet" href="/css/syntax.css" type="text/css" />
+<head profile="http://gmpg.org/xfn/11">
+  <title>{{ page.title }}</title>
+  <meta name="author" content="{{ site.blog.author }}"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <link href="/atom.xml" rel="alternate" title="{{ page.blog.title }}" type="application/atom+xml"/>
+  <link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+  <link rel='index' title='RealityForge.org' href='{{ site.blog.url }}'/>
 
-    <!-- Homepage CSS -->
-    <link rel="stylesheet" href="/css/screen.css" type="text/css" media="screen, projection" />
-	<!--[if lt IE 7]>
-    <link rel="stylesheet" href="/css/ie.css" type="text/css" media="screen, projection" />
-	<![endif]--> 
-</head> 
-<body> 
- 
-<div id="wrap"> 
- 	<div id="c1"> 
- 		<div id="header"> 
-			<a href="/" id="logo"> 
-				<h1>{{ site.blog.title }}</h1> 
-				<h4>{{ site.blog.subtitle }}</h4> 
-			</a> 
-			<div id="menu"> 
-				<ul> 
-					<li class="page_item"><a href="/about.html">About</a></li>
-				</ul> 
-			</div> 
-		</div> 
- 
-		<!-- post --> 
-	    {{ content }}
-		<!--/post --> 
-	
-	    <div class="navigation"> 
-		  <div class="alignleft"><h2></h2></div> 
-		  <div class="alignright"><h2></h2></div> 
-	    </div> 
-	</div><!-- /c1 --> 
- 
-	<div id="c2"> 
-		<div id="search">
-			<form action="http://www.google.com/cse">
-				<input type="hidden" name="cx" value="016119274516139509252:5ccmfcxlilu" />
-    			<input type="hidden" name="ie" value="UTF-8" />
-    			<input type="text" class="text" name="q" size="31" />
-				<input type="submit" name="sa" value="Search" />
-			</form>
-		</div>
-        <div id="sidebar"> 
-			<ul id="widgets"> 
-			    <li class="widget">
-				    <h2>Categories</h2>
-            <ul>
-              <li>
-                <a href="/code.html" title="View all posts filed under Code">Code ({{ site.categories.code | size }})</a>
-              </li>
-            </ul>
-          </li>
-			</ul> 
-		</div>
-	</div><!-- /c2 --> 
- 
-</div><!-- /wrap --> 
- 
-</body> 
+  <!-- syntax highlighting CSS -->
+  <link rel="stylesheet" href="/css/syntax.css" type="text/css"/>
+  <link rel="stylesheet" href="/css/screen.css" type="text/css" media="screen, projection"/>
+  <!--[if lt IE 7]>
+  <link rel="stylesheet" href="/css/ie.css" type="text/css" media="screen, projection"/>
+  <![endif]-->
+</head>
+<body>
+<div id="wrap">
+  <div id="c1">
+    <div id="header">
+      <a href="/" id="logo">
+        <h1>{{ site.blog.title }}</h1>
+        <h4>{{ site.blog.subtitle }}</h4>
+      </a>
+
+      <div id="menu">
+        <ul>
+          <li class="page_item"><a href="/about.html">About</a></li>
+        </ul>
+      </div>
+    </div>
+
+    {{ content }}
+
+    <div class="navigation">
+      <div class="alignleft"><h2></h2></div>
+      <div class="alignright"><h2></h2></div>
+    </div>
+  </div>
+
+  <div id="c2">
+    <div id="search">
+      <form action="http://www.google.com/cse">
+        <input type="hidden" name="cx" value="016119274516139509252:5ccmfcxlilu"/>
+        <input type="hidden" name="ie" value="UTF-8"/>
+        <input type="text" class="text" name="q" size="31"/>
+        <input type="submit" name="sa" value="Search"/>
+      </form>
+    </div>
+    <div id="sidebar">
+      <ul id="widgets">
+        <li class="widget">
+          <h2>Categories</h2>
+          <ul>
+            <li>
+              <a href="/code.html" title="View all posts filed under Code">Code ({{ site.categories.code | size }})</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+  
+</div>
+
+</body>
 </html>
