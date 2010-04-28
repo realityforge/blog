@@ -1,25 +1,25 @@
 ---
 layout: default
 ---
-<div class="post"> 
-	<div class="post-c1">
-		<div class="post-date">{{ page.date | date_to_string }}</div> 
-	</div> 
-	<div class="post-c2"> 
-		<div class="post-head"> 
-			<h1><a href="{{ post.url }}" rel="bookmark">{{ page.title }}</a></h1> 
-		</div> 
-		<div class="post-text"> 
-			{{ page.content | textilize }}
-		</div> 
-		<div class="post-foot"> 
-			{% if page.categories != empty %}
+<div class="post">
+  <div class="post-c1">
+    <div class="post-date">{{ page.date | date_to_string }}</div>
+  </div>
+  <div class="post-c2">
+    <div class="post-head">
+      <h1><a href="{{ post.url }}" rel="bookmark">{{ page.title }}</a></h1>
+    </div>
+    <div class="post-text">
+      {{ page.content | textilize }}
+    </div>
+    <div class="post-foot">
+      {% if page.categories != empty %}
 			<span class="post-category">Posted in
 				{% for category in page.categories %}
-				<a href="/{{ category }}" title="View all posts in {{ category }}" rel="category">{{ category }}</a></span>
-   				{% endfor %}
-			</span>
-			{% endif %}
-		</div> 
-	</div> 
+				<a href="/{{ category }}" title="View all posts in {{ category }}" rel="category">{{ category }}</a>
+        {% endfor %}
+      </span>
+      {% endif %}
+    </div>
+  </div>
 </div> 
