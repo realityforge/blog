@@ -16,7 +16,7 @@ layout: default
       {% if page.categories != empty %}
 			<span class="post-category">Posted in
 				{% for category in page.categories %}
-				<a href="/{{ category }}" title="View all posts in {{ category }}" rel="category">{{ category }}</a>
+				<a href="/{{ category }}.html" title="View all posts in {{ category }}" rel="category">{{ category }}</a>
         {% endfor %}
       </span>
       {% endif %}
