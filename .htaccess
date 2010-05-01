@@ -1,36 +1,36 @@
 RewriteEngine on
 
+# Make sure there is a canonical host
 RewriteCond %{HTTP_HOST}   !^www3\.realityforge\.org [NC]
 RewriteCond %{HTTP_HOST}   !^$
 RewriteRule ^/(.*)         http://www3.realityforge.org/$1 [L,R]
 
-
-
-Redirect permanent /articles/2005/09/12/no-shared-vision-no-ant2 http://www3.realityforge.org/
-Redirect permanent /articles/2005/09/16/distributed-objects-area-of-interest-management
-Redirect permanent /articles/2005/11/12/aaa_in_rails
-Redirect permanent /articles/2005/11/13/typo-category-feed
-Redirect permanent /articles/2005/11/23/scripting-databases
-Redirect permanent /articles/2005/11/30/proxy_to_lighttpd
-Redirect permanent /articles/2005/12/02/mysql_to_postgres
-Redirect permanent /articles/2005/12/02/validations-for-non-activerecord-model-objects
-Redirect permanent /articles/2005/12/05/many-to-many-rails-goodness
-Redirect permanent /articles/2005/12/14/dumping-database-to-yaml-fixtures
-Redirect permanent /articles/2005/12/15/uncacheable-web-pages-in-rails
-Redirect permanent /articles/2006/01/18/returning-to-java
-Redirect permanent /articles/2006/02/27/panmx-exposing-mbeans-the-easy-way
-Redirect permanent /articles/2006/02/28/flexible-application-configuration-in-rails
-Redirect permanent /articles/2006/03/01/removing-stale-rails-sessions
-Redirect permanent /articles/2006/03/02/upload-a-file-via-post-with-net-http
-Redirect permanent /articles/2006/03/04/integrating-feedburner
-Redirect permanent /articles/2006/03/08/distributed-case-based-reasoning-using-java
-Redirect permanent /articles/2006/03/09/meta-programming-in-java
-Redirect permanent /articles/2006/03/15/rails-plugin-to-validate-x-html-and-css
-Redirect permanent /articles/2006/03/20/rails-plugin-to-help-debug-views
-Redirect permanent /articles/2006/04/06/loading-binary-data-into-rails-fixtures
-Redirect permanent /articles/2006/04/21/eyelook-rails-photo-gallery
-Redirect permanent /articles/2006/07/03/moving-from-eyelook-to-smugmug
-Redirect permanent /articles/2006/11/14/smuggle
-Redirect permanent /articles/2007/05/09/enhanced-rails-plugin-to-validate-x-html-and-css
-Redirect permanent /articles/2007/06/14/testing-helpers-in-rails
-Redirect permanent /pages/about
+# Add redirects for all the old blog pages
+Redirect permanent /articles/2005/09/12/no-shared-vision-no-ant2 http:/www3.realityforge.org/code/java/2005/09/12/no-shared-vision-no-ant2.html
+Redirect permanent /articles/2005/09/16/distributed-objects-area-of-interest-management http:/www3.realityforge.org/code/2005/09/16/distributed-objects-area-of-interest-management.html
+Redirect permanent /articles/2005/11/12/aaa_in_rails http:/www3.realityforge.org/code/rails/2005/11/12/aaa_in_rails.html
+Redirect permanent /articles/2005/11/13/typo-category-feed http:/www3.realityforge.org/code/rails/2005/11/13/typo-category-feed.html
+Redirect permanent /articles/2005/11/23/scripting-databases http:/www3.realityforge.org/code/2005/11/23/scripting-databases.html
+Redirect permanent /articles/2005/11/30/proxy_to_lighttpd http:/www3.realityforge.org/code/2005/11/30/proxy_to_lighttpd.html
+Redirect permanent /articles/2005/12/02/mysql_to_postgres http:/www3.realityforge.org/code/2005/12/02/mysql_to_postgres.html
+Redirect permanent /articles/2005/12/02/validations-for-non-activerecord-model-objects http:/www3.realityforge.org/code/rails/2005/12/02/validations-for-non-activerecord-model-objects.html
+Redirect permanent /articles/2005/12/05/many-to-many-rails-goodness http:/www3.realityforge.org/code/rails/2005/12/05/many-to-many-rails-goodness.html
+Redirect permanent /articles/2005/12/14/dumping-database-to-yaml-fixtures http:/www3.realityforge.org/code/rails/2005/12/14/dumping-database-to-yaml-fixtures.html
+Redirect permanent /articles/2005/12/15/uncacheable-web-pages-in-rails http:/www3.realityforge.org/code/2005/12/15/rails/uncacheable-web-pages-in-rails.html
+Redirect permanent /articles/2006/01/18/returning-to-java http:/www3.realityforge.org/code/java/2006/01/18/returning-to-java.html
+Redirect permanent /articles/2006/02/27/panmx-exposing-mbeans-the-easy-way http:/www3.realityforge.org/code/java/2006/02/27/panmx-exposing-mbeans-the-easy-way.html
+Redirect permanent /articles/2006/02/28/flexible-application-configuration-in-rails http:/www3.realityforge.org/code/rails/2006/02/28/flexible-application-configuration-in-rails.html
+Redirect permanent /articles/2006/03/01/removing-stale-rails-sessions http:/www3.realityforge.org/code/rails/2006/03/01/removing-stale-rails-sessions.html
+Redirect permanent /articles/2006/03/02/upload-a-file-via-post-with-net-http http:/www3.realityforge.org/code/rails/2006/03/02/upload-a-file-via-post-with-net-http.html
+Redirect permanent /articles/2006/03/04/integrating-feedburner http:/www3.realityforge.org/code/2006/03/04/integrating-feedburner.html
+Redirect permanent /articles/2006/03/08/distributed-case-based-reasoning-using-java http:/www3.realityforge.org/code/java/2006/03/08/distributed-case-based-reasoning-using-java.html
+Redirect permanent /articles/2006/03/09/meta-programming-in-java http:/www3.realityforge.org/code/java/2006/03/09/meta-programming-in-java.html
+Redirect permanent /articles/2006/03/15/rails-plugin-to-validate-x-html-and-css http:/www3.realityforge.org/code/rails/2006/03/15/rails-plugin-to-validate-x-html-and-css.html
+Redirect permanent /articles/2006/03/20/rails-plugin-to-help-debug-views http:/www3.realityforge.org/code/rails/2006/03/20/rails-plugin-to-help-debug-views.html
+Redirect permanent /articles/2006/04/06/loading-binary-data-into-rails-fixtures http:/www3.realityforge.org/code/rails/2006/04/06/loading-binary-data-into-rails-fixtures.html
+Redirect permanent /articles/2006/04/21/eyelook-rails-photo-gallery http:/www3.realityforge.org/code/rails/2006/04/21/eyelook-rails-photo-gallery.html
+Redirect permanent /articles/2006/07/03/moving-from-eyelook-to-smugmug http:/www3.realityforge.org/code/2006/07/03/moving-from-eyelook-to-smugmug.html
+Redirect permanent /articles/2006/11/14/smuggle http:/www3.realityforge.org/code/2006/11/14/smuggle.html
+Redirect permanent /articles/2007/05/09/enhanced-rails-plugin-to-validate-x-html-and-css http:/www3.realityforge.org/code/rails/2007/05/09/enhanced-rails-plugin-to-validate-x-html-and-css.html
+Redirect permanent /articles/2007/06/14/testing-helpers-in-rails http:/www3.realityforge.org/code/rails/2007/06/14/testing-helpers-in-rails.html
+Redirect permanent /pages/about http:/www3.realityforge.org/about.html
