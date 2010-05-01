@@ -1,5 +1,6 @@
 markdown: rdiscount
 pygments: true
+exclude: ['Rakefile', 'README.textile']
 blog:
     title: RealityForge.org
     subtitle: A little short for a storm trooper
