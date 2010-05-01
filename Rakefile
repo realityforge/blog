@@ -16,7 +16,7 @@ end
 desc 'Build and deploy'
 task :deploy => :build do
   # TODO: Update url to be www.realityforge.org when it goes live
-  sh 'rsync -rtzh --progress --delete _site/ pdonald@superbhosting.stocksoftware.com.au:~/www/www.realityforge.org/'
+  sh 'rsync -rtzh --progress --delete --exclude "/static" _site/ pdonald@superbhosting.stocksoftware.com.au:~/www/www.realityforge.org/'
 end
 
 def jekyll(opts = '')

@@ -5,7 +5,6 @@ Using "rake deploy" it is transformed by "Jekyll":http://github.com/mojombo/jeky
 h4. TODO
 
 * Add in .htaccess that does redirects with appropriate HTTP code for permanent move
-* update deployment script to ignore "static" dir
 * move static files to new server
 * cut across dns to new site
 * update deployment script for new server name
