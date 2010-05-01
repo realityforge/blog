@@ -1,0 +1,3 @@
+h1. This is the data for my blog
+
+Using "rake deploy" it is transformed by "Jekyll":http://github.com/mojombo/jekyll into a static site and rsynced with a remote server.
