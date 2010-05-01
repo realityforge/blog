@@ -2,10 +2,11 @@
 layout: post
 title: CSS Site Examples
 ---
+This is a list of sites with interesting CSS. More for my own benefit rather than for anyone elses.
+
 From "OSWD":http://andreasviklund.com/blog/webdesign/while-oswd-is-down/
 * "Gila":http://haran.freeshell.org/oswd/gila/
 * "Prosimii":http://haran.freeshell.org/oswd/prosimii/
-
 
 From "CSS Zen Garden":http://www.csszengarden.com/
 
