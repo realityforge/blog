@@ -14,11 +14,7 @@ layout: default
     </div>
     <div class="post-foot">
       {% if page.categories != empty %}
-			<span class="post-category">Posted in
-				{% for category in page.categories %}
-				<a href="/{{ category }}.html" title="View all posts in {{ category }}" rel="category">{{ category }}</a>
-        {% endfor %}
-      </span>
+			<span class="post-category">Posted in {{ page.categories | array_to_sentence_string }}</span>
       {% endif %}
     </div>
   </div>
