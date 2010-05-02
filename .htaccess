@@ -5,6 +5,9 @@ RewriteCond %{HTTP_HOST}   !^realityforge\.org [NC]
 RewriteCond %{HTTP_HOST}   !^$
 RewriteRule ^/(.*)         http://realityforge.org/$1 [L,R]
 
+# Redirect for all the old feeds
+RewriteRule ^/xml/(.*) http://realityforge.org/atom.xml [L,R]
+
 # Add redirects for all the old blog pages
 Redirect permanent /articles/2005/09/12/no-shared-vision-no-ant2 http://realityforge.org/code/java/2005/09/12/no-shared-vision-no-ant2.html
 Redirect permanent /articles/2005/09/16/distributed-objects-area-of-interest-management http://realityforge.org/code/2005/09/16/distributed-objects-area-of-interest-management.html
