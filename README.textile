@@ -8,7 +8,6 @@ h4. TODO
 * check redirects are working
 * cut across dns to new site
 * update deployment script for new server name
-* import the blogger stories
 * import the babble content
 * add post to indicate what is happening with blog
  
