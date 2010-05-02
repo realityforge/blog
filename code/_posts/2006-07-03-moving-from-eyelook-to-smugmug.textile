@@ -2,7 +2,7 @@
 layout: post
 title: Moving from Eyelook to Smugmug
 ---
-I needed to host photos from a recent trip to New Zealand. I started modifying "eyelook":http://www.realityforge.org/articles/2006/04/21/eyelook-rails-photo-gallery to make it easier to do what I wanted such as geocoding, bulk upload, hierarchial grouping, different sizes, different layouts, themes etc. It was taking a bit of time so I decided to look around at existing services but none of them suited my needs. 
+I needed to host photos from a recent trip to New Zealand. I started modifying "eyelook":/code/rails/2006/04/21/eyelook-rails-photo-gallery.html to make it easier to do what I wanted such as geocoding, bulk upload, hierarchial grouping, different sizes, different layouts, themes etc. It was taking a bit of time so I decided to look around at existing services but none of them suited my needs. 
 
 Then I found "SmugMug":http://www.smugmug.com/ and I was hooked. This is the best photo-sharing service I have seen. It seems to be aimed at professional photographers - there is no free version but you get what you pay for. It is far from perfect but there is no way I would consider anything else at this stage.
 

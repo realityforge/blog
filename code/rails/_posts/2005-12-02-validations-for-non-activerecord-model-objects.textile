@@ -92,4 +92,4 @@ end
 
 Available as a plugin at
 
-svn: "http://www.realityforge.org/svn/code/active-form/trunk":http://www.realityforge.org/svn/code/active-form/trunk
+svn: "http://realityforge.org/svn/code/active-form/trunk":http://realityforge.org/svn/code/active-form/trunk

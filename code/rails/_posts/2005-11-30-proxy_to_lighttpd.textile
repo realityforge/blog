@@ -37,9 +37,9 @@ I also noticed an easy way to host multiple rails applications on one hostname. 
 <pre>
 <code>
 <VirtualHost *:80>
-    ServerName www.realityforge.org
-    ProxyPass /napts/ http://www.realityforge.org:8080/
-    ProxyPassReverse /napts/ http://www.realityforge.org:8080/
+    ServerName realityforge.org
+    ProxyPass /napts/ http://realityforge.org:8080/
+    ProxyPassReverse /napts/ http://realityforge.org:8080/
 </VirtualHost>
 </code>
 </pre>

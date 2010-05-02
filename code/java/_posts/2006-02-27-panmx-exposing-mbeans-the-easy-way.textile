@@ -6,7 +6,7 @@ PanMX removes the pain from developing MBeans. It was a toolkit I developed year
 
 The user can use Java 1.5 Annotations to define the MBean interface or allow the toolkit to derive the MBean interface using reflection. 
 
-The toolkit allows the user to define "ModelMBeans":http://java.sun.com/j2se/1.5.0/docs/api/javax/management/modelmbean/ModelMBean.html via the "ModelMBeanFactory":http://www.realityforge.org/static/PanMX/api/panmx/model/ModelMBeanFactory.html or RMXBeans which are very similar "MXBeans":http://java.sun.com/j2se/1.5.0/docs/api/java/lang/management/ManagementFactory.html#MXBean via the "RMXBeanFactory":http://www.realityforge.org/static/PanMX/api/panmx/rmx/RMXBeanFactory.html .
+The toolkit allows the user to define "ModelMBeans":http://java.sun.com/j2se/1.5.0/docs/api/javax/management/modelmbean/ModelMBean.html via the "ModelMBeanFactory":http://realityforge.org/static/PanMX/api/panmx/model/ModelMBeanFactory.html or RMXBeans which are very similar "MXBeans":http://java.sun.com/j2se/1.5.0/docs/api/java/lang/management/ManagementFactory.html#MXBean via the "RMXBeanFactory":http://realityforge.org/static/PanMX/api/panmx/rmx/RMXBeanFactory.html .
 
 h3. Annotating a Class
 
@@ -134,6 +134,6 @@ h3. Files
 
 To get your greasy mits on PanMX grab it from one of the following locations
 
-* *Binary Jar*: "http://www.realityforge.org/static/PanMX/panmx-1.0.jar":http://www.realityforge.org/static/PanMX/panmx-1.0.jar
-* *Source Zip*: "http://www.realityforge.org/static/PanMX/panmx-1.0.zip":http://www.realityforge.org/static/PanMX/panmx-1.0.zip
-* *Subversion*: svn co "http://www.realityforge.org/svn/code/PanMX":http://www.realityforge.org/svn/code/PanMX
+* *Binary Jar*: "panmx-1.0.jar":/static/PanMX/panmx-1.0.jar
+* *Source Zip*: "panmx-1.0.zip":/static/PanMX/panmx-1.0.zip
+* *Subversion*: svn co "http://realityforge.org/svn/code/PanMX":http://realityforge.org/svn/code/PanMX

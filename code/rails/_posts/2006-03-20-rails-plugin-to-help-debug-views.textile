@@ -24,7 +24,7 @@ Typically you add code such as the following to the bottom of your layout that e
 
 You can grab the plugin from subversion at;
 
-"http://www.realityforge.org/svn/code/debug-view-helper/trunk/":http://www.realityforge.org/svn/code/debug-view-helper/trunk/
+"http://realityforge.org/svn/code/debug-view-helper/trunk/":http://realityforge.org/svn/code/debug-view-helper/trunk/
 
 **Update:** Added the ability to add inline debug information via the following. Suggestion by  John Dell.
 

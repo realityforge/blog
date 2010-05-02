@@ -2,7 +2,7 @@
 layout: post
 title: Dumping database to YAML fixtures
 ---
-I finally got fed up with the bugs in Rails 1.0 handling of mysql connections and have decided to move to postgres. I have "talked":http://www.realityforge.org/articles/2005/12/02/mysql_to_postgres about the move and even migrated my DDL to the database agnostic "schema":http://api.rubyonrails.com/classes/ActiveRecord/Schema.html language. The one thing I had not yet thought about was how to move my data.
+I finally got fed up with the bugs in Rails 1.0 handling of mysql connections and have decided to move to postgres. I have "talked":/code/2005/12/02/mysql_to_postgres.html about the move and even migrated my DDL to the database agnostic "schema":http://api.rubyonrails.com/classes/ActiveRecord/Schema.html language. The one thing I had not yet thought about was how to move my data.
 
 After doing a little bit of "asking":http://www.mail-archive.com/typo-list@rubyforge.org/msg01274.html and "searching":http://comments.gmane.org/gmane.comp.lang.ruby.rails/28315 I decided to just dump my data out the databse to fixtures and then reload these fixtures. This is surprisingly simple using the rake task.
 
