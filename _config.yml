@@ -4,6 +4,6 @@ exclude: ['Rakefile', 'README.textile']
 blog:
     title: RealityForge.org
     subtitle: A little short for a storm trooper
-    url: http://www.realityforge.org
+    url: http://realityforge.org
     author: Peter Donald
     email: peter@realityforge.org

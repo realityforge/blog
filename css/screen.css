@@ -94,3 +94,13 @@ This theme is released under GPL (http://www.opensource.org/licenses/gpl-3.0.htm
 	img.alignleft { padding:0; margin:0 7px 2px 0; display: inline; }
 	.alignright { float: right; }
 	.alignleft { float: left }
+
+/* disqus */
+.dsq-media-link { display: none !important; }
+.dsq-sharing-options { display: none !important; }
+.dsq-dc-logo { display: none !important; }
+.dsq-authenticate { display: none !important; }
+.dsq-request-user-stats { display: none !important; }
+.dsq-options { display: none !important; }
+#dsq-comments-title { display: none !important; }
+.dsq-comment-header { background-color: #E9EBEF !important; color: #333333 !important; font-size-adjust:none;}
