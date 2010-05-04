@@ -4,10 +4,6 @@ Using "rake deploy" it is transformed by "Jekyll":http://github.com/mojombo/jeky
 
 h4. TODO
 
-* get web server obeying .htaccess
-* check redirects are working
-* cut across dns to new site
-* update deployment script for new server name
 * import the babble content
 * add post to indicate what is happening with blog
  
