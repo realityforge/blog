@@ -5,6 +5,7 @@ task :default => :build
 
 desc 'Build site with Jekyll'
 task :build do
+  sh 'rm -rf _site'
   jekyll
 end
 
@@ -19,6 +20,5 @@ task :deploy => :build do
 end
 
 def jekyll(opts = '')
-  sh 'rm -rf _site'
   sh 'ruby /var/lib/gems/1.8/gems/jekyll-0.5.7/bin/jekyll ' + opts
 end
