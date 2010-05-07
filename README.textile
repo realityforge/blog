@@ -5,5 +5,5 @@ Using "rake deploy" it is transformed by "Jekyll":http://github.com/mojombo/jeky
 h4. TODO
 
 * import the babble content
-* add post to indicate what is happening with blog
+
  
