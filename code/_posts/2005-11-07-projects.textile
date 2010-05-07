@@ -9,3 +9,4 @@ Heres a list of projects that I will eventually get around to implementing. They
 * *iPay*: A simple time tracker that allows me to generate pay slips or charge bills as appropriate. Maybe even generate the appropriate forms ala Blue-Sheets.
 * *iThink*: Combination wiki and mind map that attempts to generate /mental/ distances between concepts/pages.
 * *iKnow*: FAQ Engine
+* *Craggle*: Web 2.0 style climbing routes database
