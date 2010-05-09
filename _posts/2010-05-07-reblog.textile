@@ -2,10 +2,10 @@
 layout: post
 title: Blog Rebooted
 ---
-p=. !http://bluemeanie.smugmug.com/photos/702685377_Cjhdt-S-1.jpg(This is a tree down by the river near my place. It makes for an excellent location to read a book on a hot summers day)!
+p=. !http://bluemeanie.smugmug.com/photos/702685377_Cjhdt-S-1.jpg(This is a tree down by the river near my place. It makes for an excellent location to read a book on a hot summer day)!
 
 Over the last few years I have blogged, wiki-ied and word-smithed in all sorts of random locations. While most of the stuff has been about programming in one form or another - I have also spent a lot of time writing about beginner photography, image processing, rock climbing, caving and other things.
 
-Every time I start writing again it seems to be a new blog, in a new location with no reference to what has come before. Unfortunately as my interest wanes the site inevitably gets forgotten and passes into the void. Rather than seeing all the articles disappear again, I have decided to centralize them all on this site. Rather than lock the articles away in some database, I have decided to store them in source control and generate a static site with "Jekyll":http://github.com/mojombo/jekyll . I have imported the articles from the old realityforge.org blog and one of the blogger.com blogs that I once used and content from the other blogs may appear in time (Or may not!).
+Every time I start writing again it seems to be a new blog, in a new location with no reference to that which came before. Unfortunately as my interest wanes the site inevitably gets forgotten and passes into the void. Rather than seeing all the articles disappear again, I have decided to centralize my writing on this site. Rather than lock the articles away in some database, I have decided to store them in source control and generate a static site with "Jekyll":http://github.com/mojombo/jekyll . I have imported the articles from the old realityforge.org blog and one of the blogger.com blogs that I once used. Content from my other blogs may appear in time (Or may not!).
 
 I suspect that I will get back to writing again once the post PhD haze has died down. When that time comes expect to see articles posted here.
