@@ -10,18 +10,24 @@ Every eyelook application has a set of users who have a list of albums with pict
 
 An example of users page that lists galleries is
 
+<center>
 "!/files/album_list_small.jpg!":/files/album_list.jpg
+</center>
 
 You can select one of these galleries and it will bring up a list of images such as
 
+<center>
 "!/files/photo_list_small.jpg!":/files/photo_list.jpg
+</center>
 
 From there you can either download the original or can view a larger lightbox style image
 
+<center>
 "!/files/lightbox_small.jpg!":/files/lightbox.jpg
+</center>
 
 The admin section is not as sexy but it is functional.
 
-You can grab the source from subversion via the following command. Read the README.txt for installation instructions.
+h4. Update 12th of May, 2010
 
-svn co "http://realityforge.org/svn/code/eyelook/trunk":http://realityforge.org/svn/code/eyelook/trunk eyelook
+The subversion repository holding the original version of this has since gone away but the code has been imported into GitHub. See the "GitHub Project Page":http://github.com/realityforge/eyelook for further details. 
