@@ -132,8 +132,4 @@ System.out.println( "Toxicity Level after cleaning: " + liver.getToxicity() )
 
 h3. Files
 
-To get your greasy mits on PanMX grab it from one of the following locations
-
-* *Binary Jar*: "panmx-1.0.jar":/static/PanMX/panmx-1.0.jar
-* *Source Zip*: "panmx-1.0.zip":/static/PanMX/panmx-1.0.zip
-* *Subversion*: svn co "http://realityforge.org/svn/code/PanMX":http://realityforge.org/svn/code/PanMX
+To get your greasy mits on PanMX visit the "GitHub project page":http://github.com/realityforge/PanMX
