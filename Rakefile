@@ -1,7 +1,20 @@
-# Adopted from Scott Kyle's Rakefile
-# http://github.com/appden/appden.github.com/blob/master/Rakefile
+require 'fileutils'
+require 'net/http'
+
+FEED_DIR="#{File.dirname(__FILE__)}/_feeds"
+SMUGMUG_FILE_NAME="#{FEED_DIR}/smugmug.atom"
+SMUGMUG_FEED_URL="http://bluemeanie.smugmug.com/hack/feed.mg?Type=nickname&Data=bluemeanie&format=atom10"
 
 task :default => :build
+
+desc 'Download feeds integrated into site'
+task :download_feeds do
+  FileUtils.mkdir_p FEED_DIR
+  File.open(SMUGMUG_FILE_NAME, 'w') do |f|
+    puts "Retrieving smugmug feed\n"
+    f.write Net::HTTP.get(URI.parse(SMUGMUG_FEED_URL))
+  end
+end
 
 desc 'Build site with Jekyll'
 task :build do
