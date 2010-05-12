@@ -6,6 +6,35 @@ I needed to mirror some galleries from one "smugmug":http://www.smugmug.com/ "ac
 
 I found a python "script":http://www.dgrin.com/showthread.php?t=3853 by rutt that did a little bit of what I wanted and went to work hacking. This resulted in "smuggle.py":http://realityforge.org/svn/code/smuggle/trunk/smuggle.py that may be useful if you ever have to programatically interact with the smugmug APIs. It will probably evolve as my needs change and as I actually start to learn python. 
 
-The source is available from subversion. Enjoy!
+--The source is available from subversion.-- 
 
-svn co "http://realityforge.org/svn/code/smuggle/trunk/":http://realityforge.org/svn/code/smuggle/trunk/ smuggle
+h4. Update 12th of May, 2010
+
+The subversion repository holding the origin version of this has since gone away but in more recent times it has become easier to achieve this as there is a myriad of libraries out there. Below is an example in ruby of how easy it is to download images from a smugmug account. Upload is left as an exercise for the reader. 
+
+{% highlight ruby %}
+require 'smugmug'
+require 'fileutils'
+require 'net/http'
+
+Username = 'MyUser'
+Password = 'MyPassword'
+AlbumIDs = [1234]
+
+puts "Logging into #{Username}"
+sm = SmugMug::SmugMug.new(Username,Password)
+
+sm.each do |a|
+  puts "#{a.title} - #{a.album_id}"
+  if AlbumIDs.include?( a.album_id )
+    FileUtils.mkdir_p "#{a.album_id}"
+    a.each do |image|
+       puts "#{image.file_name} has url #{image.original_url}"
+       filename = "#{a.album_id}/#{image.image_id}#{File.extname(image.file_name)}"
+       File.open(filename,'w') do |f|
+         f.write Net::HTTP.get(URI.parse("#{image.original_url}"))
+       end unless File.exist?( filename )
+    end
+  end
+end
+{% endhighlight %}
