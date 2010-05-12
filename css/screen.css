@@ -104,3 +104,5 @@ This theme is released under GPL (http://www.opensource.org/licenses/gpl-3.0.htm
 .dsq-options { display: none !important; }
 #dsq-comments-title { display: none !important; }
 .dsq-comment-header { background-color: #E9EBEF !important; color: #333333 !important; font-size-adjust:none;}
+
+ul.article_list li span {width:7em;display: inline-block;}
