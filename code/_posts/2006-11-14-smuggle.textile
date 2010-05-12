@@ -10,7 +10,7 @@ I found a python "script":http://www.dgrin.com/showthread.php?t=3853 by rutt tha
 
 h4. Update 12th of May, 2010
 
-The subversion repository holding the origin version of this has since gone away but in more recent times it has become easier to achieve this as there is a myriad of libraries out there. Below is an example in ruby of how easy it is to download images from a smugmug account. Upload is left as an exercise for the reader. 
+The subversion repository holding the original version of this has since gone away but in more recent times it has become easier to achieve this as there is a myriad of libraries out there. Below is an example in ruby of how easy it is to download images from a smugmug account. Upload is left as an exercise for the reader. 
 
 {% highlight ruby %}
 require 'smugmug'
