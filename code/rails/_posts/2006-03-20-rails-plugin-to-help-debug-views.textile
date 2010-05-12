@@ -22,9 +22,7 @@ Typically you add code such as the following to the bottom of your layout that e
 <% end %>
 {% endhighlight %}
 
-You can grab the plugin from subversion at;
-
-"http://realityforge.org/svn/code/debug-view-helper/trunk/":http://realityforge.org/svn/code/debug-view-helper/trunk/
+--You can grab the plugin from subversion at;--
 
 **Update:** Added the ability to add inline debug information via the following. Suggestion by  John Dell.
 
@@ -33,3 +31,7 @@ You can grab the plugin from subversion at;
 <%= debug_inline %>
 <% end %>
 {% endhighlight %}
+
+h4. Update 12th of May, 2010
+
+The plugin is now moved to GitHub. See the "GitHub project page":http://github.com/realityforge/rails-debug-view-helper
