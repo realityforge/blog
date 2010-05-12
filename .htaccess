@@ -40,3 +40,5 @@ RedirectPermanent /articles/2006/11/14/smuggle http://realityforge.org/code/2006
 RedirectPermanent /articles/2007/05/09/enhanced-rails-plugin-to-validate-x-html-and-css http://realityforge.org/code/rails/2007/05/09/enhanced-rails-plugin-to-validate-x-html-and-css.html
 RedirectPermanent /articles/2007/06/14/testing-helpers-in-rails http://realityforge.org/code/rails/2007/06/14/testing-helpers-in-rails.html
 RedirectPermanent /pages/about http://realityforge.org/about.html
+
+RedirectPermanent /code.html http://realityforge.org/categories/code.html
