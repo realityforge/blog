@@ -58,8 +58,11 @@ task :noauto_server do
   jekyll('--server')
 end
 
-desc 'Build and deploy'
-task :deploy => :build do
+desc 'Rebuild and deploy'
+task :deploy do
+  task(:download_feeds).invoke
+  task(:transform_feeds).invoke
+  task(:build).invoke
   sh 'rsync -rtzh --progress --delete --exclude "/laptop"  --exclude "/static" _site/ pdonald@realityforge.org:~/www/www.realityforge.org/'
 end
 
