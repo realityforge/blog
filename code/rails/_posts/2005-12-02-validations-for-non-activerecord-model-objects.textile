@@ -86,10 +86,6 @@ class Dispatcher
 end
 {% endhighlight %}
 
-**Download:** "active_form.rb":/files/active_form.rb
+h4. Update 12th of May, 2010
 
-**Update on 1st March 2006**
-
-Available as a plugin at
-
-svn: "http://realityforge.org/svn/code/active-form/trunk":http://realityforge.org/svn/code/active-form/trunk
+The plugin is now available on GitHub. See the "GitHub project page":http://github.com/realityforge/rails-active-form
