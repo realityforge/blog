@@ -53,6 +53,11 @@ task :server do
   jekyll('--server --auto')
 end
 
+desc 'Start server without --auto'
+task :noauto_server do
+  jekyll('--server')
+end
+
 desc 'Build and deploy'
 task :deploy => :build do
   sh 'rsync -rtzh --progress --delete --exclude "/laptop"  --exclude "/static" _site/ pdonald@realityforge.org:~/www/www.realityforge.org/'
