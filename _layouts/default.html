@@ -36,14 +36,7 @@
 
   {% if page.disable_aside != true %}
   <div class="aside">
-    <div id="search">
-      <form action="http://www.google.com/cse">
-        <input type="hidden" name="cx" value="016119274516139509252:5ccmfcxlilu"/>
-        <input type="hidden" name="ie" value="UTF-8"/>
-        <input type="text" class="text" name="q" size="31"/>
-        <input type="submit" class="submit" name="sa" value="Search"/>
-      </form>
-    </div>
+    {% include search.html %}
     <ul id="widgets">
       <li class="widget">
         <h2>Articles</h2>
