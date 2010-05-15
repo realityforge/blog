@@ -53,6 +53,7 @@
     </div>
   </div>
 
+  {% if page.disable_aside != true %}
   <div id="c2">
     <div id="search">
       <form action="http://www.google.com/cse">
@@ -89,7 +90,8 @@
       </ul>
     </div>
   </div>
-  
+  {% endif %}
+
 </div>
 
 <!-- Google Analytics -->
