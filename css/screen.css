@@ -39,9 +39,10 @@ This theme is released under GPL (http://www.opensource.org/licenses/gpl-3.0.htm
 /* layout */
 	#wrap { width:990px; margin:0 auto 0; overflow:hidden; }
 	#c1 { width:710px; float:left; overflow:hidden; padding:0; margin:0; background:url('images/bg_c1.gif') 0 top repeat-y; }
-	#c2 { width:250px; float:left; overflow:hidden; padding:10px; margin:135px 0 0 10px; line-height:160%; color:#666666; background:#FFFFFF url('images/bg_c2.gif') left top repeat-y; border-bottom:solid 10px #e6e4da; border-top:solid 10px #e6e4da; }
+  .c1_end { overflow:hidden; margin-left:100px; text-align: center; padding:15px; border-bottom:solid 10px #e6e4da; }
+	.aside { width:250px; float:left; overflow:hidden; padding:10px; margin:135px 0 0 10px; line-height:160%; color:#666666; background:#FFFFFF url('images/bg_c2.gif') left top repeat-y; border-bottom:solid 10px #e6e4da; border-top:solid 10px #e6e4da; }
 
-	#header { overflow:hidden; margin:10px 10px 0 110px; background:#FFFFFF url('') left top no-repeat; }
+	.header { overflow:hidden; margin:10px 10px 0 110px; background:#FFFFFF url('') left top no-repeat; }
 
 	#logo { overflow:hidden; width:580px; height:125px; display:block; background:#FFFFFF url('images/logo.jpg') right top no-repeat; }
 		#logo:hover { text-decoration:none; }
@@ -73,27 +74,15 @@ This theme is released under GPL (http://www.opensource.org/licenses/gpl-3.0.htm
 			.post-foot a { color:#D37C7C; }
 			.post-foot a:hover { color:#AD1F1F; }
 
-/* widgets */
-	#search input.text { margin-left:5px;padding:7px;width:170px; }
+	#search input.text { margin-left:5px;padding:7px;width:150px; }
+  #search input.submit { margin-right:5px;margin-left:5px;padding:7px;width:65px; }
 
 	#widgets { list-style: none none; margin:10px; padding:0; }
 	.widget { padding:0 0 30px 0; }
 	.widget ul { margin:0 0 0 15px; padding:0; }
 	.widget ul li { padding:5px 0 0 0; }
-	.widget h2, .submenu h2 { margin:0 0 5px 0; padding:0; color:#5E6588; font:normal 16px/160% Verdana, Tahoma, sans-serif; }
 
-/* footer */
-	#footer { font:8pt Verdana, Arial, sans-serif; color:#999999; text-align:center; padding:15px; margin-left: auto; margin-right: auto; }
-	#footer a { color:#999999; border-bottom:dotted 1px #999999; }
-
-/* Wordpress defaults */
-	.navigation { overflow:hidden; margin-left:100px; text-align: center; padding:15px; border-bottom:solid 10px #e6e4da; }
 	p img { padding: 0; max-width: 100%; }
-	img.centered { display: block; margin-left: auto; margin-right: auto; }
-	img.alignright { padding:0; margin:0 0 2px 7px; display: inline; }
-	img.alignleft { padding:0; margin:0 7px 2px 0; display: inline; }
-	.alignright { float: right; }
-	.alignleft { float: left }
 
 /* disqus */
 .dsq-media-link { display: none !important; }

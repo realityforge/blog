@@ -1,4 +1,5 @@
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE HTML>
+<html>
 
 <head profile="http://gmpg.org/xfn/11">
   <title>{{ page.title }}</title>
@@ -11,14 +12,11 @@
   <!-- syntax highlighting CSS -->
   <link rel="stylesheet" href="/css/syntax.css" type="text/css"/>
   <link rel="stylesheet" href="/css/screen.css" type="text/css" media="screen, projection"/>
-  <!--[if lt IE 7]>
-  <link rel="stylesheet" href="/css/ie.css" type="text/css" media="screen, projection"/>
-  <![endif]-->
 </head>
 <body>
   <!--[if lt IE 7]>
   <div style='border: 1px solid #F7941D; background: #FEEFDA; text-align: center; clear: both; height: 75px; position: relative;'>
-    <div style='position: absolute; right: 3px; top: 3px; font-family: courier new; font-weight: bold;'><a href='#' onclick='javascript:this.parentNode.parentNode.style.display="none"; return false;'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-cornerx.jpg' style='border: none;' alt='Close this notice'/></a></div>
+    <div style='position: absolute; right: 3px; top: 3px; font-family: courier new monospace; font-weight: bold;'><a href='#' onclick='javascript:this.parentNode.parentNode.style.display="none"; return false;'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-cornerx.jpg' style='border: none;' alt='Close this notice'/></a></div>
     <div style='width: 640px; margin: 0 auto; text-align: left; padding: 0; overflow: hidden; color: black;'>
       <div style='width: 75px; float: left;'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-warning.jpg' alt='Warning!'/></div>
       <div style='width: 275px; float: left; font-family: Arial, sans-serif;'>
@@ -35,7 +33,7 @@
 
 <div id="wrap">
   <div id="c1">
-    <div id="header">
+    <div class="header">
       <a href="/" id="logo">
         <h1>{{ site.blog.title }}</h1>
         <h4>{{ site.blog.subtitle }}</h4>
@@ -50,49 +48,46 @@
 
     {{ content }}
 
-    <div class="navigation">
-      <div class="alignleft"><h2></h2></div>
-      <div class="alignright"><h2></h2></div>
-    </div>
+    <div class="c1_end"></div>
   </div>
 
-  <div id="c2">
+  {% if page.disable_aside != true %}
+  <div class="aside">
     <div id="search">
       <form action="http://www.google.com/cse">
         <input type="hidden" name="cx" value="016119274516139509252:5ccmfcxlilu"/>
         <input type="hidden" name="ie" value="UTF-8"/>
         <input type="text" class="text" name="q" size="31"/>
-        <input type="submit" name="sa" value="Search"/>
+        <input type="submit" class="submit" name="sa" value="Search"/>
       </form>
     </div>
-    <div id="sidebar">
-      <ul id="widgets">
-        <li class="widget">
-          <h2>Articles</h2>
-          <ul>
-            <li>
-              <a href="/categories/code.html" title="View all articles filed under Code">Code ({{ site.categories.code | size }})</a>
-            </li>
-            <li>
-              <a href="/categories/all.html" title="View all articles">All ({{ site.posts | size }})</a>
-            </li>
-          </ul>
-        </li>
-        <li class="widget">
-          <h2>Links</h2>
-          <ul>
-            <li>
-              <a href="http://bluemeanie.smugmug.com/" title="View my photo galleries" target="_blank">Photo Galleries</a>
-            </li>
-            <li>
-              <a href="http://github.com/realityforge" title="View the source code to my open source projects" target="_blank">Github Account</a>
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </div>
+    <ul id="widgets">
+      <li class="widget">
+        <h2>Articles</h2>
+        <ul>
+          <li>
+            <a href="/categories/code.html" title="View all articles filed under Code">Code ({{ site.categories.code | size }})</a>
+          </li>
+          <li>
+            <a href="/categories/all.html" title="View all articles">All ({{ site.posts | size }})</a>
+          </li>
+        </ul>
+      </li>
+      <li class="widget">
+        <h2>Links</h2>
+        <ul>
+          <li>
+            <a href="http://bluemeanie.smugmug.com/" title="View my photo galleries" target="_blank">Photo Galleries</a>
+          </li>
+          <li>
+            <a href="http://github.com/realityforge" title="View the source code to my open source projects" target="_blank">Github Account</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
   </div>
-  
+  {% endif %}
+
 </div>
 
 <!-- Google Analytics -->
