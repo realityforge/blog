@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html> 
+<head> 
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" /> 
+</head> 
+ 
+<body> 
+<canvas id="sheetFireCanvas" width="200" height="20" style="border: 1px #000 solid;">
+	<h1>Canvas not supported</h1>
+</canvas> 
+
+<script type="text/javascript"><!--
+var InitialMin = 0.3;
+var DecayRate = 0.975;
+var GeneratorRowCount = 5;
+
+var RowCount;
+var ColumnCount;
+var CurrentImageIndex;
+var ImageHeight;
+var FlameImage;
+var ImageData;
+
+function sheetFire(){
+  var LastImageData = ImageData[CurrentImageIndex];
+  CurrentImageIndex = (CurrentImageIndex == 0) ? 1 : 0;
+  var CurrentImageData = ImageData[CurrentImageIndex];
+
+  for(var column = 0; column < ColumnCount; column++ )
+  {
+	CurrentImageData[ column ] = (Math.random() * (1 - InitialMin)) + InitialMin;
+  }
+
+  for(var row = 1; row < RowCount; row++ )
+  {
+	var rowOffset = row * ColumnCount;
+	var lastRowOffset = rowOffset - ColumnCount;
+	var lastLastRowOffset = lastRowOffset - ColumnCount;
+	var lastLastLastRowOffset = lastRowOffset - ColumnCount;
+	for(var column = 0; column < ColumnCount; column++ )
+    {
+	  var leftColumn = (column == 0) ? ColumnCount - 1 : column;
+	  var rightColumn = (column == ColumnCount - 1) ? 0 : column;
+
+	  // top 
+	  var accum = LastImageData[ leftColumn + rowOffset ];
+      accum += LastImageData[ column + rowOffset ];
+      accum += LastImageData[ rightColumn + rowOffset ];
+     
+      //current
+      accum += LastImageData[ leftColumn + lastRowOffset ] * 2;
+      accum += LastImageData[ column + lastRowOffset ] * 4;
+      accum += LastImageData[ rightColumn + lastRowOffset ] * 2;
+
+      var divisor;
+      if( row == 2 )
+      {
+        accum += LastImageData[ leftColumn + lastLastRowOffset ];
+        accum += LastImageData[ column + lastLastRowOffset ];
+        accum += LastImageData[ rightColumn + lastLastRowOffset ];
+	    divisor = 12;
+	  }
+      else if( row > 2 )
+      {
+        accum += LastImageData[ leftColumn + lastLastLastRowOffset ];
+        accum += LastImageData[ column + lastLastLastRowOffset ];
+        accum += LastImageData[ rightColumn + lastLastLastRowOffset ];
+	    divisor = 15;
+	  }
+	  else
+	  {
+		divisor = 9;
+	  }
+      CurrentImageData[ column + rowOffset ] = (accum / divisor) * DecayRate;
+    }
+  }
+
+  var pix = FlameImage.data;
+  // Loop over each pixel and set pixel values.
+  var pix_index = pix.length - 4;
+  for (var i = ColumnCount * GeneratorRowCount; i < CurrentImageData.length; i ++) {
+    pix[pix_index  ] = Math.floor( CurrentImageData[ i ] * 256 ); // red channel
+	pix_index -= 4;
+  }
+
+  var context = document.getElementById('sheetFireCanvas').getContext('2d');
+  context.save();
+  context.putImageData(FlameImage, 0, 0);
+ 
+  context.restore();
+}
+
+function initializeSheetFire()
+{
+	canvas = document.getElementById('sheetFireCanvas');
+	if( canvas.getContext ) 
+	{
+		ImageHeight = canvas.height;
+		RowCount = ImageHeight + GeneratorRowCount;
+		ColumnCount = canvas.width;
+
+		FlameImage = canvas.getContext('2d').createImageData(ColumnCount,ImageHeight);
+		var pix = FlameImage.data;
+		for (var i = 0; i < pix.length; i += 4) {
+			pix[i  ] = 0; // red channel
+    		pix[i+1] = 0;
+    		pix[i+2] = 0;
+    		pix[i+3] = 255;
+   		}
+		ImageData = new Array(2);
+		for( var image_index = 0; image_index < 2; image_index++ )
+		{
+			var data = new Array(RowCount * ColumnCount);
+			ImageData[image_index] = data;
+			for (var i = 0; i < data.length; i ++) {
+  				data[i] = 0;
+			}
+		}
+		CurrentImageIndex = 0;
+		sheetFire();
+		setInterval('sheetFire()',100);
+	}
+}
+
+initializeSheetFire() ;
+
+//--></script> 
+ 
+</body> 
+</html> 
