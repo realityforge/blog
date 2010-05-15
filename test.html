@@ -4,15 +4,14 @@
 <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" /> 
 </head> 
  
-<body> 
-<canvas id="sheetFireCanvas" width="200" height="30" style="width: 800px; border: 0;">
-	<h1>Canvas not supported</h1>
-</canvas> 
+<body>
+	<h1 style="position: absolute; left: 0; top: 0; color: yellow; height: 50px; width: 300px; text-align: center; vertical-align: middle; margin: 10px;">Forbidden</h1>
+<canvas id="sheetFireCanvas" width="300" height="50" style="border: 0; position: absolute; left: 0; top: 0; z-index:-1;"></canvas> 
 
 <script type="text/javascript"><!--
-var InitialMin = 0.3;
-var DecayRate = 0.975;
-var GeneratorRowCount = 5;
+var InitialMin = 0.4;
+var DecayRate = 0.95;
+var GeneratorRowCount = 4;
 
 var RowCount;
 var ColumnCount;
@@ -48,30 +47,28 @@ function sheetFire(){
       accum += LastImageData[ rightColumn + rowOffset ];
      
       //current
-      accum += LastImageData[ leftColumn + lastRowOffset ] * 2;
-      accum += LastImageData[ column + lastRowOffset ] * 4;
-      accum += LastImageData[ rightColumn + lastRowOffset ] * 2;
+      accum += LastImageData[ leftColumn + lastRowOffset ];
+      accum += LastImageData[ column + lastRowOffset ] * 2;
+      accum += LastImageData[ rightColumn + lastRowOffset ];
 
-      var divisor;
-      if( row == 2 )
-      {
-        accum += LastImageData[ leftColumn + lastLastRowOffset ];
-        accum += LastImageData[ column + lastLastRowOffset ];
-        accum += LastImageData[ rightColumn + lastLastRowOffset ];
-	    divisor = 12;
-	  }
-      else if( row > 2 )
+      var divisor = 7;
+      if( lastLastLastRowOffset > 0 )
       {
         accum += LastImageData[ leftColumn + lastLastLastRowOffset ];
         accum += LastImageData[ column + lastLastLastRowOffset ];
         accum += LastImageData[ rightColumn + lastLastLastRowOffset ];
-	    divisor = 15;
+	    divisor += 3;
 	  }
-	  else
-	  {
-		divisor = 9;
+	  
+	  if( lastLastRowOffset > 0 )
+      {
+        accum += LastImageData[ leftColumn + lastLastRowOffset ];
+        accum += LastImageData[ column + lastLastRowOffset ];
+        accum += LastImageData[ rightColumn + lastLastRowOffset ];
+	    divisor += 3;
 	  }
-      CurrentImageData[ column + rowOffset ] = (accum / divisor) * DecayRate;
+
+      CurrentImageData[ column + rowOffset ] = (accum / divisor) * (DecayRate + ((Math.random() - 0.5) * InitialMin / 4));
     }
   }
 
