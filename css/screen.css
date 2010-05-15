@@ -74,8 +74,8 @@ This theme is released under GPL (http://www.opensource.org/licenses/gpl-3.0.htm
 			.post-foot a { color:#D37C7C; }
 			.post-foot a:hover { color:#AD1F1F; }
 
-/* widgets */
-	#search input.text { margin-left:5px;padding:7px;width:170px; }
+	#search input.text { margin-left:5px;padding:7px;width:150px; }
+  #search input.submit { margin-right:5px;margin-left:5px;padding:7px;width:65px; }
 
 	#widgets { list-style: none none; margin:10px; padding:0; }
 	.widget { padding:0 0 30px 0; }

@@ -33,7 +33,7 @@
 
 <div id="wrap">
   <div id="c1">
-    <header class="header">
+    <div class="header">
       <a href="/" id="logo">
         <h1>{{ site.blog.title }}</h1>
         <h4>{{ site.blog.subtitle }}</h4>
@@ -44,7 +44,7 @@
           <li class="page_item"><a href="/about.html">About</a></li>
         </ul>
       </div>
-    </header>
+    </div>
 
     {{ content }}
 
@@ -52,13 +52,13 @@
   </div>
 
   {% if page.disable_aside != true %}
-  <aside class="aside">
+  <div class="aside">
     <div id="search">
       <form action="http://www.google.com/cse">
         <input type="hidden" name="cx" value="016119274516139509252:5ccmfcxlilu"/>
         <input type="hidden" name="ie" value="UTF-8"/>
         <input type="text" class="text" name="q" size="31"/>
-        <input type="submit" name="sa" value="Search"/>
+        <input type="submit" class="submit" name="sa" value="Search"/>
       </form>
     </div>
     <ul id="widgets">
@@ -85,7 +85,7 @@
         </ul>
       </li>
     </ul>
-  </aside>
+  </div>
   {% endif %}
 
 </div>
