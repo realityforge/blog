@@ -69,12 +69,6 @@ Most of the credit for this plugin goes to Scott for the initial idea! The modif
 * Caching of fragments occurs in @$RAILS_ROOT/tmp@ according to the name of the test class + test method. This avoids filling up the system temp folder with expired cache files.
 * Ability to turn off validation by setting the "NONET" environment variable to "true". 
 
-You can grab it from subversion at;
+h4. Update 12th of May, 2010
 
-"http://assert-valid-asset.googlecode.com/svn/trunk/":http://assert-valid-asset.googlecode.com/svn/trunk/
-
-h4. Update 12th of May, 2008
-
-Steve Sloan has also added a Git repo for the code which you can grab from:
-
-"http://github.com/CodeMonkeySteve/assert-valid-asset/tree/master":http://github.com/CodeMonkeySteve/assert-valid-asset/tree/master
+The plugin is now available on GitHub. See the "GitHub project page":http://github.com/realityforge/rails-assert-valid-asset
