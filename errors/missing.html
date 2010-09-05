@@ -1,0 +1,27 @@
+---
+layout: page
+title: 404 - Not Found
+---
+<h1>{{ page.title }}</h1>
+
+<div id="image_1" style="display: none;">
+  <a href="http://www.flickr.com/photos/st3f4n/4193370268/in/set-72157616350171741/">
+    <img src="/images/find_the_droids.jpg" alt="Unable to find the droids you are looking for?"/>
+  </a>
+</div>
+
+<div id="image_2" style="display: none;">
+  <a href="http://www.flickr.com/photos/st3f4n/4392451969/in/set-72157616350171741/">
+    <img src="/images/you_are_here.jpg" alt="Lost?"/>
+  </a>
+</div>
+
+<script type="text/javascript"><!--
+document.getElementById( (Math.random() > 0.5) ? "image_1" : "image_2").style.display = 'block';
+//--></script>
+
+<div class="message">
+    <p>We can't seem to find the page you are looking for. Search for it below. You may be lucky and it may have just moved.</p>
+{% include search.html %}
+  <p>If that doesn't work then feel free to contact me to get whatever it is you need. Contact details are on the <a href="/about.html">About</a> page.</p>
+</div>

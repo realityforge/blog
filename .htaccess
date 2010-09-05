@@ -1,5 +1,5 @@
 ErrorDocument 403 /errors/forbidden.html
-ErrorDocument 404 /errors/forbidden.html
+ErrorDocument 404 /errors/missing.html
 ErrorDocument 500 /errors/internal_error.html
 
 Options +FollowSymLinks
