@@ -33,4 +33,31 @@ GROUP BY P.ID
 HAVING COUNT(*) = (SELECT COUNT(*) FROM MatchSet)
 )
 
+CREATE FUNCTION Warehouse.fnSplit
+(
+  @sep CHAR(1),
+  @s VARCHAR(512)
+)
+RETURNS table
+AS
+RETURN (
+    WITH Pieces(PartNumber, start, stop) AS (
+      SELECT 1, 1, CHARINDEX(@sep, @s)
+      UNION ALL
+      SELECT PartNumber + 1, stop + 1, CHARINDEX(@sep, @s, stop + 1)
+      FROM Pieces
+      WHERE stop > 0
+    )
+    SELECT
+      PartNumber AS ID,
+      SUBSTRING(@s,
+                start, 
+                CASE
+                  WHEN stop > 0 THEN stop-start
+                  ELSE 512
+                END) AS Value
+    FROM Pieces
+  )
 {% endhighlight %}
+
+*Updated September 12, 2010:* Added fnSplit funciton.
