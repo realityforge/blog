@@ -59,7 +59,7 @@ public class Activator implements BundleActivator
 
 To build a bundle from this you need to supply the bnd tool with two parameters. The "Bundle-Activator" parameter is copied into the resulting bundle manifest and identifies the class name of the activator. The "Private-Package" directive tells bnd to include .class files in the bundle but not to export them. If this directive is not supplied the bnd tool would be unable to determine which .class files to include in the bundle. 
 
-The following @buildfile@ demonstrates how to build the bundle using the buildr-bnd extension and download an extension from a maven 2 repository.
+The following @buildfile@ demonstrates how to build the bundle using the buildr-bnd extension and download an artifact from a maven 2 repository.
 
 {% highlight ruby %}
 # Include the buildr-bnd extension
