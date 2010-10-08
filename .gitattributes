@@ -1,1 +1,4 @@
-* crlf=input
+*.yml crlf=input
+*.textile crlf=input
+*.html crlf=input
+*.css crlf=input
