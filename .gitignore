@@ -2,3 +2,6 @@ _site
 .DS_Store
 _feeds
 /_includes/smugmug.html
+blog.iml
+blog.ipr
+blog.iws
