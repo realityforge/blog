@@ -1,6 +1,6 @@
 Computer Science research seems to be tackling all the wrong problems. Rather than fixing the source we attack the symptoms and we do so with such a rigour that the irrelevance of the solution is often forgotten. Research that attempts to address the source of problems is often considered too broad, too academic or ignoring commercial realities. What is worse is that research that tackles the symptoms is often well funded but completely irrelevant by the time it makes any progress as a change in the underlying computing infrastructure has shifted the symptoms to a different location.
 
-+ Automatic Memory Management
+h1. Automatic Memory Management
 
 Very few people will argue that automatic memory management (AutoMM) is not a vast improvement over manual memory management (ManMM) for most problem sets. In some scenarios AutoMM will have better performance than even highly tuned ManMM but in most cases the simplicity bought using AutoMM has a space or time performance cost.
 
@@ -14,7 +14,7 @@ Most GC algorithms aimed at SMP systems, have a worst-case scenario that will ca
 
 AutoMM research into a 1 PiB shared memory system may not have been addressed in current PL but most probably have been examined within distributed file systems or distributed garbage collection. Solving these problems is almost certainly going to require changes in the programming environment and GC algorithms. Maintaining locality of reference is also likely to have consequences in performance and programming style. 
 
-+ Machines and Instruction Sets
+h1. Machines and Instruction Sets
 
 Now consider the boundary between hardware and compilers; the instruction set architecture (ISA). For all the massive advances in computer architecture we seemed to have been hobbled ourselves with bad ISAs designed for historically interesting domains that no longer exist (The exception seems to be GPUs which are unconstrained by historical choices and typically have drivers that compile from a bytecode to their own instruction set). IA-32 (and IA-32e) show their lineage from a time when people wrote programs in assembly directly and the time where memory access was slow compared to computation. But IA-32 seems to be quite difficult to generate efficient code for (especially as the rules keep changing). 
 

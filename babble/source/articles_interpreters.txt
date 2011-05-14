@@ -7,7 +7,7 @@
 * Add flexibility to challenges
 ------
 
-+ Overview
+h1. Overview
 
 Interpreters are a popular choice for execution engines in many virtual machine (VM) architectures. Interpreters are popular because they are;
 
@@ -98,25 +98,25 @@ Example handler for an 'add' instruction in a stack-based ISA.
 
 [[/div]]
 
-+ Challenges
+h1. Challenges
 
-++ Work-to-overhead Ratio
+h2. Work-to-overhead Ratio
 
 Each instruction in the VM's ISA results in native code to perform the actual work and overhead native code to traverse the instruction representation. i.e. updating the instruction counter, dispatching to the next instruction etc. The ratio varies depending on design of the ISA. i.e. Is the ISA RISC-like or CISC-like? Is the ISA designed so that the interpreter spends most of it's time in libraries? 
 
 The ratio of useful work performed compared to the overhead of traversing the representation is often low for general purpose interpreters. It would not be unexpected for one VM instruction to translate into 1 or 2 native instructions of useful work and 10 or more native instructions to dispatch to the next VM instruction. This is even more disastrous when you consider that the overhead typically includes one or more difficult to predict branches that stall the instruction pipeline on most modern hardware.
 
-++ Branch Prediction Accuracy
+h2. Branch Prediction Accuracy
 
 On modern heavily pipelined hardware there is a heavy cost for mis-predicting a branch. The instruction pipeline is typically flushed and execution is stalled. As a consequence most modern hardware uses some form of branch prediction. Interpreters tend to make heavy use of indirect branches during instruction dispatch and thus the accuracy of indirect branch prediction can significantly impact an interpreters performance. Popular commercially available processors tend to use a Branch Target Buffer (BTB) for indirect branch prediction [((bibcite ertl01))]. The BTB caches the last target of a branch instruction. The architecture predicts that the next execution of the branch has the same target. 
 
-+ Techniques
+h1. Techniques
 
-++ Dispatch Strategy
+h2. Dispatch Strategy
 
 The instruction stream is typically made up of a sequence of VM instructions and immediate values (i.e. the parameters for the instruction). The dispatch or ``threading'' strategy determines how the execution flows from one VM instruction to the next. There are a number of different strategies; direct threading, indirect threading, token threaded, switched dispatch and replicated switched dispatch. 
 
-+++ Direct Threaded Code
+h3. Direct Threaded Code
 
 Direct threaded code (DTC) [((bibcite bell73))] encodes each instruction as the address of the code that performs the instruction. Thus flowing from one instruction to the next involves a jump to a value retrieved from the instruction stream. DTC is typically considered one of the fastest dispatch strategies but it does come at the cost of making each instruction the size of an address.
 
@@ -141,7 +141,7 @@ Stack based ISA implemented using DTC dispatch. The program performs 1 + 1 and p
 [[/div]]
 
 
-+++ Indirect Threaded Code
+h3. Indirect Threaded Code
 
 Indirect threaded code (ITC) [((bibcite dewar75))] encodes each instruction as the address of a cell in a lookup table. ITC adds one more level of indirection to DTC and thus typically results in more overhead during dispatch. ITC does have the advantage that the execution engine can be modified by changing the look up table without modifying all the generated code. This would make it possible to switch between normal execution, profile gathering execution or debug execution modes by simply overwriting the lookup table.
 
@@ -169,7 +169,7 @@ Stack based ISA implemented using ITC dispatch. The program performs 1 + 1 and p
 
 [[/div]]
 
-+++ Token Threaded Code
+h3. Token Threaded Code
 
 Token threaded code (TTC) encodes each instruction as a byte that indicates the offset of a handler in a lookup table. Token threaded code is a much more compact representation than the DTC or ITC strategies. Like ITC, TTC can support multiple execution modes by modifying the lookup table.
 
@@ -204,7 +204,7 @@ Stack based ISA implemented using TTC dispatch. The program performs 1 + 1 and p
 
 [[/div]]
 
-+++ Switch-based Dispatching
+h3. Switch-based Dispatching
 
 Switch-based dispatching (SBD) represents each instruction as a byte. There is a single loop in which a switch statement is used to dispatch to the handler for each instruction. Like TTC, the representation is compact but the most significant advantage is that it can be implemented in almost any programming language. The previously described dispatch strategies require special support from the compiler (i.e. GCC's ``Labels as Values'' extension [((bibcite gccLabelsAsValues))]) or a small amount of platform specific assembly code.
 
@@ -238,7 +238,7 @@ Stack based ISA implemented using SBD dispatch. The program performs 1 + 1 and p
 
 [[/div]]
 
-+++ Replicated Switch-based Dispatching
+h3. Replicated Switch-based Dispatching
 
 Replicated switch-based dispatching (R-SBD) is a variant of SBD that attempts to minimize indirect branch mispredictions. SBD uses a single indirect branch through which all instructions pass but R-SBD replicates the switch statement for each instruction (and includes an unconditional jump in switch statement to instruction handling code). SBD results in a near 100% misprediction rate using the BTB where as R-SBD can result in a lower 50% mis-prediction rate [((bibcite ertl01))].
 
@@ -287,11 +287,11 @@ Stack based ISA implemented using R-SBD dispatch. The program performs 1 + 1 and
 
 [[/div]]
 
-+++ Summary
+h3. Summary
 
 The performance of different dispatch methods varies between hardware configurations and architectures, VM ISA designs, execution workloads and other interpreter design decisions. For example, the low memory pressure of SBD, may result in an interpreter that outperforms DTC on certain workloads, if the system has small caches. The only real way to determine the most appropriate strategy is to measure the performance in realistic scenarios. [((bibcite ertl07))] measured the performance of different dispatch strategies across a range of architectures and compared it to the standard ``subroutine'' dispatch strategy (i.e. a normal function calls rather than interpretation). Somewhat expectantly,  DTC outperformed ``subroutine'' dispatch strategy in most scenarios. This just goes to show that experimental investigation can yield surprising non-intuitive results.
 
-++ Inlined Instructions
+h2. Inlined Instructions
 
 Inlining instructions is a technique for eliminating the dispatch overhead associated with an instruction. The interpreter identifies the native instruction sequence for handling a particular VM instruction. The native instruction sequence is then copied into a new handler. The new handler may actually contain the native instruction sequences for several VM instructions and the control flow can flow from one VM instruction to the next without any dispatch overhead. Taken to the extreme, where the sequence of VM instructions that make up each ``function'' is copied into a single handler, and the interpreter becomes a poor mans JIT compiler.
 
@@ -350,7 +350,7 @@ Example of creating an inline sequence of const_1, const_1, add instructions.
 
 [[/div]]
 
-++ Super Instructions
+h2. Super Instructions
 
 Combining several VM instructions into superinstructions or ``macro'' instructions is a technique that has been used to reduce code size, reduce the overhead of dispatch and argument access [((bibcite Proebsting95)),((bibcite Hoogerbrugge99)),((bibcite Piumarta98)),((bibcite Gregg03))]. The superinstruction replaces the sequence of the component instructions either when the byte code is loaded or after the initial parsing of the source language.
 
@@ -416,7 +416,7 @@ The code to handle the superinstruction can either be generated at build time or
 
 Generating the superinstructions at build time means that the interpreter needs to know which instructions are good candidates for superinstructions ahead of time. This is not typically a problem as profiling and common sense can often suggest which instructions make good candidates for superinstructions. Interpreter generation frameworks such as vmgen [((bibcite Gregg03))] provide built--in profiling to identify candidate superinstructions.
 
-+++ External or Internal?
+h3. External or Internal?
 
 The other major consideration for superinstructions is whether they are exposed outside the interpreter. Of course this does not make any sense if the interpreter does not define the ISA or byte code format as part of the external specification.
 
@@ -426,11 +426,11 @@ The Java VM instruction set includes several superinstructions as part of the ex
 
 Of course there is nothing to stop the interpreter from supporting a set of external  superinstructions and another set of internal superinstructions. In this fashion the Vm can gain the advantage of increased flexibility of internal superinstructions where needed as well as the reduced code size that comes with external superinstructions.
 
-+++ De-specializing
+h3. De-specializing
 
 De-specializing a superinstruction replaces a superinstruction with it's component VM instructions. This may be desirable when there is a need to reduce the number of distinct instructions. Typically the specialization or superinstructions that are de-specialized were originally specialized to reduce code size, not necessarily to improve performance. De-specializing an instruction can make the introduction of other superinstruction sequences more performance effective [((bibcite Casey07))]. The CellVM, a JVM for the //Cell Broadband Engine// architecture de-specializes the load/store VM instructions for this reason [((bibcite cbe))].
 
-++ Instruction Replication
+h2. Instruction Replication
 
 Replicating the code to handle a VM instruction multiple times, has been proposed as a mechanism for improving BTB prediction accuracy [((bibcite Casey07))]. Each replica uses a separate indirect branch  to dispatch to the next instruction. Therefore each replica has a separate BTB entry. Each instruction instance attempts to make use of a different replica. 
 
@@ -442,13 +442,13 @@ While I am unaware of any published results, it is expected that an appropriate 
 
 Replicas are typically generated statically at build time but some research has looked at replicating instructions dynamically at runtime. The dynamic approach uses instruction inlining with all the associated costs and benefits.
 
-++ Manual Branch Prediction
+h2. Manual Branch Prediction
 
 Some modern processors make it possible for the software developer to influence the branch prediction logic on the processor, thus limiting or eliminating mispredictions. Eliminate the mis-prediction and several other techniques become obsolete. R-SBD no longer has an advantage over SBD. Replicating instructions no longer improves performance and may cause degradation due to code bloat.
 
 Some modern ISA's (i.e. IA64 and Power/PPC) use split branches to try and reduce the mis-prediction penalty. There is a separate //prepare-to-branch// instruction and a //branch// instruction. As long as the software schedules a //prepare-to-branch// instruction prior to the //branch// then the indirect branches can be executed without a stall. In interpreters that have a low work-to-overhead ratio, it may be necessary to schedule a //prepare-to-branch// instruction in instruction N-1 with target of N+1 so that it is available in instruction N. The IBM POWER3 processor implements this with  a special branch target register that can be set to target to avoid a misprediction penalty [((bibcite Ogata02))].The branch hints feature of the Cell processor is a similar strategy, it allows the program to explicitly set BTB entry [((bibcite cbe))].
 
-+ Bibliography
+h1. Bibliography
 
 [[bibliography title=""]]
 : bell73 : J. R. Bell. //``Threaded code''//. Communications of the ACM, 16(6):370–372, 1973.

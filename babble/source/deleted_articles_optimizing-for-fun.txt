@@ -6,21 +6,21 @@ This is not the first time I had read an opinion. Years before I had read an int
 
 Fun is a somewhat subjective term but the strategies below can be used to encourage fun. 
 
-+ Fast feedback 
+h1. Fast feedback
 
 Impediments to early feed back should be removed. It should be possible to make a change and see the effects of the change as fast as possible. Ruby On Rails is a web framework that took this change to heart. The developer modified the source code and then refreshed the web page to see the change. There was no separate deployment or configuration step. Only a limited number of changes actually required the user to restart the web server.
 
-+ Levity
+h1. Levity
 
 The project should have a general sense of levity about it. Often the example code or documentation will express the personality of the programmers. Python has a spam and eggs theme and a general tendency towards Monty Python humor. Ruby has it's own distinct feel and "Why's (poignent) guide to ruby"[((bibcite why))] is tutorial in comic book form. I am told Perl has a tendency to embrace Tolkein poetry.
 
-+ Low Barriers of Entry
+h1. Low Barriers of Entry
 
 There should be low barriers of entry for anyone interested in contributing. One way to achieve this is to use a distributed version control system such as git and allow anyone to fork and evolve the code base with ease. Committer privileges to the primary tree should also be passed out liberally to reduce road blocks for getting code into main line. 
 
 There should be decent test coverage so that a developer can quickly assess whether their changes have broken any assumptions in the system. Writing a test is also a good way to get fast feedback on a feature! 
 
-+ Code Talks
+h1. Code Talks
 
 Ultimately code talks. So if a developer has an idea encourage them to prototype it and make the source available. The code need not be complete but can just sketch the idea out. If it seems interesting it can be expanded and ultimately may make it back into the mainline development tree.
 
