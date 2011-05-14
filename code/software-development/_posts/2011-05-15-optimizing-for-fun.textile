@@ -1,8 +1,13 @@
+--- 
+layout: post
+title: Optimizing for fun
+---
+
 People are the most important factor for a successful software project. OK - that is an over-generalization. A project's success or failure can be impacted by market realities, developer skill sets, resource availabilities, timing etc. However, happy programmers developing software that they are passionate about are far more likely to produce a larger quantity of high quality work. No where is it more obvious than in Free / Open Source Software (FOSS) projects where developers are typically not paid to work on projects but do so in their own time for fun or self-improvement. Given this it seems obvious that one way to improve the chance for a successful project is to make it fun. ("-Ofun" combines the -O flag that indicates the primary optimization goal in a compiler and indicates it should be fun).
 
-A few years ago I read an article [((bibcite broadwell))] that argued that making development fun resulted in an increased velocity of code development //and// an increase in overall code quality. Pugs, the project in question was an implementation of a Perl 6 interpreter in Haskell. A focus on fun combined with a supportive community and low barriers of entry lead to broad committer community with diverse interests and a wide range of skills.
+A few years ago I read an article "[1]":#BibBroadwell that argued that making development fun resulted in an increased velocity of code development _and_ an increase in overall code quality. Pugs, the project in question was an implementation of a Perl 6 interpreter in Haskell. A focus on fun combined with a supportive community and low barriers of entry lead to broad committer community with diverse interests and a wide range of skills.
 
-This is not the first time I had read an opinion. Years before I had read an interview with John Carmack, one of the main developers on the Quake game engine, where it was claimed that the short feedback loop between making a change and receiving feedback contributed (often visual artifacts) to the rapid evolution of the Quake code base. Experiments seemed to be par for the course and Carmack often discussed these experiments at conferences, interviews or in his online journal. Some experiments (GLQuake, Quakeworld) were released to the community and the feedback from the broader community drove future development. 
+This is not the first time I have read such an opinion. Years before I read an interview with John Carmack, one of the main developers on the Quake game engine, where it was claimed that the short feedback loop between making a change and receiving feedback contributed to the rapid evolution of the Quake code base. Particularly because the feedback was visual. Experiments seemed to be par for the course at iD Software and Carmack often discussed these experiments at conferences, interviews or in his online journal. Some experiments (GLQuake, Quakeworld) were released to the community and the feedback from the broader community drove future development. 
 
 Fun is a somewhat subjective term but the strategies below can be used to encourage fun. 
 
@@ -12,7 +17,7 @@ Impediments to early feed back should be removed. It should be possible to make 
 
 h1. Levity
 
-The project should have a general sense of levity about it. Often the example code or documentation will express the personality of the programmers. Python has a spam and eggs theme and a general tendency towards Monty Python humor. Ruby has it's own distinct feel and "Why's (poignent) guide to ruby"[((bibcite why))] is tutorial in comic book form. I am told Perl has a tendency to embrace Tolkein poetry.
+The project should have a general sense of levity about it. Often the example code or documentation will express the personality of the programmers. Python has a spam and eggs theme and a general tendency towards Monty Python humor. Ruby has it's own distinct feel and "Why's (poignent) guide to ruby" "[2]":#BibWhy is tutorial in comic book form. I am told Perl has a tendency to embrace Tolkein poetry.
 
 h1. Low Barriers of Entry
 
@@ -24,7 +29,7 @@ h1. Code Talks
 
 Ultimately code talks. So if a developer has an idea encourage them to prototype it and make the source available. The code need not be complete but can just sketch the idea out. If it seems interesting it can be expanded and ultimately may make it back into the mainline development tree.
 
-[[bibliography]]
-: broadwell : Broadwell, Geoff. "//-Ofun//". Published on Oct. 05, 2005. URL: *http://www.onlamp.com/pub/wlg/7996. Local Copy: [[file OFun.html]] (Cached on Dec. 24th, 2008)
-: why : Why. "//Why's (poignent) guide to Ruby//". URL: *http://poignantguide.net/ruby/.
-[[/bibliography]]
+h1. Bibliography
+
+* <a name="BibBroadwell"></a> Broadwell, Geoff. "_-Ofun_". Published on Oct. 05, 2005. URL: "http://www.onlamp.com/pub/wlg/7996":http://www.onlamp.com/pub/wlg/7996. Local Copy: "OFun.html":/code/software-development/OFun.html (Cached on Dec. 24th, 2008)
+* <a name="BibWhy"></a> Why. "_Why's (poignent) guide to Ruby_". URL: "http://poignantguide.net/ruby/":http://poignantguide.net/ruby/.
