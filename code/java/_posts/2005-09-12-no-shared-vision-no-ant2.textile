@@ -2,10 +2,9 @@
 layout: post
 title: No Shared Vision, No Ant2
 ---
- Not long ago Conor MacNeill "blogged":http://codefeed.com/blog/?p=98 about the early history of Ant development. It is an interesting read and covers a lot of his involvement in the project. A few people asked me for my opinion on the history of the Ant project including a guy researching opensource development. More than likely this is the same guy who prompted Conors blog.
+ Not long ago Conor MacNeill "blogged":http://codefeed.com/blog/?p=98 about the early history of Ant development. It is an interesting read and covers a lot of his involvement in the project. A few people asked me for my opinion on the history of the Ant project including a guy researching open source development. More than likely this is the same guy who prompted Conors blog.
 
-My involvement with the Ant project started out with just helping people on the Ant mailing list. I was a convert to Ant the moment I used it and evangelized Ant to any who would listen. As soon as it was upgraded to a Jakarta sub-project I started lurking and later helping users out on the mailing list. Ant was far from perfect at this time and had a collection of warts and gotchas but it was much better than the alternative mak e.
-
+My involvement with the Ant project started out with just helping people on the Ant mailing list. I was a convert to Ant the moment I used it and evangelised Ant to any who would listen. As soon as it was upgraded to a Jakarta sub-project I started lurking and later helping users out on the mailing list. Ant was far from perfect at this time and had a collection of warts and gotchas but it was much better than the alternative make.
 
 Eventually someone (Stefan Bodewig? or Sam Ruby?) asked me if I wanted to be a committer and I joined up. However it was rare for me to actually modify any of the source code outside of applying patches or occasionally fixing bugs identified when I was helping someone. The source code was a jumble of cruft inherited from many people who had implemented things in different styles and without understanding how Ant really worked. "How Ant really worked" was a more of a moving target back then as well. I just found the source code ugly and unpleasant to work with and I much preferred helping end users anyway. Last time I checked Stefan had made a herculean effort in cleaning up the codebase and I assume others have continued the job. But back then .... *shudder*
 
@@ -25,6 +24,6 @@ The Ant developers were scattered through different time zones from North Amerci
 
 If I had a time machine to go back in time to change things I think that there are lots of things that we could have done better. Personally I think I would have never touched the codebase as helping users was what got me involved in Ant and thats what I liked doing.
 
-In terms of Ant2 I think we should have decided as a project whether we wanted to move in that direction and if so the timeline for for when we expected to make the change. This would give people more of an incentive to actually work on a proposal. If we had decided to move to Ant2 we should have started from a subset of the then current Ant trunk and aggressively refactor until we were happy. We could have maintained a shared task library between the two branches until we decided that Ant2 was ready for prime time. That may have been a more successful approach and unltimately more inclusive of the whole Ant community.
+In terms of Ant2 I think we should have decided as a project whether we wanted to move in that direction and if so the timeline for for when we expected to make the change. This would give people more of an incentive to actually work on a proposal. If we had decided to move to Ant2 we should have started from a subset of the then current Ant trunk and aggressively refactor until we were happy. We could have maintained a shared task library between the two branches until we decided that Ant2 was ready for prime time. That may have been a more successful approach and ultimately more inclusive of the whole Ant community.
 
 Anyhoo, I guess you live and learn.
