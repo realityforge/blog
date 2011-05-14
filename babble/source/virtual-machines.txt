@@ -1,0 +1,11 @@
+Virtual Machines (VMs) consist of a software execution engine and supporting runtime services. A VM may provide services for automatic memory management, concurrency, dynamic code loading and inspection, isolation and fault propagation etc. The execution engine may span the range from interpreters, Just-In-Time (JIT) compilers, Ahead-Of-Time (AOT) compilers to staged compilers that progressive compile code at higher and higher levels of optimization. There are too many different garbage collection (GC) algorithms to list. Each service has many alternatives with different trade offs that interact in complex ways. VMs are sometimes referred to as managed runtime [((bibcite orp))].
+
+But most of all, VMs are fun to build. Creating them can be challenging; sometimes due of the technical difficulties, sometimes because they it pushes the conceptual boundaries and sometimes because of what they allow you to do. While you may think of a VM as something like a Java Virtual Machine or a Smalltalk VM but in some fashion you could consider some ``games engines'' as primitive VMs. The game engine provides an execution model as well some runtime services to support the programs. 
+
+This page is the launch page for the articles that talk about VMs and what goes in to making one.
+
+[[module PageTree showRoot="0"]] 
+
+[[bibliography]]
+: orp : M. Cierniak, M. Eng, N. Glew, B. Lewis, and J. Stichnoth, “The open runtime platform: A ﬂexible high-performance managed runtime environment,” Intel Technology Journal, vol. 7, no. 1, pp. 5–18, 2003. 
+[[/bibliography]]

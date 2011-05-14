@@ -1,0 +1,3 @@
+I am interested in a whole range of topics in computer science, psychology, philosophy, linguistics, mythology and history. This is not even mentioning my more physical pursuits such as rock climbing, mountain biking, caving and hiking. As I start to write things up they will appear on this page. 
+
+[[module PageTree showRoot="0" depth="1"]]

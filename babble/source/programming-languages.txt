@@ -1,0 +1,5 @@
+A programming language is a an artificial language designed to express a computation. The separation of the language used to describe computation from the actual computational device means that programmers can choose various languages for a task. Unlike natural languages, a programming language typically has a precisely defined syntax and semantics. The syntax may be defined in a formal standards document or by the behavior of a dominant implementation of the language.
+
+This page is the launch page for the articles that talk about programming language design.
+
+[[module PageTree showRoot="0"]]

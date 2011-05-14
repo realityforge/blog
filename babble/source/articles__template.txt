@@ -1,0 +1,27 @@
+%%content%%
+
++ Referencing
+
+To reference this article, the following bibtex entry can be used
+
+[[collapsible show="<< Show Reference Info >>" hide=">> Hide Reference Info <<" folded="yes"]]
+
+Note: REV should be replaced with value of the current page_revision that is visible at the page footer. 
+
+**@misc**{pdonald:%%date_edited|%y%%:%%page_name%%,
+  author = {Peter Donald},
+  title = {%%title%%, r REV},
+  howpublished = {World Wide Web electronic publication},
+  type = {web page},
+  url = {%%link%%},
+  publisher = {babble.realityforge.org},
+  year = {%%date_edited|20%y%%},
+  month = {%%date_edited|%B%%}
+}
+[[/collapsible]]
+
++ Feedback
+
+Feedback about this article or any other is welcomed. It would be particularly useful to have any inaccuracies or ambiguities highlighted. i.e. Tell me where I am wrong! If you don't feel like leaving a comment feel free to contact me by email via **peter at realityforge dot org**.
+
+[[module Comments title=""]]
