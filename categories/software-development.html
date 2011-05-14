@@ -1,0 +1,17 @@
+---
+layout: page
+title: Software Development
+---
+<h1>{{ page.title }}</h1>
+
+<blockquote>The computer programmer is a creator of universes for which he alone is responsible. Universes of virtually unlimited complexity can be created in the form of computer programs. — Joseph Weizenbaum</blockquote>
+
+<p>Software is one of the more more interesting materials that can be used to create artifacts; infinitely malleable, yet requiring precise specification, an interaction of many dynamically changing elements. To be a good software developer you need to be part craftsman, part engineer and part artist (and in some scenarios part politician). A good software developer tends to incorporate processes that enhance their work. Unfortunately, many of the prevailing software development methodologies are more aimed at reducing the damage a bad software developer can do to a project rather than enhancing what a good developer can do.</p>
+
+<p>This is the launch page for some ideas on software development that I have developed over the years.</p>
+
+<ul class="article_list">
+{% for post in site.categories.software-development %}
+<li><span>{{ post.date | date_to_string }}</span> &raquo; <a href="{{ post.url }}">{{ post.title }}</a></li>
+{% endfor %}
+</ul>
