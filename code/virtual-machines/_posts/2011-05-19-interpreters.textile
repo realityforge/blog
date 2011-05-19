@@ -16,11 +16,11 @@ Interpreters are a popular choice for execution engines in many virtual machine 
 
 * portable: easy to port to new architectures.
 * simple: a small easy to understandable code base that makes language and VM evolution tractable.
-* fast compilation speed.
+* quick to compile hosted code.
 
-The disadvantage of compilers is that they have relatively poor execution speed when compared to the equivalent natively compiled code.
+The disadvantage of interpreters is that they have relatively poor execution speed when compared to the equivalent natively compiled code.
 
-Different breeds of interpreter represent instructions differently. Below is several alternative representations of a statement. Interpreters typically walk a tree or iterate over a byte code representation, performing work at each node or instruction as appropriate. Some interpreters have used a series of rewriting rules but these are not considered in this article.
+Different breeds of interpreter represent instructions differently. Below is several alternative representations of a statement. Interpreters typically walk a tree or iterate over a byte code representation, performing work at each node or instruction as appropriate. (Some interpreters use a series of rewriting rules but these are not considered in this article).
 
 <div style="border: 1px solid black; padding: 10px;">
 
@@ -116,7 +116,7 @@ The ratio of useful work performed compared to the overhead of traversing the re
 
 h2. Branch Prediction Accuracy
 
-On modern heavily pipelined hardware there is a heavy cost for mis-predicting a branch. The instruction pipeline is typically flushed and execution is stalled. As a consequence most modern hardware uses some form of branch prediction. Interpreters tend to make heavy use of indirect branches during instruction dispatch and thus the accuracy of indirect branch prediction can significantly impact an interpreters performance. Popular commercially available processors tend to use a Branch Target Buffer (BTB) for indirect branch prediction "[ERTL01]":#ERTL01. The BTB caches the last target of a branch instruction. The architecture predicts that the next execution of the branch has the same target. 
+On modern heavily pipelined hardware there is a heavy cost for mis-predicting a branch. The instruction pipeline is typically flushed and execution is stalled. As a consequence most modern hardware uses some form of branch prediction. Interpreters tend to make heavy use of indirect branches during instruction dispatch and thus the accuracy of indirect branch prediction can significantly impact an interpreters performance. Popular commercially available processors tend to use a Branch Target Buffer (BTB) for indirect branch prediction "[ERTL01]":#ERTL01. The BTB caches the last target of a branch instruction. The architecture predicts that the next execution of the branch has the same target. With interpreters this assumption rarely holds.
 
 h1. Techniques
 
@@ -247,7 +247,7 @@ Stack based ISA implemented using SBD dispatch. The program performs 1 + 1 and p
 
 h3. Replicated Switch-based Dispatching
 
-Replicated switch-based dispatching (R-SBD) is a variant of SBD that attempts to minimize indirect branch mispredictions. SBD uses a single indirect branch through which all instructions pass but R-SBD replicates the switch statement for each instruction (and includes an unconditional jump in switch statement to instruction handling code). SBD results in a near 100% misprediction rate using the BTB where as R-SBD can result in a lower 50% mis-prediction rate "[ERTL01]":#ERTL01.
+Replicated switch-based dispatching (R-SBD) is a variant of SBD that attempts to minimize indirect branch mispredictions. SBD uses a single indirect branch through which all instructions pass but R-SBD replicates the switch statement for each instruction (and includes an unconditional jump in the switch statement to instruction handling code). SBD results in a near 100% misprediction rate using the BTB where as R-SBD can result in a lower 50% mis-prediction rate "[ERTL01]":#ERTL01.
 
 <div style="border: 1px solid black; padding: 10px;">
 
@@ -264,8 +264,8 @@ instruction_t *ip = program;
 
 switch (*ip++) 
 {
+  case const_1: goto I_const_1;
   case add: goto I_add;
-  case sub: goto I_const_1;
   ...
 }
   
@@ -273,7 +273,7 @@ I_const_1:
 { ... /* Code to handle 'const_1' */ ... }
 switch (*ip++) 
 {
-  case sub: goto I_const_1;
+  case const_1: goto I_const_1;
   case add: goto I_add;
   ...
 }
@@ -281,7 +281,7 @@ I_add:
 { ... /* Code to handle 'add' */ ... }
 switch (*ip++) 
 {
-  case sub: goto I_const_1;
+  case const_1: goto I_const_1;
   case add: goto I_add;
   ...
 }
@@ -296,22 +296,21 @@ Stack based ISA implemented using R-SBD dispatch. The program performs 1 + 1 and
 
 h3. Summary
 
-The performance of different dispatch methods varies between hardware configurations and architectures, VM ISA designs, execution workloads and other interpreter design decisions. For example, the low memory pressure of SBD, may result in an interpreter that outperforms DTC on certain workloads, if the system has small caches. The only real way to determine the most appropriate strategy is to measure the performance in realistic scenarios. "[ERTL07]":#ERTL07 measured the performance of different dispatch strategies across a range of architectures and compared it to the standard "subroutine" dispatch strategy (i.e. a normal function calls rather than interpretation). Somewhat expectantly,  DTC outperformed "subroutine" dispatch strategy in most scenarios. This just goes to show that experimental investigation can yield surprising non-intuitive results.
+The performance of different dispatch methods varies between hardware configurations and architectures, VM ISA designs, execution workloads and other interpreter design decisions. For example, the low memory pressure of SBD, may result in an interpreter that outperforms DTC on certain workloads or if the system has small caches. The only real way to determine the most appropriate strategy is to measure the performance in realistic scenarios. "[ERTL07]":#ERTL07 measured the performance of different dispatch strategies across a range of architectures and compared it to the standard "subroutine" dispatch strategy (i.e. a normal function calls rather than interpretation). Somewhat expectantly,  DTC outperformed "subroutine" dispatch strategy in most scenarios. This just goes to show that experimental investigation can yield surprising non-intuitive results.
 
 h2. Inlined Instructions
 
 Inlining instructions is a technique for eliminating the dispatch overhead associated with an instruction. The interpreter identifies the native instruction sequence for handling a particular VM instruction. The native instruction sequence is then copied into a new handler. The new handler may actually contain the native instruction sequences for several VM instructions and the control flow can flow from one VM instruction to the next without any dispatch overhead. Taken to the extreme, where the sequence of VM instructions that make up each "function" is copied into a single handler, and the interpreter becomes a poor mans JIT compiler.
 
-Inlining instructions is not without it's problems. Typically some form of cache is used to avoid regenerating the inlined sequences multiple times. This approach can dramatically increase the memory pressure of the interpreter as more VM instructions are concatenated into handlers. If a function or method is not invoked multiple times then the performance benefit of eliminating the dispatch is typically offset my the cost of generating the inlined sequences and caching the result.
+Inlining instructions is not without it's problems. Typically some form of cache is used to avoid regenerating the inlined sequences multiple times. This approach can dramatically increase the memory pressure of the interpreter as more VM instructions are concatenated into handlers. If a function or method is not invoked multiple times then the performance benefit of eliminating the dispatch is typically offset by the cost of generating the inlined sequences and caching the result.
 
 Inlining instructions has several portability problems. Firstly, compiler specific extensions are typically needed to identify the start and end of instruction handler code (i.e. GCCs "Labels as Values" extension "[GCC]":#GCC). Secondly, not all code is position independent code (PIC) and thus not all code can be safely inlined. Code that is compiled with relative calls or branches that have targets outside the sequence being copied will not work as expected. 
 
 Depending on the compiler, compiler configuration options and hardware architecture, relative addresses can be used when making c function calls. The C function call may have been explicitly inserted by the programmer as part of the implementation of the instruction handler or they may be implicitly generated by the compiler. For example, the GCC compiler may implement the "divide by a long" operation as an hidden internal c function call on some platforms (i.e. x86).
 
-Conditional code in a handler such as the C code <code> if( ... ) { ... } </code> may generate relative jumps to the end of the handler at low levels of optimization. At higher levels of optimization the jump becomes a relative jump into the dispatch code. As a result this code can be inlined at low levels of optimization but will fail at higher levels of optimization.
+Another problem arises when the interpreter is compiled at different levels of optimisation. Conditional code in a handler such as the C code <code> if( ... ) { ... } </code> may generate relative jumps to the end of the handler at low levels of optimization. At higher levels of optimization the jump becomes a relative jump into the dispatch code. As a result this code can be inlined at low levels of optimization but will fail at higher levels of optimization.
 
-Inlining code offers the speed advantage but requires in depth knowledge of compiler implementation details to identify which sequences compile down to PIC. As the compilers methods for generating code can change between releases this ultimately results in a far less portable product and portability is one of the advantages of writing interpreters in the first place. Several projects that have used this approach (i.e. QEMU) eventually begin to move away from this design.
-
+Inlining code offers a speed advantage but requires an in depth knowledge of compiler implementation details to identify which sequences compile down to PIC. As the compilers methods for generating code can change between releases this ultimately results in a far less portable product and portability is one of the advantages of writing interpreters in the first place. Several projects that have used this approach (i.e. QEMU) eventually begin to move away from this design.
 
 <div style="border: 1px solid black; padding: 10px;">
 
@@ -419,7 +418,7 @@ The figure above presents several sequences of instructions for incrementing the
 
 With each successive version the size of the VM code has decreased. After (2) the number of pushes and pops onto the stack decrease, reducing the overhead associated with passing parameters to instructions. After (2) the amount of useful work per VM instruction has increased and thus the proportion of dispatch overhead is decreased. 
 
-The tradeoff is that as superinstructions become more specific they are less likely to be used. An implementer needs to strike a balance between the work achieved by the instruction and usefulness of the superinstruction. 
+The tradeoff is that as superinstructions become more specific, they are less likely to be used. An implementer needs to strike a balance between the work achieved by the instruction and usefulness of the superinstruction. 
 
 It should be noted that there are also constraints on the type of instructions that can be combined into a superinstruction. Most approaches disallow instructions that alter the control flow from being merged into a superinstruction unless it is the last VM instruction in a the superinstruction. Instruction sequences that cross a basic block boundary are typically not candidates for merging as it can make it difficult to handle a jump to the start of the second basic block.
 
@@ -435,7 +434,7 @@ Internal superinstructions are not part of the external specification. Internal 
 
 The Java VM instruction set includes several superinstructions as part of the external specification. The 2 byte instruction <code>ldc + [constant pool value]</code> loads a constant value onto the stack. The Java specification also supports the 1 byte instruction <code>iconst_1</code> that puts the constant 1 on the stack. The second form is likely used because it is a frequently occurring operation in a java program and it decreases the size of the code format. 
 
-Of course there is nothing to stop the interpreter from supporting a set of external  superinstructions and another set of internal superinstructions. In this fashion the Vm can gain the advantage of increased flexibility of internal superinstructions where needed as well as the reduced code size that comes with external superinstructions.
+Of course there is nothing to stop the interpreter from supporting a set of external  superinstructions and another set of internal superinstructions. In this fashion the VM can gain the advantage of increased flexibility of internal superinstructions where needed as well as the reduced code size that comes with external superinstructions.
 
 h3. De-specializing
 
