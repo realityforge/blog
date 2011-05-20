@@ -1,14 +1,7 @@
 --- 
 layout: post
 title: Interpreters as an Execution Engine
-published: false
 ---
-
-h1. <span style="color:red">TODO**</span>
-
-* stack caching
-* aligned access vs non-aligned access
-* Add flexibility to challenges
 
 h1. Overview
 
@@ -16,9 +9,13 @@ Interpreters are a popular choice for execution engines in many virtual machine 
 
 * portable: easy to port to new architectures.
 * simple: a small easy to understandable code base that makes language and VM evolution tractable.
-* quick to compile hosted code.
+* quick to start executing code.
 
-The disadvantage of interpreters is that they have relatively poor execution speed when compared to the equivalent natively compiled code.
+The disadvantage of interpreters is that they have relatively poor execution speed when compared to the equivalent natively compiled code. The performance challenge is usually a result of the low work-to-overhead ratio and poor branch prediction accuracy. 
+
+This article uses byte code interpreters as an example and describe different techniques for implementing an interpreter and the impact on execution speed, portability, complexity and start up time.
+
+h2. Representation
 
 Different breeds of interpreter represent instructions differently. Below is several alternative representations of a statement. Interpreters typically walk a tree or iterate over a byte code representation, performing work at each node or instruction as appropriate. (Some interpreters use a series of rewriting rules but these are not considered in this article).
 
@@ -458,6 +455,11 @@ Some modern processors make it possible for the software developer to influence 
 
 Some modern ISA's (i.e. IA64 and Power/PPC) use split branches to try and reduce the mis-prediction penalty. There is a separate _prepare-to-branch_ instruction and a _branch_ instruction. As long as the software schedules a _prepare-to-branch_ instruction prior to the _branch_ then the indirect branches can be executed without a stall. In interpreters that have a low work-to-overhead ratio, it may be necessary to schedule a _prepare-to-branch_ instruction in instruction N-1 with target of N+1 so that it is available in instruction N. The IBM POWER3 processor implements this with  a special branch target register that can be set to target to avoid a misprediction penalty "[OGATA02]":#OGATA02.The branch hints feature of the Cell processor is a similar strategy, it allows the program to explicitly set BTB entry "[WIL08]":#WIL08.
 
+h1. Summary
+
+Interpreters are are used because they are simple to implement, portable across platforms and quick to start up but the performance does not compare with native code. The article outlines several different trade offs that can be made while building an interpreter to improve the execution speed at the cost of decreasing the portability and simplicity of the interpreter or increasing the start up time of executed code. The described techniques include; Dispatch Strategies, Inlined Instructions, Super Instructions, Instruction Replication and Manual Branch Prediction. There are other techniques that can significantly impact the interpreter implementation such as stack caching and aligned access vs non-aligned access that have not been explored.
+
+The actual costs and benefit of any particular design choices for a particular interpreter will depend dramatically on the language being interpreted, the expected workload and the hardware environment. In a perfect world an interpreter generator, such as vmgen "[GREGG03]":#GREGG03, would take a virtual machine specification, several sample programs from which to determine the workload and would be able to build an interpreter that was optimized for the host environment, workload and language. The utility of such an approach may not be high but it would be a fun are to explore.
 
 h1. Bibliography
 
