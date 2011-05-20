@@ -1,3 +1,8 @@
+--- 
+layout: post
+title: Type Systems
+---
+
 Types are one of the most fundamental elements of a programming language. A type system classifies values and expressions into types. The type of an element identifies the set of allowable operations that can be performed on a type. The domain of a value is typically restricted by the type of the value. Type systems vary significantly between languages.
 
 This page collects a number of thoughts on type systems and is by no means comprehensive. The original notes were derived from a brilliant reddit comment that I have since lost the link to. Additions and modifications have potentially changed the content significantly from the original source and any inaccuracies were most likely introduced by yours truly.
@@ -42,12 +47,14 @@ Nominal subtyping is where type relationships are explicitly declared (and named
 
 h2. Languages Classified
 
-: C : static, weak, manifest, nominal subtyping
-: C++ : static, weak, manifest, nominal subtyping with structural subtyping available via templates
-: Common Lisp : dynamic, strong, latent or manifest, nominal and structural subtyping
-: Erlang : dynamic, strong, latent, structural subtyping
-: Java : static, strong, manifest, nominal subtyping
-: Ocaml : static, strong, latent, structural subtyping
-: Python/Ruby : dynamic, strong, latent, structural subtyping with nominal subtyping available
-: Scheme : dynamic, strong, latent, structural subtyping with nominal subtyping available
-: Haskell : static, strong, latent and optional manifest, structural subtyping with nominal subtyping available via newtype
+<table>
+<tr><th>C</th><td>static, weak, manifest, nominal subtyping</td></tr>
+<tr><th>C++</th><td>static, weak, manifest, nominal subtyping with structural subtyping available via templates</td></tr>
+<tr><th>Common Lisp</th><td>dynamic, strong, latent or manifest, nominal and structural subtyping</td></tr>
+<tr><th>Erlang</th><td>dynamic, strong, latent, structural subtyping</td></tr>
+<tr><th>Java</th><td>static, strong, manifest, nominal subtyping</td></tr>
+<tr><th>Ocaml</th><td>static, strong, latent, structural subtyping</td></tr>
+<tr><th>Python/Ruby</th><td>dynamic, strong, latent, structural subtyping with nominal subtyping available</td></tr>
+<tr><th>Scheme</th><td>dynamic, strong, latent, structural subtyping with nominal subtyping available</td></tr>
+<tr><th>Haskell</th><td>static, strong, latent and optional manifest, structural subtyping with nominal subtyping available via newtype</td></tr>
+</table>
