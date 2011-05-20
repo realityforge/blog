@@ -1,6 +1,6 @@
 --- 
 layout: post
-title: Interpreters as an Execution Engine
+title: Interpreter Implementation Choices
 ---
 
 h1. Overview
