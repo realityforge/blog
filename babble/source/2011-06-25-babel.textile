@@ -1,3 +1,8 @@
+--- 
+layout: post
+title: Babel
+---
+
 [[div style="margin: 2em; padding: 1em;  border: 1px grey solid; background-color: white;"]]
 **Ba⋅bel** /ˈbeɪbəl, ˈbæbəl/ (noun)
 # an ancient city in the land of Shinar in which the building of a tower (Tower of Babel) intended to reach heaven was begun and the confusion of the language of the people took place. Gen. 11:4–9.
@@ -25,8 +30,8 @@ It is likely that the various programming languages that are built on the Babble
 
 Each instruction group is likely to result in different sets of optimization passes being incorporated in the runtime compilers. These could be a new set of BURS rules or specific optimization passes (i.e. to vectorize scalar operations in loops). Thus each instruction group should be able to be bundled separately and identify associated optimization passes etc.
 
-h1. Layered Programming Language Features
- 
+h1. Layered Programming Language Features 
+
 The BVM is likely to have a family of "native" languages. The languages should be layered such that each successive language incorporates features from lower layer. The "kernel" language is most likely going to be a stack based language such as Joy/Forth with linear types and procedures/functions that are guaranteed not to be recursive. The next higher language may support recursive functions and immutable variables (i.e. those that can be written once and read many times). A higher layer still may support mutation of variables or polymorphic invocations. 
 
 Language features such as generic types, tail calls, lazy vs strict modes, query matching vs normal execution, object manipulation etc are gradually added depending on where the language is positioned in the kernel-system-application-scripting language spectrum. Ideas should definitely be incorporated from Forth, Scheme, Haskell, Smalltalk and Mercury when developing the composable language features.
