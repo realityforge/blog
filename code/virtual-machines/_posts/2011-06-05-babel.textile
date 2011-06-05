@@ -3,14 +3,14 @@ layout: post
 title: Babel
 ---
 
-[[div style="margin: 2em; padding: 1em;  border: 1px grey solid; background-color: white;"]]
+<div style="margin: 2em; padding: 1em;  border: 1px grey solid; background-color: white;">
 **Ba⋅bel** /ˈbeɪbəl, ˈbæbəl/ (noun)
 # an ancient city in the land of Shinar in which the building of a tower (Tower of Babel) intended to reach heaven was begun and the confusion of the language of the people took place. Gen. 11:4–9.
 # (usually lowercase) a confused mixture of sounds or voices.
 # (usually lowercase) a scene of noise and confusion.
 
 "Source":http://dictionary.reference.com/browse/babel
-[[/div]]
+</div>
 
 Babel is a proposal for a multi-paradigm, low level type-safe virtual machine capable of executing several different programming languages. Different programming languages will inevitably be optimized to solve certain classes of problem in certain domains. No single programming language or programming paradigm is ideal in all scenarios. 
 
