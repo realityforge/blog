@@ -1,12 +1,21 @@
-	body { 
-		margin:0; 
-		padding:0; 
-		color: black;
-        background-color: #cccccc;
-		font: normal 12px verdana, arial, helvetica, sans-serif;
-		}
-	a { color:#5E6588; text-decoration:none; outline:none; }
-	a:hover { text-decoration:none; color:#7b84b1; }
+/*
+Theme Name: Exile
+Theme URI: http://frostpress.com/themes/exile/
+Description: Simple and elegant two-column theme in soft white and brown colors.
+Version: 1.1.4
+Author: Frostpress
+Author URI: http://frostpress.com
+Tags: light, white, brown, two-columns, right-sidebar, fixed-width, sticky-post, threaded-comments
+
+This theme is released under GPL (http://www.opensource.org/licenses/gpl-3.0.html)
+
+"Greater indeed are pleasures that are shared."
+*/
+
+/* basic */
+	body { margin:0; padding:0; background:#D9D7CC url('') center top repeat-y; font:normal 12px/170% Verdana, Helvetica, Tahoma, sans-serif; color:#333333; }
+	a { color:#AD1F1F; text-decoration:none; outline:none; }
+	a:hover { text-decoration:none; color:#E98383; }
 	a img { border:0; }
 	blockquote { padding:1px 10px 1px 10px; margin:10px 0 10px 10px; background-color:#F2F2F2; }
 	blockquote blockquote { background-color:#E1E1E1; display:inline-block; }
@@ -29,16 +38,16 @@
 
 /* layout */
 	#wrap { width:990px; margin:0 auto 0; overflow:hidden; }
-	#c1 { width:580px; float:left; overflow:hidden; padding:0; margin:0; background-color: white;  border: solid 6px black; padding-left: 59px; padding-right: 59px; }
-  .c1_end { overflow:hidden; text-align: center; padding:15px; }
-	.aside { width:238px; float:left; overflow:hidden; padding:10px; margin:135px 0 0 10px; line-height:160%; color:#666666; background-color: white; border: solid 6px black; }
+	#c1 { width:710px; float:left; overflow:hidden; padding:0; margin:0; background:url('images/bg_c1.gif') 0 top repeat-y; }
+  .c1_end { overflow:hidden; margin-left:100px; text-align: center; padding:15px; border-bottom:solid 10px #e6e4da; }
+	.aside { width:250px; float:left; overflow:hidden; padding:10px; margin:135px 0 0 10px; line-height:160%; color:#666666; background:#FFFFFF url('images/bg_c2.gif') left top repeat-y; border-bottom:solid 10px #e6e4da; border-top:solid 10px #e6e4da; }
 
-	.header { overflow:hidden; margin:10px 10px 10 10px; }
+	.header { overflow:hidden; margin:10px 10px 0 110px; background:#FFFFFF url('') left top no-repeat; }
 
-	#logo { overflow:hidden; height:175px; display:block; background:#FFFFFF url('images/logo.jpg') left top no-repeat; }
+	#logo { overflow:hidden; width:580px; height:125px; display:block; background:#FFFFFF url('images/logo.jpg') right top no-repeat; }
 		#logo:hover { text-decoration:none; }
-		#logo h1 { padding:25px 0 0 310px; margin:0; font:normal 28px Verdana, Arial, sans-serif; color:#40476c; }
-		#logo h4 { padding:5px 0 0 310px; margin:0; font:italic 11px Verdana, Arial, sans-serif; color:#FFFFFF; }
+		#logo h1 { padding:55px 0 0 10px; margin:0; font:normal 28px Verdana, Arial, sans-serif; color:#FFCC99; }
+		#logo h4 { padding:5px 0 0 10px; margin:0; font:italic 11px Verdana, Arial, sans-serif; color:#FFFFFF; }
 
 	/* menu */
 	#menu { overflow:hidden; float:right; margin:0 10px 0 10px; }
@@ -49,13 +58,13 @@
 	#menu li.current_page_item a, #menu li.current_page_item a:hover { background-color:#E9EBEF; color:#333333; }
 
 /* post */
-	.post { overflow:hidden; clear:both; margin:0 0 0 0; padding:0 }
+	.post { overflow:hidden; clear:both; margin:0 0 0 0; padding:0; }
 
-	.post-c1 { float:left; overflow:hidden; margin-top:10px; color:#FFFFFF; background-color:#5E6588; }
+	.post-c1 { float:left; width:100px; overflow:hidden; margin-top:10px; color:#FFFFFF; background-color:#5E6588; }
 	.page .post-c1 { background:none; }
 		.post-date { padding:4px; font-size:16px; text-align:center; line-height:150%; }
 	
-	.post-c2 { float:left; width:570px; overflow:hidden; padding:10px; background-color:#FFFFFF; }
+	.post-c2 { float:left; width:580px; overflow:hidden; padding:10px; background-color:#FFFFFF; }
 		.post-head { overflow:hidden; margin-bottom:10px; }
 			.post-head h1 { margin:0; padding:0; color:#FFFFFF; font:normal 16px/150% Verdana, Helvetica, Arial, sans-serif; }
 			.post-head h1 a { color:#333333; background-color:#E9EBEF; padding:4px 8px 4px 8px; display:inline-block; border:0; }
@@ -86,6 +95,3 @@
 .dsq-comment-header { background-color: #E9EBEF !important; color: #333333 !important; font-size-adjust:none;}
 
 ul.article_list li span {width:7em;display: inline-block;}
-
-
-
