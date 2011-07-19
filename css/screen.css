@@ -1,18 +1,29 @@
+/* 
+  Everest Blue Color Scheme:
+Dark => Light
+#2E4559
+#51718C
+#5E92BF
+#8BB4D9
+#A4C1DA
+#FFFFFF
+*/
+
 	body { 
 		margin:0; 
 		padding:0; 
-		color: black;
-        background-color: #cccccc;
+		color: #2E4559;
+        background-color: #A4C1DA;
 		font: normal 12px verdana, arial, helvetica, sans-serif;
 		}
-	a { color:#5E6588; text-decoration:none; outline:none; }
-	a:hover { text-decoration:none; color:#7b84b1; }
+	a { color:#51718C; text-decoration:none; outline:none; }
+	a:hover { text-decoration:none; color:#A4C1DA; }
 	a img { border:0; }
 	blockquote { padding:1px 10px 1px 10px; margin:10px 0 10px 10px; background-color:#F2F2F2; }
 	blockquote blockquote { background-color:#E1E1E1; display:inline-block; }
 	pre { padding:5px 10px 5px 10px; margin:10px 0 10px 0; background-color:#F2F2F2; line-height:160%; overflow:auto; }
-	input, select, textarea { padding:5px; font:12px Verdana, Arial, sans-serif; color:#333333; background-color:#F7F8F9; border:solid 1px #D3DADE; }
-	input:hover, select:hover, textarea:hover { border-color:#BCC6CB; }
+	input, select, textarea, button { padding:5px !important; font:12px Verdana, Arial, sans-serif !important; color:#2E4559 !important; background-color:#A4C1DA !important; border:solid 1px #51718C !important; }
+	input:hover, select:hover, textarea:hover { border-color:#2E4559; }
 	textarea { line-height:160%; }
 	form { margin:0; padding:0; }
 	ul { list-style:square; }
@@ -29,44 +40,37 @@
 
 /* layout */
 	#wrap { width:990px; margin:0 auto 0; overflow:hidden; }
-	#c1 { width:580px; float:left; overflow:hidden; padding:0; margin:0; background-color: white;  border: solid 6px black; padding-left: 59px; padding-right: 59px; }
+	#c1 { width:580px; float:left; overflow:hidden; padding:0; margin:0; background-color: white;  border: solid 6px #2E4559; padding-left: 59px; padding-right: 59px; }
   .c1_end { overflow:hidden; text-align: center; padding:15px; }
-	.aside { width:238px; float:left; overflow:hidden; padding:10px; margin:135px 0 0 10px; line-height:160%; color:#666666; background-color: white; border: solid 6px black; }
+	.aside { width:238px; float:left; overflow:hidden; padding:10px; margin:135px 0 0 10px; line-height:160%; color:#2E4559; background-color: white; border: solid 6px #2E4559; }
 
-	.header { overflow:hidden; margin:10px 10px 10 10px; }
+	.header { overflow:hidden; margin:10px 10px 10px 10px; }
 
 	#logo { overflow:hidden; height:175px; display:block; background:#FFFFFF url('images/logo.jpg') left top no-repeat; }
 		#logo:hover { text-decoration:none; }
 		#logo h1 { padding:25px 0 0 310px; margin:0; font:normal 28px Verdana, Arial, sans-serif; color:#40476c; }
 		#logo h4 { padding:5px 0 0 310px; margin:0; font:italic 11px Verdana, Arial, sans-serif; color:#FFFFFF; }
 
-	/* menu */
-	#menu { overflow:hidden; float:right; margin:0 10px 0 10px; }
-	#menu ul { list-style: none none; margin:0;padding: 0;overflow:hidden;}
-	#menu ul li { padding:0; margin:0; display:inline; }
-	#menu ul li a { display:block; padding:4px 5px 4px 5px; float:left; text-decoration:none; margin-left:10px; color:#777777; }
-	#menu ul li a:hover { text-decoration:none; background-color:#E9EBEF; }
-	#menu li.current_page_item a, #menu li.current_page_item a:hover { background-color:#E9EBEF; color:#333333; }
+    .about {padding:0; margin:20px; margin-left:10px; }
+    #about-link { font-size:16px; font-family:Tahoma, Verdana, Arial, sans-serif; }
 
 /* post */
 	.post { overflow:hidden; clear:both; margin:0 0 0 0; padding:0 }
 
-	.post-c1 { float:left; overflow:hidden; margin-top:10px; color:#FFFFFF; background-color:#5E6588; }
-	.page .post-c1 { background:none; }
-		.post-date { padding:4px; font-size:16px; text-align:center; line-height:150%; }
-	
 	.post-c2 { float:left; width:570px; overflow:hidden; padding:10px; background-color:#FFFFFF; }
 		.post-head { overflow:hidden; margin-bottom:10px; }
 			.post-head h1 { margin:0; padding:0; color:#FFFFFF; font:normal 16px/150% Verdana, Helvetica, Arial, sans-serif; }
-			.post-head h1 a { color:#333333; background-color:#E9EBEF; padding:4px 8px 4px 8px; display:inline-block; border:0; }
-			.post-head h1 a:hover { background-color:#DDE0E6; color:#333333; }
+            .post-head h1 .post-date, .post-head h1 a { padding:4px 8px 4px 8px; display:inline-block; border:0; }
+            .post-head h1 .post-date { color:#FFFFFF; background-color:#51718C;}
+			.post-head h1 a { color:#2E4559; background-color:#A4C1DA;}/* #A4C1DA */
+			.post-head h1 a:hover { background-color:#FFFFFF; }
 		.post-text { overflow:hidden; width:100%; }
 		.post-foot { border-top:solid 2px #F4F4F4; overflow:hidden; padding:8px 0 8px 0; font-size:11px; line-height:170%; color:#858585; margin-top:10px; }
 			.post-foot a { color:#D37C7C; }
 			.post-foot a:hover { color:#AD1F1F; }
 
 	#search input.text { margin-left:5px;padding:7px;width:150px; }
-  #search input.submit { margin-right:5px;margin-left:5px;padding:7px;width:65px; }
+    #search input.submit { margin-right:5px;margin-left:5px;padding:7px;width:65px; }
 
 	#widgets { list-style: none none; margin:10px; padding:0; }
 	.widget { padding:0 0 30px 0; }
@@ -76,14 +80,9 @@
 	p img { padding: 0; max-width: 100%; }
 
 /* disqus */
-.dsq-media-link { display: none !important; }
-.dsq-sharing-options { display: none !important; }
-.dsq-dc-logo { display: none !important; }
-.dsq-authenticate { display: none !important; }
-.dsq-request-user-stats { display: none !important; }
-.dsq-options { display: none !important; }
-#dsq-comments-title { display: none !important; }
-.dsq-comment-header { background-color: #E9EBEF !important; color: #333333 !important; font-size-adjust:none;}
+.dsq-community-box, .dsq-like-thread, .dsq-global-toolbar, .dsq-global-toolbar-right, .dsq-dislike-thread, .dsq-like-panel, .dsq-like, #dsq-comments-title, .dsq-options, .dsq-request-user-stats, .dsq-authenticate, .dsq-dc-logo, .dsq-sharing-options, .dsq-media-link { display: none !important; }
+.dsq-comment-header, .dsq-toolbar-item { background-color: #A4C1DA !important; color: #2E4559 !important; font-size-adjust:none;}
+
 
 ul.article_list li span {width:7em;display: inline-block;}
 
