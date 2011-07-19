@@ -20,7 +20,7 @@ Feel free to browse the site and if you need to contact me, here is my email add
 p=. !/images/email.png(Email Address)!
 
 <div id="footer"> 
-{{ site.blog.title }} is powered by <a href="http://github.com/mojombo/jekyll" target="_blank">Jekyll</a> using the <a href="http://frostpress.com/themes/exile/" target="_blank">Exile</a> theme and "Disqus":http://disqus.com for comments.
+{{ site.blog.title }} is powered by <a href="http://github.com/mojombo/jekyll" target="_blank">Jekyll</a> and "Disqus":http://disqus.com for comments.
 </div> 
 
 h4. Brain Crack
