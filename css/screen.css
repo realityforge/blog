@@ -65,6 +65,8 @@ Dark => Light
 			.post-head h1 a { color:#2E4559; background-color:#A4C1DA;}/* #A4C1DA */
 			.post-head h1 a:hover { background-color:#FFFFFF; }
 		.post-text { overflow:hidden; width:100%; }
+    .post-text a { color:#D37C7C; }
+
 		.post-foot { border-top:solid 2px #F4F4F4; overflow:hidden; padding:8px 0 8px 0; font-size:11px; line-height:170%; color:#858585; margin-top:10px; }
 			.post-foot a { color:#D37C7C; }
 			.post-foot a:hover { color:#AD1F1F; }
