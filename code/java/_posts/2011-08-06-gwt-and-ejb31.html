@@ -1,0 +1,90 @@
+--- 
+layout: post
+title: GWT and EJB 3.1
+---
+
+<p>
+	Recently we have been tasked with building a rich, complex web application for resource planning. 
+	Historically most of our applications have been successfully delivered using Rails. However the 
+	cost of developing rich applications has been significant and only a few developers are comfortable 
+	working with low-level javascript frameworks.
+</p>
+
+<p>
+	We prototyped the front-end using <a href="http://docs.sencha.com/ext-js/4-0/">ExtJS</a> and
+  were looking at implementing the backend technology using EJB 3.1 beans (See
+  <a href="#WhyEJB">Why EJB?</a> for our reasoning). We investigated using JSF and GWT as the
+  front end technology but eventually settled on GWT, took a <a href="#GWTCourse">course</a>
+  and went through a number of <a href="https://github.com/realityforge/gwttle">labs</a> to
+  develop a simple GWT application.
+</p>
+
+<p>
+	The course only gave us a <em>taste</em> of GWT and we still needed to do a bunch of investigation 
+	to get a GWT application from "toy" stage to production ready. We took the best practices 
+	<a href="http://code.google.com/webtoolkit/articles/mvp-architecture.html">MVP</a> example and 
+	started to evolve it towards an archetypal example in our world. This involved adding an automated 
+	build system that we could run from our CI box, moving to EJBs for the service layer, JPA for the 
+	persistence layer, moving to Intellij IDEA for the IDE and splitting the project out into multiple 
+	components that could be worked on independently.
+</p>	
+
+<p>
+	The code for converting the service layer to EJBs was actually quite simple as is evidenced by the 
+	<a href="https://github.com/realityforge/gwt-contacts/commit/32cccacfb1acc7bd67b6859169d85e332dc73dc0">commit</a>.
+	However this code does not work in the built-in Jetty container used as part of development mode. 
+	The documentation on how to actually use EJBs is rather 
+	<a href="http://code.google.com/webtoolkit/doc/latest/DevGuideCompilingAndDebugging.html#How_do_I_use_EJBs_in_development_mode?">thin</a>. 
+	In Intellij IDEA, this entailed setting up the IDE to build an exploded war, configuring GlassFish 
+	support and passing <code>-noserver</code> to the GWT plugin.
+</p>
+
+<p>
+	For the build system we initially trialled using <a href="http://maven.apache.org/">Maven 3.0.3</a> 
+	but went back to using <a href="http://buildr.apache.org/">Apache Buildr</a>. Maven is a project I 
+	want to like and has great ideas but even years after it was developed I keep running into stability 
+	issues; plugins don't work, dependencies are not locked by default etc. Buildr is a little rough 
+	around the edges but does not get in your way when you want to do something custom. The <a href="https://github.com/realityforge/gwt-contacts/commit/adf66f26c0f7512d7d397b44628badf489cacc55">commit</a> 
+	that converted the project to buildr is a perfect example. There is very little code involved in 
+	the Buildr files <a href="https://github.com/realityforge/gwt-contacts/blob/adf66f26c0f7512d7d397b44628badf489cacc55/buildfile">buildfile</a>
+	and <a href="https://github.com/realityforge/gwt-contacts/blob/adf66f26c0f7512d7d397b44628badf489cacc55/build.yaml">build.yaml</a>
+	but there is a fair amount of custom code involved in modifying the Intellij IDEA buildr extension 
+	so that it generates custom metadata for the build. Admittedly these customizations will be rolled 
+	back into Buildr over time but it was simple to extend core Buildr classes to achieve our immediate 
+	needs.
+</p>
+
+<p>
+  Separating the different elements of the application out into separate components proved to be a
+  minor annoyance. The code remained unchanged but the build system had to be refactored significantly
+  as did the Buildr customizations to generate the IDEA project files. However, you can see a snapshot of the current work in progress on github project at the tag <a href="https://github.com/realityforge/gwt-contacts/tree/BLOG_POST">BLOG_POST</a>.
+</p>
+
+<h3>Footnotes</h3>
+
+<a name="WhyEJB"></a>
+<h4>Why EJB?</h4>
+
+<p>
+	We need to integrate with a thick Swing client over a custom network protocol and a web
+  portal &amp; BPMS using SOAP web services as well as the front-end for our new application.
+  Candidate service layers included OSGi, Spring and EJB 3.1. Bizarrely enough we chose EJBs
+  because it was simpler (!!!) to provide these interfaces in the straight JEE stack. (And yes
+  we were very surprised to come to that conclusion too!).
+</p>
+
+<a name="GWTCourse"></a>
+<h4>GWT Course</h4>
+
+<p>
+	The <a href="http://www.objecttraining.com.au/Application-Development-using-Google-Web-Toolkit/default.aspx">course</a>
+	was delivered by Adam Jenkins at Object Training and it was quite good. About the only complaint
+  I have was that some of the architectural labs and talks were too focused on mechanical aspects
+  and did not make the reasons for selecting a particular architecture clear. I came away
+  thinking that the
+	<a href="http://code.google.com/webtoolkit/articles/mvp-architecture.html">GWT MVP</a>
+  design pattern was developed by architecture astronauts but after reading more and watching
+  a few YouTube <a href="http://www.youtube.com/watch?v=PDuhR18-EdM">clips</a> I am sold on
+  the approach.
+</p>
+
