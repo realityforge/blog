@@ -1,0 +1,221 @@
+--- 
+layout: post
+title: Antix - &lt;if/&gt; and &lt;forEach/&gt; tasks for Ant
+---
+
+<p>
+	A long time ago I was involved with the <a href="http://ant.apache.org">Ant</a> project and
+  part of the philosophy was that Ant was not executable xml. So this meant that &lt;if/&gt;
+  and &lt;for/&gt; tasks were out. Implementing the equivalent functionality involved
+  <a href="http://ant.apache.org/faq.html#multi-conditions">complex sets of tasks and properties</a>
+  to be defined.
+</p>
+
+<p>
+	Fast-forward many years and Ant still does not provide this functionality out of the box.
+  I rarely use ant these days opting instead to use <a href="http://buildr.apache.org">Buildr</a>
+  or <a href="http://rake.rubyforge.org/">Rake</a> depending on the project. But when I do use Ant
+  I find myself re-implementing the same set of tasks - usually &lt;if/&gt; and &lt;forEach/&gt;.
+  A  while ago I consolidated all the different implementations under one source tree,
+  <a href="https://github.com/realityforge/antix">Antix</a> on Github.
+</p>
+
+<p>
+  Someone asked me how to use them so here is a basic description...
+</p>
+
+<h2>Setup</h2>
+
+<p>
+  The simplest way to install Antix is to download the jar and add a taskdef to your build file.
+</p>
+
+    <p><b>Jar:</b> <a href="http://cloud.github.com/downloads/realityforge/antix/antix-1.0.0.jar">http://cloud.github.com/downloads/realityforge/antix/antix-1.0.0.jar</a></p>
+
+{% highlight xml %}
+<taskdef resource="org/realityforge/antix/antlib.xml">
+  <classpath path="path/to/antix-1.0.0.jar"/>
+  <!--
+  This task library can also be put in the
+  ${ANT_HOME\}/lib directory, in such case this
+  classpath node is not needed
+  -->
+</taskdef>
+{% endhighlight %}
+
+<h2>Benefits</h2>
+
+<h3>The &lt;if/&gt; task</h3>
+
+<p>
+  The &lt;if/&gt; is simple in that it has two child elements; <code>conditions</code> and
+  <code>sequential</code>. The <code>sequential</code> has a a sequential list of tasks to
+  execute if all of the conditions evaluate to true.
+</p>
+
+    <p>e.g.</p>
+{% highlight xml %}
+<if>
+  <conditions>
+    <equals arg1="${my.build.parameter}" arg2="true"/>
+  </conditions>
+  <sequential>
+    <echo message="The property my.build.parameter is set to true!"/>
+  </sequential>
+</if>
+{% endhighlight %}
+
+<h3>The &lt;forEach/&gt; task</h3>
+
+<p>
+  The &lt;forEach/&gt; takes a list of white space separated values and invokes a nested
+  sequential element for each value, setting a specific parameter to the value during the
+  invocation.
+</p>
+
+<p>e.g.</p>
+{% highlight xml %}
+<forEach property="day" list="Mon Tue Wed Thu Fri">
+  <sequential>
+    <echo message="Day = @{day}"/>
+  </sequential>
+</forEach>
+{% endhighlight %}
+
+<p>will print .. </p>
+
+<pre>
+[echo] Day = Mon
+[echo] Day = Tue
+[echo] Day = Wed
+[echo] Day = Thu
+[echo] Day = Fri
+</pre>
+
+<h3>The &lt;property-copy/&gt; task</h3>
+
+<p>
+  Ant properties are not allowed to be nested so you need to do some hackery to get get
+  nested properties to work properly. The Antix library implements the approach recommended
+  by the <a href="http://ant.apache.org/faq.html#propertyvalue-as-name-for-property">FAQ</a>
+  by implementing a property-copy task that will evaluate the property two layers deep and
+  copy the value to another property.
+</p>
+
+<p>
+  This is typically used when you are selecting from a variety of different build
+  configuration settings. i.e. Should you generate the EJB or web service generator.
+</p>
+
+<p>e.g.</p>
+{% highlight xml %}
+<property name="ejb.service.generator"
+          value="com.biz.EjbGen"/>
+<property name="ws.service.generator"
+          value="com.biz.WebServiceGen"/>
+
+<property name="generator-type" value="ws"/>
+<property-copy name="service.generator"
+               from="${generator-type}.service.generator"/>
+<echo>service.generator=${service.generator}</echo>
+{% endhighlight %}
+
+<p>will print .. </p>
+
+<pre>
+[echo] service.generator=com.biz.WebServiceGen
+</pre>
+
+<h3>The &lt;dbgmsg/&gt; task</h3>
+
+<p>
+  The dbgmsg task will only print the specified message if the property named "debug" is set
+  to a value. This is mostly used when debugging builds.
+</p>
+
+{% highlight xml %}
+<dbgmsg message="My debug message"/>
+{% endhighlight %}
+
+<h3>The &lt;start-phase/&gt; and &lt;end-phase/&gt; tasks</h3>
+
+<p>
+  The start-phase and end-phase tasks are used to print the time it takes for various build
+  phases. Each phase has a name and a timer starts when start-phase is executed and is stopped
+  when end-phase executes. Both tasks echo a message at warning level (if the property named
+  timing.check is set) or at the verbose level.
+</p>
+
+<p>e.g.</p>
+{% highlight xml %}
+<start-phase phase="integration-tests"/>
+...
+<end-phase phase="integration-tests"/>
+{% endhighlight %}
+
+<p>will print .. </p>
+
+<pre>
+[echo] Starting phase 'integration-tests' at 18:15:39
+...
+[echo] Completing phase 'integration-tests' at 18:15:39 (Duration = 48ms)
+</pre>
+
+<h3>The &lt;toAscii/&gt; task</h3>
+
+<p>
+  Copy a file while replacing non-ascii characters with the character '?'.
+</p>
+
+<p>e.g.</p>
+{% highlight xml %}
+<toAscii src="SomeNonAsciiFile.txt" dest="SomeAsciiFile.txt"/>
+{% endhighlight %}
+
+<h3>The &lt;selectRegex/&gt; task</h3>
+
+<p>
+  The selectRegex task attempts to extract a value from a string based on a regular
+  expression and assign that value to a property. Often I use this to extract out
+  results from tests to do further processing.
+</p>
+
+{% highlight xml %}
+<selectRegex property="that"
+             pattern="string (.*) will"
+             select="\1"
+             value="My string that will attempt to be matched."/>
+<echo>that=${that}</echo>
+{% endhighlight %}
+
+<p>will print .. </p>
+
+<pre>
+[echo] that=that
+</pre>
+
+<h3>The &lt;timer/&gt; task</h3>
+
+<p>
+  The timer task can either be a "start" or "stop" timer. A "start" timer sets a property
+  to now indicating a start time. A "stop" timer sets a property to now that indicates an
+  end time and it calculates the duration from the corresponding start time. Mostly this
+  task is not not directly used but instead used by the start-phase and stop-phase tasks
+  described above.
+</p>
+
+{% highlight xml %}
+<timer property="mytimer" stop="false"/>
+<echo>Start: ${mytimer.start}</echo>
+<timer property="mytimer" stop="true"/>
+<echo>Stop: ${mytimer.end}</echo>
+<echo>Duration: ${mytimer.duration}</echo>
+{% endhighlight %}
+
+<p>will print .. </p>
+
+<pre>
+[echo] Start: 1312706159383
+[echo] Stop: 1312706159397
+[echo] Duration: 14
+</pre>
