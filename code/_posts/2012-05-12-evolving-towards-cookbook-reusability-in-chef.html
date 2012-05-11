@@ -1,0 +1,167 @@
+---
+layout: post
+title: Evovling towards cookbook reusability in Chef
+---
+
+<p>
+  A few months ago, I started to invest heavily in <a href="http://www.opscode.com/chef">Chef</a> to automate the roll
+  out of our applications and the supporting infrastructure. So far, so good but it has not always been sunshine and
+  puppy dogs. One of the major challenges is attempting to reuse cookbooks found on the
+  <a href="http://community.opscode.com">community site</a>, on GitHub or even within our own organization. I have
+  found that I frequently had to customize the cookbooks heavily or rewrite the cookbooks from scratch to meet our
+  needs.
+</p>
+
+<p>
+  Recently I have discovered a pattern that we use in our internal cookbooks that seems to make reuse possible, even
+  easy. So I thought I would send it out into the world to see if it is something that others would find useful.
+  So here is how it evolved...
+</p>
+
+<h2>Phase 1: Cookbook as a big bash script</h2>
+
+<p>
+  In the beginning, our cookbooks mostly felt like big bash scripts. Conceptually they would do something along the
+  lines of;
+</p>
+
+{% highlight ruby %}
+bash "install mypackage" do
+  cwd "#{Chef::Config[:file_cache_path]}"
+  code <<-EOH
+wget http://example.com/mypackage-1.0.tar.gz
+tar xzf mypackage-1.0.tar.gz
+cd mypackage-1.0
+./configure && make && make install
+  EOH
+  not_if { File.exists?("/usr/bin/mypackage") }
+end
+{% endhighlight %}
+
+
+<p>
+  This was fast to write but that is the best that could be said about this technique. This approach resulted in no
+  reusability of cookbooks unless we had the exact same requirements on a different node.
+</p>
+
+<h2>Phase 2: Attributes to customize</h2>
+
+<p>
+  We quickly ran into issues when we needed to customize the application based on the environment. At which point we
+  introduced attributes to customize the application. Conceptually, our recipes started to look something like;
+</p>
+
+{% highlight ruby %}
+bash "install mypackage" do
+  cwd "#{Chef::Config[:file_cache_path]}"
+  code <<-EOH
+wget http://example.com/mypackage-#{node[:mypackage][:version]}.tar.gz
+tar xzf mypackage-#{node[:mypackage][:version]}.tar.gz
+cd mypackage-#{node[:mypackage][:version]}
+./configure && make && make install
+  EOH
+  not_if { File.exists?("/usr/bin/mypackage") }
+end
+
+template "/etc/mypackage.conf" do
+  source "mypackage.conf.erb"
+  mode "0644"
+  variables(
+      :database => node[:mypackage][:database],
+      :user => node[:mypackage][:user],
+      :password => node[:mypackage][:password]
+    )
+end
+{% endhighlight %}
+
+<h2>Phase 3: Partition the recipes into units of reuse</h2>
+
+<p>
+  Further down the track we found that different nodes would have different requirements. i.e. One installation of
+  <tt>mypackage</tt> would use a local database for authentication while another installation would authenticate
+  against Active Directory. This resulted in us splitting recipes into multiple recipes based on the units of reuse.
+  So our hypothetical "mypackage::default" recipe would be split into "mypackage::default", "mypackage::db_auth",
+  "mypackage::ad_auth". The role would include the particular recipes that it required.
+</p>
+
+<h2>Phase 4: Resources to the rescue</h2>
+
+<p>
+  Resources (via LWRPs) were the next abstraction that we introduced. This made it easy to repeat similar sets of
+  complex actions in many recipes with minor differences in configurations. A typical scenario involves defining
+  multiple queues in a message broker, such as this snippet using the
+    <a href="http://github.com/realityforge-cookbooks/glassfish">glassfish</a> cookbook;
+  </p>
+
+{% highlight ruby %}
+glassfish_mq_destination "WildfireStatus queue" do
+  queue "Fireweb.WildfireStatus"
+  config {'validateXMLSchemaEnabled' => true, 'XMLSchemaURIList' => 'http://...'}
+  host 'localhost'
+  port 7676
+end
+
+glassfish_mq_destination "PlannedBurnStatus queue" do
+  queue "Fireweb.PlannedBurnStatus"
+  config {'maxCount' => 1000, ...}
+  host 'otherhost'
+  port 7676
+end
+{% endhighlight %}
+
+<h2>Phase 5: Data driven reuse</h2>
+
+<p>
+  The use of resources allowed us to easily create customized cookbooks but authoring the cookbooks could get
+  monotonous. There was a lot of boilerplate code in each recipe. We reacted by storing storing a simplified
+  description of the resources as data, interpreting the description and invoking the resources to represent the data.
+  Sometimes the description was stored in data bags, sometimes the description was synthesized by searching the chef
+  server, sometimes the description was synthesized using a rule layer.
+</p>
+
+<p>
+  For example, we discovered the set of queues to create in our message broker by searching the chef server for
+  nodes in the same environment that declared a requirement for message queues in the attributes (i.e.
+  "openmq.destinations.queues"). When configuring the logging aspects of our systems, we search for a
+  graylog2 node and ensure we get the production node in the production environment and the development node
+  in all other environments.The .war files and their required customizations are declared in a data bag and we query the
+  data bag when populating our application server.
+</p>
+
+<h2>Phase 6: Policy recipe + Attribute driven recipe</h2>
+
+<p>
+  The data driven approach saved us a lot of work but it limited the amount of cookbook reuse; business rules were
+  encoded into the the way we stored, synthesized and discovered the data. It also meant that some of our core
+  cookbooks changed every time we changed the way we abstracted our application configuration data.
+</p>
+  
+<p>
+  Our most recent approach has been to pull the the business specific policy code out into a separate cookbook and
+  then include a recipe that uses the attributes defined on the current node to drive the creation of the
+  infrastructure.
+</p>
+  
+<p>
+  Our policy cookbooks tend to look something like the following.
+</p>
+  
+{% highlight ruby %}
+node.override[:openmq][:extra_libraries] =  ["http://example.org/repo/myext.jar"]
+
+queues = []
+search(:node, 'openmq_destinations_queues:* AND NOT name:' + node.name) do |n|
+  queues.merge( n['openmq']['destinations']['queues'].to_hash )
+end
+queues.merge( node['openmq']['destinations']['queues'].to_hash )
+
+include_recipe "glassfish::attribute_driven_mq"
+{% endhighlight %}
+
+<p>
+  This approach seems to have given us a way to create a reusable cookbook (
+  <a href="http://github.com/realityforge-cookbooks/glassfish">glassfish</a> in the case above) with the components
+  that are less likely to be reused in a separate "policy" recipe. We are already using this to successfully manage an
+  application server, a message broker, to configure monitoring and logging and to apply firewall rules.
+  I wonder if this is an approach that others have discovered and if it could be applied to other cookbooks.
+</p>
