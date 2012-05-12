@@ -90,8 +90,8 @@ end
   Resources (via LWRPs) were the next abstraction that we introduced. This made it easy to repeat similar sets of
   complex actions in many recipes with minor differences in configurations. A typical scenario involves defining
   multiple queues in a message broker, such as this snippet using the
-    <a href="http://github.com/realityforge-cookbooks/glassfish">glassfish</a> cookbook;
-  </p>
+  <a href="http://github.com/realityforge-cookbooks/glassfish">glassfish</a> cookbook;
+</p>
 
 {% highlight ruby %}
 glassfish_mq_destination "WildfireStatus queue" do
@@ -108,6 +108,30 @@ glassfish_mq_destination "PlannedBurnStatus queue" do
   port 7676
 end
 {% endhighlight %}
+
+<p>
+  It should be noted that these resources can be composed. So that low level resources can be used to build up high
+  level resources. So we actually have a <tt>glassfish_mq</tt> resource that will
+</p>
+
+{% highlight ruby %}
+glassfish_mq "MessageBroker Instance" do
+  instance "MessageBroker"
+  users {...}
+  access_control_rules {...}
+  config {...}
+  queues {
+    "Fireweb.WildfireStatus" => {'validateXMLSchemaEnabled' => true, 'XMLSchemaURIList' => 'http://...'},
+    "Fireweb.PlannedBurnStatus" => {'maxCount' => 1000, ...}
+  }
+  port 7676
+  admin_port 7677
+  jms_port 7678
+  jmx_port 8087
+  stomp_port 8087
+end
+{% endhighlight %}
+
 
 <h2>Phase 5: Data driven reuse</h2>
 
@@ -135,17 +159,17 @@ end
   encoded into the the way we stored, synthesized and discovered the data. It also meant that some of our core
   cookbooks changed every time we changed the way we abstracted our application configuration data.
 </p>
-  
+
 <p>
   Our most recent approach has been to pull the the business specific policy code out into a separate cookbook and
   then include a recipe that uses the attributes defined on the current node to drive the creation of the
   infrastructure.
 </p>
-  
+
 <p>
   Our policy cookbooks tend to look something like the following.
 </p>
-  
+
 {% highlight ruby %}
 node.override[:openmq][:extra_libraries] =  ["http://example.org/repo/myext.jar"]
 
