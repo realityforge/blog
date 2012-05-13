@@ -111,7 +111,8 @@ end
 
 <p>
   It should be noted that these resources can be composed. So that low level resources can be used to build up high
-  level resources. So we actually have a <tt>glassfish_mq</tt> resource that will
+  level resources. So we actually have a <tt>glassfish_mq</tt> resource that uses the <tt>glassfish_mq_destination</tt>
+  resource in it's implementation.
 </p>
 
 {% highlight ruby %}
@@ -137,7 +138,7 @@ end
 
 <p>
   The use of resources allowed us to easily create customized cookbooks but authoring the cookbooks could get
-  monotonous. There was a lot of boilerplate code in each recipe. We reacted by storing storing a simplified
+  monotonous. There was a lot of boilerplate code in each recipe. We reacted by storing a simplified
   description of the resources as data, interpreting the description and invoking the resources to represent the data.
   Sometimes the description was stored in data bags, sometimes the description was synthesized by searching the chef
   server, sometimes the description was synthesized using a rule layer.
