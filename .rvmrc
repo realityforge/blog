@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+cat <<EOF
+********************************************************************
+*  RVM will install the environment for the Blog development now.
+********************************************************************
+EOF
+
+ruby_string="ruby-1.9.2-p320"
+bundler_gem_home="vendor/bundle"
+
+if rvm list strings | grep -q "${ruby_string}" ; then
+  rvm use --create "${ruby_string}@blog"
+
+  gem list | grep 'bundler' &> /dev/null
+  if [ $? -gt 0 ]; then
+    echo "Installing bundler..."
+    gem install bundler
+  fi
+
+  bundle install
+else
+  echo "${ruby_string} was not found, please run 'rvm install ${ruby_string}' and then cd back into the project directory." 
+fi
