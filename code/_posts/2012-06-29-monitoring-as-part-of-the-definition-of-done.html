@@ -1,0 +1,239 @@
+---
+layout: post
+title: Monitoring as part of the definition of Done
+---
+
+<p>
+  Monitoring needs to be part of the definition of <em>done</em>. In an ideal world you would not be able to deploy an
+  application without deploying services to monitor the ongoing activity and health of the application. If you care
+  enough to deploy an application, you should care enough to make sure it keeps working within expected parameters.
+</p>
+<p>
+  When this is not adhered you end up in a bad place. We have a large number of bespoke services developed over a
+  period of ~12 years in many different technology stacks. However we have very poor visibility into their operation.
+  In many cases it is difficult to determine whether the services are still operating within expected parameters
+  or even whether they are still being used. In almost all of them, it is our users that alert us to performance or
+  correctness problems in the services. This is a terrible situation and is hated by everyone; developers, operators
+  and users alike.
+</p>
+<p>
+  Our newer applications are built with a strict regime where a service is not done until it has monitoring. We have
+  adopted Chef as our configuration management tool of choice. We have also started using an
+  <a href="/code/2012/05/12/evolving-towards-cookbook-reusability-in-chef.html">attribute driven</a> approach for
+  developing our cookbooks. The rest of this post outlines some of the techniques we use to keep our systems in check.
+</p>
+  
+<h3>Overview</h3>
+  
+<p>
+  We tend to break down monitoring into four major orientations; infrastructure, system, service and business
+  characteristics. The <tt>infrastructure</tt> characteristics tend to be elements such as utilization of underlying
+  network infrastructure etc but we do not have a good story for this yet. The <tt>system</tt> characteristics are the
+  node characteristics such as CPU usage, memory usage, disk operations, bytes transmitted etc. The <tt>service</tt>
+  characteristics include metrics such as queue sizes, throughput rates. The <tt>business</tt> characteristics include
+  things like the number of Wildfires still going, the number of resources deployed to each emergency event, the
+  number of incident control teams activated etc. (We write software for emergency services).
+</p>
+
+<p>
+  For most characteristics we monitor, we want to graph the characteristic over time. Alerts need to be generated if
+  the metric values are outside an expected range of values or are trending towards this scenario. We also want our
+  releases to be relatively self-contained. i.e. If we release a new application this should update all of the graphs,
+  monitors and alert configurations for that application. The pattern we use to implement this is have the cookbook for
+  the application, publish the probe and graph definitions as attributes on the node. The configuration is then
+  discovered by recipes that run on the local node or remote nodes and is used to drive configuration of monitoring
+  tools.
+</p>
+  
+<p>
+  Right now our tool of choice for persistence and graphing of metric data is
+  <a href="https://github.com/graphite-project">graphite</a>. The graphite product suite allows flexibility in how
+  data is collected, aggregated, presented and analyzed but it has a very poor user experience. So we have adopted
+  <a href="https://github.com/ripienaar/gdash">gdash</a> to build our dashboard.
+</p>
+
+<h4>System Monitoring</h4>
+
+<p>
+  We use a number of different tools to monitor the system level characteristics but the default answer on Ubuntu/Linux 
+  hosts is to use <a href="http://collectd.org/">collectd</a>. It has many plugins to monitor all sorts of
+  characteristics but we tend to use it primarily to measure system level characteristics such as CPU usage. The
+  collectd agents publish directly to a graphite server using the <em>write_graphite</em> plugin.
+</p>  
+  
+<p>
+  We have <a href="https://github.com/realityforge-cookbooks/collectd">rewritten</a> the existing collectd cookbook to
+  use an <a href="/code/2012/05/12/evolving-towards-cookbook-reusability-in-chef.html">attribute driven</a> approach
+  so that each node need only define the appropriate attributes and include the appropriate collectd recipe to activate
+  appropriate plugins. A typical block used to configure a collectd node would look something like the following;
+</p>
+  
+{% highlight ruby %}
+node.override['collectd']['name'] = node['hostname']
+node.override['collectd']['plugins'] =
+  {
+    'syslog' => {'config' => {"LogLevel" => "Info"}},
+    'disk' => {},
+    'swap' => {},
+    'memory' => {},
+    'cpu' => {},
+    'interface' => {'config' => {"Interface" => "lo", "IgnoreSelected" => true}},
+    'df' => {'config' => {"ReportReserved" => false,
+                          "FSType" => ["proc", "sysfs", "fusectl", "debugfs", "devtmpfs", "devpts", "tmpfs"],
+                          "IgnoreSelected" => true}},
+  }
+graphite_host, graphite_port = ... # Use utility method to search for graphite server
+if graphite_host
+  node.override['collectd']['plugins']['write_graphite'] =
+      {'config' => {'Host' => graphite_host,
+                    'Port' => graphite_port,
+                    'Prefix' => "#{node.chef_environment}.node."}}
+end
+
+include_recipe "collectd::attribute_driven"
+{% endhighlight %}
+
+<p>
+  Of course we also consider statistics about our chef execution to be important enough to monitor and we use the
+  <a href="https://github.com/realityforge-cookbooks/graphite_handler">graphite_handler</a> cookbook to collect these
+  statistics.
+</p>
+
+{% highlight ruby %}
+graphite_host, graphite_port = ... # Use utility method to search for graphite server
+if graphite_host
+  node.override['chef_client']['handler']['graphite']['host'] = graphite_host
+  node.override['chef_client']['handler']['graphite']['port'] = graphite_port
+end
+
+include_recipe "graphite_handler::default"
+{% endhighlight %}
+
+<p>
+  This is enough to configure the publishing of data about the nodes to graphite but we typically also want to
+  configure graphite to customize the retention policy for the data collected. This is done by configuring attributes
+  allowing the graphite node to discover the configuration on next converge. Below is an example configuration for the
+  chef statistics.
+</p>
+
+{% highlight ruby %}
+node.default['graphite']['carbon']['storage_schemas']['chef'] =
+  {
+    'priority' => 0,
+    'aggregation_method' => 'last',
+    'x_files_factor' => '0.1',
+    'pattern' => '^.*\.chef\..*$',
+    'retentions' => '1m:7d,10m:2y'
+  }
+{% endhighlight %}
+
+<p>
+  So far we have collected data and pushed it into graphite but to build up a dashboard we use a similar approach. Each
+  application will publish attribute data defining a series of graphs and dashboard components. We use a
+  <a href="https://github.com/realityforge-cookbooks/gdash">modified gdash cookbook</a> that uses search to discover
+  all the published graph components and construct a dashboard. An example for such a configuration is below;
+</p>
+
+{% highlight ruby %}
+node_prefix = "#{node.chef_environment}.node.#{node['hostname']}"
+node.override['gdash']['dashboards']["#{node['hostname']}-node"] =
+  {
+    'category' => 'nodes',
+    'description' => "#{node['hostname']} Node Metrics",
+    'display_name' => node['hostname'],
+    'components' => {
+      'cpu' => {
+        'area' => 'stacked',
+        'title' => 'CPU Usage',
+        'vtitle' => 'percent',
+        'description' => "The CPU usage",
+        'fields' => {
+          'iowait' => {
+            'color' => 'red',
+            'alias' => 'IO Wait',
+            'data' => "sumSeries(#{node_prefix}.cpu-*.cpu-wait)"
+          },
+          'system' => {
+            'color' => 'orange',
+            'alias' => 'System',
+            'data' => "sumSeries(#{node_prefix}.cpu-*.cpu-system)"
+          },
+          'user' => {
+            'color' => 'yellow',
+            'alias' => 'User',
+            'data' => "sumSeries(#{node_prefix}.cpu-*.cpu-user)"
+          }
+        }
+      }
+    }
+  }
+{% endhighlight %}
+
+<h4>Application Monitoring</h4>
+  
+<p>
+  Our applications come in all shapes and sizes but we have many java (and jruby) based applications so we collect a 
+  lot of the monitoring data via JMX. We developed a small tool (<a href="https://github.com/realityforge/spydle">spydle</a>) and a corresponding chef <a href="https://github.com/realityforge-cookbooks/spydle">cookbook</a> that periodically
+  polls the applications using JMX and pushes the data to the graphite server. The cookbook uses search to discover the
+  configurations that other nodes have published and adds that to the pollers configuration. 
+</p>
+  
+<p>
+  We use the OpenMQ message broker that is part of the GlassFish server. To collect data about it's operation we use
+  a snippet that is not unlike the following to grab data out of JMX. This configuration is performed on the OpenMQ
+  node.
+</p>
+
+{% highlight ruby %}
+node.override['spydle']['probes'] = {
+  "#{node.chef_environment}_openmq" =>
+    {
+      'type' => 'in:jmx',
+      'config' => {
+        'host' => node['ipaddress'],
+        'port' => node['openmq']['instances'][app_key]['jmx']['port'],
+        'username' => 'spydle',
+        'password' => jmx_monitors['spydle'],
+        'probes' => [
+          {
+            'object_name' => 'com.sun.messaging.jms.server:type=Destination,subtype=Monitor,desttype=*,name=*',
+            'attribute_names' =>
+              [
+                'NumActiveConsumers',
+                'NumMsgs',
+                'NumMsgsHeldInTransaction',
+                'NumMsgsPendingAcks',
+                'NumMsgsIn',
+                'NumMsgsOut'
+              ],
+            'namespace' => namespace,
+            'name_components' => ['type', 'desttype', 'name']
+          },
+          ...
+        ]
+      }
+    }
+}
+{% endhighlight %}
+
+<h3>Releasing</h3>
+  
+<p>
+  The way we release our applications is we promote a new application specific cookbook and then run converge on the
+  application node. This ensures that the application is deployed and the attribute data for the monitoring system is
+  published on the node. We then converge the monitoring nodes and they discover the new configuration for the
+  application via search and update graphite/gdash/spydle etc configuration as necessary. Rollback is simple as it is 
+  just another release and a re-converge on the monitors ad the application nodes.   
+</p>
+  
+<h3>Conclusions</h3>
+  
+<p>
+  So far, what we have works well. It is easy to monitor and graph data about a node or an application. In reality the
+  configuration is a little more complex than is indicated above; we tend to have short retention times for data in
+  environments other than production and we tend to limit the generation of graphs to environments we care about. We
+  are trialing a few tools to generate alerts, mostly by querying graphite. The alerts will follow the same approach as
+  our other monitoring infrastructure and we will publish the alerts in the application node attributes. Once that is
+  in place we will have much better insight into how our systems behave.
+</p>
+  
