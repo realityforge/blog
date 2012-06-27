@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Monitoring as part of the definition of Done
+title: Monitoring as part of the definition of done using Chef
 ---
 
 <p>
@@ -39,9 +39,9 @@ title: Monitoring as part of the definition of Done
   For most characteristics we monitor, we want to graph the characteristic over time. Alerts need to be generated if
   the metric values are outside an expected range of values or are trending towards this scenario. We also want our
   releases to be relatively self-contained. i.e. If we release a new application this should update all of the graphs,
-  monitors and alert configurations for that application. The pattern we use to implement this is have the cookbook for
-  the application, publish the probe and graph definitions as attributes on the node. The configuration is then
-  discovered by recipes that run on the local node or remote nodes and is used to drive configuration of monitoring
+  monitors and alert configurations for that application. The pattern we use to implement this is to have the cookbook
+  for the application publish the probe and graph definitions as attributes on the node. The configuration is then
+  discovered by recipes that run on the local node or remote nodes and is used to drive configuration of the monitoring
   tools.
 </p>
   
@@ -52,12 +52,12 @@ title: Monitoring as part of the definition of Done
   <a href="https://github.com/ripienaar/gdash">gdash</a> to build our dashboard.
 </p>
 
-<h4>System Monitoring</h4>
+<h4>System Level Monitoring</h4>
 
 <p>
   We use a number of different tools to monitor the system level characteristics but the default answer on Ubuntu/Linux 
   hosts is to use <a href="http://collectd.org/">collectd</a>. It has many plugins to monitor all sorts of
-  characteristics but we tend to use it primarily to measure system level characteristics such as CPU usage. The
+  characteristics but we tend to use it to measure system level characteristics such as CPU usage. The
   collectd agents publish directly to a graphite server using the <em>write_graphite</em> plugin.
 </p>  
   
@@ -65,7 +65,7 @@ title: Monitoring as part of the definition of Done
   We have <a href="https://github.com/realityforge-cookbooks/collectd">rewritten</a> the existing collectd cookbook to
   use an <a href="/code/2012/05/12/evolving-towards-cookbook-reusability-in-chef.html">attribute driven</a> approach
   so that each node need only define the appropriate attributes and include the appropriate collectd recipe to activate
-  appropriate plugins. A typical block used to configure a collectd node would look something like the following;
+  desired plugins. A typical block used to configure a collectd node would look something like the following;
 </p>
   
 {% highlight ruby %}
@@ -82,7 +82,8 @@ node.override['collectd']['plugins'] =
                           "FSType" => ["proc", "sysfs", "fusectl", "debugfs", "devtmpfs", "devpts", "tmpfs"],
                           "IgnoreSelected" => true}},
   }
-graphite_host, graphite_port = ... # Use utility method to search for graphite server
+# Use a utility method to search for the graphite server
+graphite_host, graphite_port = ...
 if graphite_host
   node.override['collectd']['plugins']['write_graphite'] =
       {'config' => {'Host' => graphite_host,
@@ -100,7 +101,8 @@ include_recipe "collectd::attribute_driven"
 </p>
 
 {% highlight ruby %}
-graphite_host, graphite_port = ... # Use utility method to search for graphite server
+# Use a utility method to search for the graphite server
+graphite_host, graphite_port = ...
 if graphite_host
   node.override['chef_client']['handler']['graphite']['host'] = graphite_host
   node.override['chef_client']['handler']['graphite']['port'] = graphite_port
@@ -110,9 +112,9 @@ include_recipe "graphite_handler::default"
 {% endhighlight %}
 
 <p>
-  This is enough to configure the publishing of data about the nodes to graphite but we typically also want to
-  configure graphite to customize the retention policy for the data collected. This is done by configuring attributes
-  allowing the graphite node to discover the configuration on next converge. Below is an example configuration for the
+  This is enough to configure the publishing of data about the nodes to graphite but we also want to
+  configure graphite to customize the retention policy for the data collected. This is done by attribute configuration.
+  The graphite node discovers the configuration on next converge. Below is an example configuration for the
   chef statistics.
 </p>
 
@@ -128,10 +130,12 @@ node.default['graphite']['carbon']['storage_schemas']['chef'] =
 {% endhighlight %}
 
 <p>
-  So far we have collected data and pushed it into graphite but to build up a dashboard we use a similar approach. Each
-  application will publish attribute data defining a series of graphs and dashboard components. We use a
+  So far we have collected data and published it into graphite with a custom retention rules. To build up a dashboard
+  we use a similar technique. Each application publishes attribute data defining a series of graphs and dashboard
+  components. We use a
   <a href="https://github.com/realityforge-cookbooks/gdash">modified gdash cookbook</a> that uses search to discover
-  all the published graph components and construct a dashboard. An example for such a configuration is below;
+  all the published graph components and constructs a dashboard from the data. An example for such a configuration is
+  below;
 </p>
 
 {% highlight ruby %}
@@ -169,7 +173,7 @@ node.override['gdash']['dashboards']["#{node['hostname']}-node"] =
   }
 {% endhighlight %}
 
-<h4>Application Monitoring</h4>
+<h4>Application Level Monitoring</h4>
   
 <p>
   Our applications come in all shapes and sizes but we have many java (and jruby) based applications so we collect a 
@@ -180,7 +184,7 @@ node.override['gdash']['dashboards']["#{node['hostname']}-node"] =
   
 <p>
   We use the OpenMQ message broker that is part of the GlassFish server. To collect data about it's operation we use
-  a snippet that is not unlike the following to grab data out of JMX. This configuration is performed on the OpenMQ
+  a snippet that is not unlike the following to grab data out of JMX. This configuration is defined on the OpenMQ
   node.
 </p>
 
@@ -216,14 +220,22 @@ node.override['spydle']['probes'] = {
 }
 {% endhighlight %}
 
+<h4>Business Level Monitoring</h4>
+
+<p>
+  The business level metrics are collected from all sorts of places but the two main sources of information are; JMX characteristics exposed by our applications and values in the database. The metric data collected from the database
+  is often an aggregate SQL query against either our operational data store or our warehouse database. Spydle also
+  supports queries against a database. As a result spydle is the tool of choice at this level.
+</p>
+
 <h3>Releasing</h3>
   
 <p>
   The way we release our applications is we promote a new application specific cookbook and then run converge on the
   application node. This ensures that the application is deployed and the attribute data for the monitoring system is
   published on the node. We then converge the monitoring nodes and they discover the new configuration for the
-  application via search and update graphite/gdash/spydle etc configuration as necessary. Rollback is simple as it is 
-  just another release and a re-converge on the monitors ad the application nodes.   
+  application via search and update the graphite/gdash/spydle etc configuration as necessary. Rollback is simple as it is
+  just another release and a re-converge on the monitor nodes and the application nodes.
 </p>
   
 <h3>Conclusions</h3>
@@ -233,7 +245,7 @@ node.override['spydle']['probes'] = {
   configuration is a little more complex than is indicated above; we tend to have short retention times for data in
   environments other than production and we tend to limit the generation of graphs to environments we care about. We
   are trialing a few tools to generate alerts, mostly by querying graphite. The alerts will follow the same approach as
-  our other monitoring infrastructure and we will publish the alerts in the application node attributes. Once that is
+  our other monitoring infrastructure and we will publish the alerts in the application node's attributes. Once that is
   in place we will have much better insight into how our systems behave.
 </p>
-  
+
