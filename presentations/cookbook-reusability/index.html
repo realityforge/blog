@@ -250,7 +250,8 @@ end</code></pre></div>
 <h1>Search Example</h1>
 
 <pre class="sh_ruby"><code>queues = []
-search(:node, 'omq_dests_queues:*' + node.name) do |n|
+search(:node, 'omq_dests_queues:* AND ' +
+              'NOT name:' + node.name) do |n|
   queues.merge( n['omq']['dests']['queues'].to_hash )
 end
 queues.merge( node['omq']['dests']['queues'].to_hash )
@@ -291,7 +292,8 @@ end</code></pre></div>
 </div><div class="slide" data-transition="none"><div class="content smaller smaller smaller" ref="evolution/evolution/26">
 <h1>Example</h1>
 
-<pre class="sh_ruby"><code>search(:node, 'omq_dests_queues:*' + node.name) do |n|
+<pre class="sh_ruby"><code>search(:node, 'omq_dests_queues:* AND ' +
+              'NOT name:' + node.name) do |n|
   n.to_hash.each_pair do |key, value|
     node.override['omq']['dests']['queues'][key] = value
   end
