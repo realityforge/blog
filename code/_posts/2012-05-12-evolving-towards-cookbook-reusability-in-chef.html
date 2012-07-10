@@ -174,11 +174,11 @@ end
 {% highlight ruby %}
 node.override[:openmq][:extra_libraries] =  ["http://example.org/repo/myext.jar"]
 
-queues = []
-search(:node, 'openmq_destinations_queues:* AND NOT name:' + node.name) do |n|
-  queues.merge( n['openmq']['destinations']['queues'].to_hash )
+search(:node, 'omq_dests_queues:*' + node.name) do |n|
+  n.to_hash.each_pair do |key, value|
+    node.override['omq']['dests']['queues'][key] = value
+  end
 end
-queues.merge( node['openmq']['destinations']['queues'].to_hash )
 
 include_recipe "glassfish::attribute_driven_mq"
 {% endhighlight %}
