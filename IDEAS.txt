@@ -1,0 +1,3 @@
+* rake=thor=chef
+* java node for chef in EE app server
+
