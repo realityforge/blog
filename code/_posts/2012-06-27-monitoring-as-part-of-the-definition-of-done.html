@@ -62,7 +62,7 @@ title: Monitoring as part of the definition of done using Chef
 </p>  
   
 <p>
-  We have <a href="https://github.com/realityforge-cookbooks/collectd">rewritten</a> the existing collectd cookbook to
+  We have <a href="https://github.com/realityforge/chef-collectd">rewritten</a> the existing collectd cookbook to
   use an <a href="/code/2012/05/12/evolving-towards-cookbook-reusability-in-chef.html">attribute driven</a> approach
   so that each node need only define the appropriate attributes and include the appropriate collectd recipe to activate
   desired plugins. A typical block used to configure a collectd node would look something like the following;
@@ -96,7 +96,7 @@ include_recipe "collectd::attribute_driven"
 
 <p>
   Of course we also consider statistics about our chef execution to be important enough to monitor and we use the
-  <a href="https://github.com/realityforge-cookbooks/graphite_handler">graphite_handler</a> cookbook to collect these
+  <a href="https://github.com/realityforge/chef-graphite_handler">graphite_handler</a> cookbook to collect these
   statistics.
 </p>
 
@@ -133,7 +133,7 @@ node.default['graphite']['carbon']['storage_schemas']['chef'] =
   So far we have collected data and published it into graphite with a custom retention rules. To build up a dashboard
   we use a similar technique. Each application publishes attribute data defining a series of graphs and dashboard
   components. We use a
-  <a href="https://github.com/realityforge-cookbooks/gdash">modified gdash cookbook</a> that uses search to discover
+  <a href="https://github.com/realityforge/chef-gdash">modified gdash cookbook</a> that uses search to discover
   all the published graph components and constructs a dashboard from the data. An example for such a configuration is
   below;
 </p>
@@ -177,7 +177,7 @@ node.override['gdash']['dashboards']["#{node['hostname']}-node"] =
   
 <p>
   Our applications come in all shapes and sizes but we have many java (and jruby) based applications so we collect a 
-  lot of the monitoring data via JMX. We developed a small tool (<a href="https://github.com/realityforge/spydle">spydle</a>) and a corresponding chef <a href="https://github.com/realityforge-cookbooks/spydle">cookbook</a> that periodically
+  lot of the monitoring data via JMX. We developed a small tool (<a href="https://github.com/realityforge/spydle">spydle</a>) and a corresponding chef <a href="https://github.com/realityforge/chef-spydle">cookbook</a> that periodically
   polls the applications using JMX and pushes the data to the graphite server. The cookbook uses search to discover the
   configurations that other nodes have published and adds that to the pollers configuration. 
 </p>

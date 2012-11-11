@@ -90,7 +90,7 @@ end
   Resources (via LWRPs) were the next abstraction that we introduced. This made it easy to repeat similar sets of
   complex actions in many recipes with minor differences in configurations. A typical scenario involves defining
   multiple queues in a message broker, such as this snippet using the
-  <a href="http://github.com/realityforge-cookbooks/glassfish">glassfish</a> cookbook;
+  <a href="http://github.com/realityforge/chef-glassfish">glassfish</a> cookbook;
 </p>
 
 {% highlight ruby %}
@@ -185,7 +185,7 @@ include_recipe "glassfish::attribute_driven_mq"
 
 <p>
   This approach seems to have given us a way to create a reusable cookbook (
-  <a href="http://github.com/realityforge-cookbooks/glassfish">glassfish</a> in the case above) with the components
+  <a href="http://github.com/realityforge/chef-glassfish">glassfish</a> in the case above) with the components
   that are less likely to be reused in a separate "policy" recipe. We are already using this to successfully manage an
   application server, a message broker, to configure monitoring and logging and to apply firewall rules.
   I wonder if this is an approach that others have discovered and if it could be applied to other cookbooks.
