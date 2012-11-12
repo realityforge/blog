@@ -1,0 +1,261 @@
+---
+layout: post
+title: Reusable Cookbooks Revisited
+---
+
+<p>
+  It seems reusable cookbooks are a hot topic at the moment. I recently sat in on the
+  <a href="http://foodfightshow.org/2012/11/google-plus-hangouts.html">Reusable Cookbook Patterns</a> hangout run by
+  the most excellent <a href="http://foodfightshow.org/">Food Fight show</a> where <a href="https://coderanger.net/">
+  Noah Kantrowitz</a> gave his thoughts on "Application" versus "Library" cookbooks. His approach aligned with
+  the way we have approached cookbook reusability (See "<a href="/code/2012/05/12/evolving-towards-cookbook-reusability-in-chef.html">
+  Evolving towards cookbook reusability in Chef</a>" for a basic overview of our view on reusability after using Chef
+  for six months).
+</p>
+
+<p>
+  If I was to simplify Noah's view down I believe it would be that "library" cookbooks are a collection of LWRPs that
+  manipulate resources. The "library" cookbook may also include a default recipe that installs the actual bits on the
+  system. The "application" cookbooks depend on the "library" cookbook and then use the "library" cookbooks LWRPs to
+  configure the system. (It should be noted that the term "application" cookbooks seemed to identify any cookbook that
+  uses a "library" cookbook). The way that an "application" cookbook communicates with a "library" cookbook is through
+  what Noah describes as "data capsules" which I believe just means rich data types passed into the LWRPs.
+</p>
+
+<p>
+  Our basic pattern for reusable cookbooks follows a similar approach except that the way we communicate with the
+  reusable cookbooks is to use simple types - essentially anything that can be represented in json; numbers, strings,
+  booleans, arrays and hashes. We go one step further in that we also define a recipe that reads node attributes
+  and interprets the attributes to invoke the required LWRPs. The motivation for this was to DRY up our cookbooks. It
+  also makes it easy to use other cookbooks that manipulate attribute data such as Heavywater's
+  <a href="https://github.com/hw-cookbooks/bag_config">bag_config</a> cookbook.
+</p>
+
+<h3>An Example</h3>
+
+<p>
+  To highlight this I will make use of the <a href="http://github.com/realityforge/chef-glassfish">glassfish</a>
+  cookbook again. GlassFish is an an application server in which you install sub-components such as web applications,
+  libraries, database pools, message broker references etc.
+</p>
+
+<p>
+  Below are two ways of configuring a small, simple web application. The application uses a database and has a single
+  configuration entry accessible via JNDI. The actual code in the two recipes is not important for the conversation but
+  it is presented to give you a feel of the different approaches.
+</p>
+
+<h4>Using an attribute_driven recipe</h4>
+
+{% highlight ruby %}
+node.override['glassfish']['domains']['mydomain'] =
+{
+  'config' =>
+  {
+    'max_memory' => 1548,
+    'max_perm_size' => 192,
+    'port' => 80,
+    'admin_port' => 8085,
+    'max_stack_size' => 128,
+    'username' => 'admin',
+    'password' => 'secret'
+  },
+  'deployables' =>
+  {
+    'somapp' =>
+    {
+      'url' => 'http://repo.example.com/somapp-0.17.war',
+      'context_root' => '/somapp'
+    }
+  },
+  'extra_libraries' =>
+  {
+    'mydatabasedriver' =>
+       'http://repo.example.com/mydatabasedriver-1.2.3.jar'
+  },
+  'jdbc_connection_pools' =>
+    {
+      'SomeappSQL' =>
+      {
+        'datasourceclassname' => 'net.sourceforge.jtds.jdbcx.JtdsDataSource',
+        'restype' => 'javax.sql.DataSource',
+        'isconnectvalidatereq' => 'true',
+        'validationmethod' => 'auto-commit',
+        'ping' => 'true',
+        'description' => 'SomeappSQL Connection Pool',
+        'properties' =>
+        {
+           'Instance' => 'Instance1',
+           'ServerName' => 'db.example.com',
+           'User' => 'dbadmin',
+           'Password' => 'dbsecret'
+           'PortNumber' => '1433',
+           'DatabaseName' => 'SOMEAPP'
+        },
+        'resources' =>
+        {
+          'jdbc/SomeappDS' =>
+            {'description' => 'SomeappSQL Connection Resource'}
+        }
+    },
+    'custom_resources' =>
+    {
+      'MyServiceURL' => 'http://other.example.com:1234/MyService'
+    }
+}
+
+include_recipe 'glassfish::attribute_driven_domain'
+{% endhighlight %}
+
+<h4>Using raw LWRPs</h4>
+
+{% highlight ruby %}
+include_recipe 'glassfish::default'
+
+password_file = "#{node['glassfish']['domains_dir']}/#{domain_key}_admin_passwd"
+glassfish_domain 'mydomain' do
+  max_memory 1548
+  max_perm_size 192
+  max_stack_size 128
+  port 80
+  admin_port 8085
+  username 'admin'
+  password_file password_file
+  secure true
+  password 'secret'
+end
+glassfish_library 'http://repo.example.com/mydatabasedriver-1.2.3.jar' do
+  domain_name 'mydomain'
+  admin_port 8085
+  username 'admin'
+  password_file password_file
+  secure true
+  library_type 'ext'
+end
+glassfish_jdbc_connection_pool 'SomeappSQL' do
+  domain_name 'mydomain'
+  admin_port 8085
+  username 'admin'
+  password_file password_file
+  secure true
+  datasourceclassname 'net.sourceforge.jtds.jdbcx.JtdsDataSource'
+  restype 'javax.sql.DataSource'
+  isconnectvalidatereq true
+  validationmethod 'auto-commit'
+  ping true
+  description 'SomeappSQL Connection Pool'
+  properties {
+     'Instance' => 'Instance1',
+     'ServerName' => 'db.example.com',
+     'User' => 'dbadmin',
+     'Password' => 'dbsecret'
+     'PortNumber' => '1433',
+     'DatabaseName' => 'SOMEAPP'
+  }
+end
+glassfish_jdbc_resource 'jdbc/SomeappDS' do
+  domain_name 'mydomain'
+  admin_port 8085
+  username 'admin'
+  password_file password_file
+  secure true
+  connectionpoolid 'SomeappSQL'
+  description 'SomeappSQL Connection Resource'
+end
+glassfish_custom_resource 'MyServiceURL' do
+  domain_name 'mydomain'
+  admin_port 8085
+  username 'admin'
+  password_file password_file
+  secure true
+  value 'http://other.example.com:1234/MyService'
+end
+glassfish_deployable 'somapp' do
+  domain_name 'mydomain'
+  admin_port 8085
+  username 'admin'
+  password_file password_file
+  secure true
+  url 'http://repo.example.com/somapp-0.17.war'
+  context_root '/somapp'
+end
+{% endhighlight %}
+
+<h4>Comparison</h4>
+
+<p>
+  The attribute_driven recipe is marginally smaller (56 lines versus 68 lines) and this is mostly is due to the
+  repetition when using raw LWRPs. However the greatest advantage that we see for the attribute_driven approach is the
+  simpler cognitive model.
+</p>
+<p>
+  In most cases using raw LWRPs requires that the caller understands the implicit ordering
+  requirements. i.e. Database pools and resources need to be set up before the application is deployed. The user of
+  the raw LWRPs also needs to manually manage the removal of resources when they are no longer required. Compare this
+  to the attribute_driven recipe approach that can automatically determine that a database pool, deployable or other
+  component is no longer required (as it no longer appears in attribute data) and remove the component from the
+  glassfish server.
+</p>
+
+<p>
+  Using the attribute_driven recipe does not remove the ability to directly use the raw LWRPs when needed. However 95%
+  of the time we can get away with working at a higher level using the attribute_driven recipe.
+</p>
+
+<p>
+  Our approach also makes it easy it easy to build up configuration from multiple sources. In our environment we
+  typically build up configuration data from data bags in the chef server, a separate configuration service,
+  LDAP/ActiveDirectory, a rule layer as well as occasionally hard coding the configuration into a recipe. However after
+  we have collected the configuration from the various sources, we just need to apply it as node attribute data and
+  include the attribute_driven recipe. Hopefully there are fewer problems resulting from transcribing the
+  configuration from one source to the node data than there are if we had to interpret the configuration data and
+  invoking the LWRPs in the correct sequences.
+ </p>
+
+ <p>
+   In fact recently we have introduced a
+  '<a href="https://github.com/realityforge/chef-glassfish/blob/master/recipes/search_driven_domain.rb">search_driven
+  </a>' recipe that crystallizes a common approach to collecting configuration data. It searches a particular index,
+  using a particular query and extracts data from within the index and applies the data to the node in the correct
+  location. Essentially that means we can store all our configuration data in the data bags for a particular glassfish
+   domain.
+</p>
+
+<h4>Using a search_driven recipe</h4>
+
+{% highlight ruby %}
+# Specify the index to search. Usually defaults to domain name..
+node.override['glassfish']['domains']['mydomain']['discover']['type'] = 'front_end'
+# Specify the query to use. Defaults to '*:*'
+node.override['glassfish']['domains']['mydomain']['discover']['query'] =
+  "chef_environment:#{node.chef_environment}"
+# Specify the key to merge into domain config. Defaults to 'config'
+node.override['glassfish']['domains']['mydomain']['discover']['query'] = 'myconfig'
+
+include_recipe 'glassfish::search_driven_domain'
+{% endhighlight %}
+
+<h3>When to use re-usable Cookbooks?</h3>
+
+<p>
+  So one question that not a lot of time was spent on during the hangout was <em>when</em> to use "library" cookbooks.
+  We are strong proponents of reusable cookbooks and yet in our infrastructure, only 5 of our 70+ cookbooks fall into
+  this category. I can envision the ratio going up to as many as 9 in ~55 cookbooks but that is still a small
+  proportion of our cookbooks. The reusable cookbooks include core functionality such as; firewalls, monitoring, the
+  application server, the message broker and the content management system. Other cookbooks may be reusable to one
+  degree or another but o other cookbook follows the "library" design pattern.
+</p>
+
+<p>
+  There seemed to be a strong turnout from those who have come from the developer tradition in contrast to the
+  operations tradition which may account for the strong push towards reuse and higher level abstractions. Our LWRPs
+  tend to be thin veneers on top of abstractions in the underlying tool and the attribute_driven recipes are thin
+  veneers on top of the LWRPs. I can see that higher level abstractions that are widely applicable may have merit and
+  may even drive infrastructure decisions. Rails was remarkable in the way it simplified development through a set of
+  conventions and higher level abstractions and maybe that approach could be just as successful in Chef. However that
+  is not something we do locally so I don't have a feeling for how good or bad it could be.
+</p>
+
+ <p>
+  Overall I enjoyed the hangout - it is pleasing to see a lot of smart and passionate people in the chef community.
+ </p>
