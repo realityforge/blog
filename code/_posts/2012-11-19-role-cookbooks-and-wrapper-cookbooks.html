@@ -1,0 +1,138 @@
+---
+layout: post
+title: Role Cookbooks and Wrapper Cookbooks
+---
+
+<p>
+  Roles in chef are un-versioned. Early in our adoption of chef we defined our roles as a run list and a collection of
+  attributes. Our infrastructure is set up such that almost all of our environments share a single chef server and each
+  node periodically checks in with the chef server and updates itself as appropriate. We wanted a way for roles to
+  propagate between our environments step by step, validating the role met our requirements at each step before being
+  promoted to the next step. i.e. A role should be deployed to the 'development' environment and then 'integration',
+  'uat', 'staging' and finally 'production'.
+</p>
+<p>
+  Initially we broke our environments a few times when we updated our role definitions. Then we attempted to use an
+  ugly naming schema to upgrade roles so we ended up with a scenario where we had the 'myrole_v4' role in 'development',
+  the 'myrole_v3' role in the 'uat' environment and the 'myrole_v1' role in the 'production' environment. Finally we
+  realized that Chef already has a mechanism for versioning artifacts - namely cookbooks.
+</p>
+
+<h3>Role Cookbooks</h3>
+
+<p>
+  Today our roles simply include a single recipe, the role recipe. The role recipe then uses "include_recipe" to include
+  other recipes in the required order. This allows us to rely on chefs builtin version resolution mechanisms to version
+  our roles. Our role and associated 'role cookbook' looks something not unlike the following;
+</p>
+
+<h5>roles/foo.rb</h5>
+{% highlight ruby %}
+name "foo"
+description "Foo Server"
+run_list("recipe[mybiz-foo]")
+{% endhighlight %}
+
+<h5>cookbooks/mybiz-foo/metadata.rb</h5>
+{% highlight ruby %}
+name "mybiz-foo"
+description "Sets up the Foo Server"
+version "0.4.2"
+...
+depends "ntp"
+depends "git"
+depends "foo"
+{% endhighlight %}
+
+<h5>cookbooks/mybiz-foo/recipes/default.rb</h5>
+{% highlight ruby %}
+include_recipe "ntp"
+include_recipe "git"
+include_recipe "foo"
+{% endhighlight %}
+
+<p>
+  Using this approach allowed us to have a single role "foo". However the associated cookbook/recipe may have a
+  different version in different environments. This allowed us to easily control the evolution of the role and the
+  promotion of the role between different environments.
+</p>
+
+<h3>Wrapper Cookbooks</h3>
+
+<p>
+  Role cookbooks were great at being able to version the run list of our roles but it did not solve the problem of
+  attributes in our roles. The attribute data was what we used to customize the cookbooks for our particular business.
+  We had struggled with the interaction between the place the attributes are specified (i.e. node, environment, role,
+  cookbook) and the precedence levels (i.e.  default, normal, override and automatic). So we decided to simplify.
+</p>
+<p>
+  For every cookbook and/or recipe we wanted to customize we created a separate 'wrapper' recipe that set the required
+  attributes and included the recipe from the original cookbook. This resulted in a layout that looked like the
+  following;
+</p>
+
+<h5>cookbooks/mybiz-bar/metadata.rb</h5>
+{% highlight ruby %}
+name "mybiz-bar"
+description "Sets up the Bar Server"
+version "0.1.3"
+...
+depends "bar"
+{% endhighlight %}
+
+<h5>cookbooks/mybiz-bar/recipes/default.rb</h5>
+{% highlight ruby %}
+
+node.override['bar']['port'] = 80
+node.override['bar']['interface'] = '0.0.0.0'
+node.override['bar']['host'] = 'bar.mybiz.example.com'
+node.override['bar']['max_threads'] = 250
+
+include_recipe "bar"
+{% endhighlight %}
+
+<p>
+  We also decided that wrapper cookbooks would only ever set attributes using the 'override' precedence. Cookbooks set
+  attributes using the 'default' precedence if a wrapper cookbook is allowed to override the attribute. Cookbooks can
+  also set attributes using the 'override' precedence if they are publishing attribute data for other cookbooks to use
+  but do not expect other cookbooks to override the attribute data.
+</p>
+<p>
+  Using this technique, there was effectively only one place to look for customisations and you did not have to think
+  about the precedence rules.
+</p>
+
+<h3>Role or Wrapper Cookbook?</h3>
+
+<p>
+  While I presented role and wrapper cookbooks as separate concepts and separate cookbooks, this need not be the case.
+  If the recipe in a wrapper cookbook is only used within a single role cookbook and it is relatively simple then we
+  tend to move the wrapper recipe into the role cookbook. Only when there is complex logic required or a cookbook is
+  used by multiple roles do we bother creating a separate wrapper cookbook.
+</p>
+
+<h3>Environments</h3>
+
+<p>
+  Our environments do still have some attribute data within them but the data tends to be used to drive a rules layer.
+  For example, our environment attributes specify a data center key. Later, in a wrapper cookbooks we examine the data
+  center key and set the appropriate name servers and ntp servers (neither of which are managed by chef).
+</p>
+
+<h3>Closing thoughts</h3>
+
+<p>
+  These cookbook patterns are not unique to our infrastructure. The wrapper cookbook is in some ways a limited form of
+  the "application" cookbook pattern described in the latest Food Fight show
+  <a href="http://foodfightshow.org/2012/11/google-plus-hangouts.html">hangout</a>.
+  <a href="https://twitter.com/resetexistence">Jamie Winsor</a> from Riot Games has also mentioned role cookbooks as
+  did Joseph Holsten on the mailing list.
+</p>
+
+<p>
+  One thing we have yet to try but I am really excited about is using monkey patching in the wrapper cookbook to modify
+  resources defined in the original cookbook after it has been included. Bryan Berry put together the
+  <a href="https://github.com/bryanwb/chef-rewind">chef-rewind</a> gem that makes it simple to patch the resources
+  already defined. Joshua Timberman also <a href="http://jtimberman.housepub.org/blog/2012/11/19/chef-repository-berkshelf-conversion/">demonstrated</a> a slightly more raw way of modifying
+  already defined resources.
+</p>
