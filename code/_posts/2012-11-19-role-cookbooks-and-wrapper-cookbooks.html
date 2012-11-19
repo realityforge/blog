@@ -6,15 +6,18 @@ title: Role Cookbooks and Wrapper Cookbooks
 <p>
   Roles in chef are un-versioned. Early in our adoption of chef we defined our roles as a run list and a collection of
   attributes. Our infrastructure is set up such that almost all of our environments share a single chef server and each
-  node periodically checks in with the chef server and updates itself as appropriate. We wanted a way for roles to
-  propagate between our environments step by step, validating the role met our requirements at each step before being
-  promoted to the next step. i.e. A role should be deployed to the 'development' environment and then 'integration',
-  'uat', 'staging' and finally 'production'.
+  node periodically checks in with the chef server and updates itself as appropriate.
 </p>
 <p>
-  Initially we broke our environments a few times when we updated our role definitions. Then we attempted to use an
-  ugly naming schema to upgrade roles so we ended up with a scenario where we had the 'myrole_v4' role in 'development',
-  the 'myrole_v3' role in the 'uat' environment and the 'myrole_v1' role in the 'production' environment. Finally we
+  We wanted a way for roles to propagate between our environments step by step, validating the role met our
+  requirements at each step before being promoted to the next step. i.e. A role should be deployed to the 'development'
+  environment and then 'integration', 'uat', 'staging' and finally 'production'.
+</p>
+<p>
+  Initially we broke our environments a few times when we updated our role definitions as these definitions were shared
+  across all environments. To address this we attempted to use an ugly naming schema of roles, suffixing a version.
+  So we ended up with a scenario where we had the 'myrole_v4' role in 'development', the 'myrole_v3' role in the 'uat'
+  environment and the 'myrole_v1' role in the 'production' environment. This approach did not feel right. Finally we
   realized that Chef already has a mechanism for versioning artifacts - namely cookbooks.
 </p>
 
@@ -67,7 +70,7 @@ include_recipe "foo"
 </p>
 <p>
   For every cookbook and/or recipe we wanted to customize we created a separate 'wrapper' recipe that set the required
-  attributes and included the recipe from the original cookbook. This resulted in a layout that looked like the
+  attributes and then included the recipe from the original cookbook. This resulted in a layout that looked like the
   following;
 </p>
 
@@ -92,14 +95,14 @@ include_recipe "bar"
 {% endhighlight %}
 
 <p>
-  We also decided that wrapper cookbooks would only ever set attributes using the 'override' precedence. Cookbooks set
-  attributes using the 'default' precedence if a wrapper cookbook is allowed to override the attribute. Cookbooks can
-  also set attributes using the 'override' precedence if they are publishing attribute data for other cookbooks to use
-  but do not expect other cookbooks to override the attribute data.
+  We also decided that wrapper cookbooks would only ever set attributes using the 'override' precedence. Cookbooks
+  should set attributes using the 'default' precedence if a wrapper cookbook is allowed to override the attribute.
+  Cookbooks can also set attributes using the 'override' precedence if they are publishing attribute data for other
+  cookbooks to use but do not expect the other cookbooks to override the attribute data.
 </p>
 <p>
-  Using this technique, there was effectively only one place to look for customisations and you did not have to think
-  about the precedence rules.
+  Using this technique, there was effectively only one place to look for cookbook customisations and you did not have
+  to think about the precedence rules. It felt much easier to manage our cookbooks.
 </p>
 
 <h3>Role or Wrapper Cookbook?</h3>
@@ -130,9 +133,10 @@ include_recipe "bar"
 </p>
 
 <p>
-  One thing we have yet to try but I am really excited about is using monkey patching in the wrapper cookbook to modify
+  One thing we have yet to try but I am really excited about is resource patching in the wrapper cookbook to modify
   resources defined in the original cookbook after it has been included. Bryan Berry put together the
   <a href="https://github.com/bryanwb/chef-rewind">chef-rewind</a> gem that makes it simple to patch the resources
   already defined. Joshua Timberman also <a href="http://jtimberman.housepub.org/blog/2012/11/19/chef-repository-berkshelf-conversion/">demonstrated</a> a slightly more raw way of modifying
-  already defined resources.
+  already defined resources. Both look like effective ways of keeping the line between vendored cookbooks and business
+  specific cookbooks clear.
 </p>
