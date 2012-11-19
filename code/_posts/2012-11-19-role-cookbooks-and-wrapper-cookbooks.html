@@ -95,11 +95,19 @@ include_recipe "bar"
 {% endhighlight %}
 
 <p>
-  We also decided that wrapper cookbooks would only ever set attributes using the 'override' precedence. Cookbooks
-  should set attributes using the 'default' precedence if a wrapper cookbook is allowed to override the attribute.
-  Cookbooks can also set attributes using the 'override' precedence if they are publishing attribute data for other
-  cookbooks to use but do not expect the other cookbooks to override the attribute data.
+  We also decided on a few simple rules for setting attributes;
 </p>
+<ul>
+  <li>Wrapper cookbooks should only ever set attributes using the 'override' precedence.</li>
+  <li>
+    Cookbooks should set attributes using the 'default' precedence if a wrapper cookbook is allowed to override the
+    attribute.
+  </li>
+  <li>
+    Cookbooks may set attributes using the 'override' precedence if they are publishing attribute data for other
+    cookbooks to use but do not expect the other cookbooks to override the attribute data.
+  </li>
+</ul>
 <p>
   Using this technique, there was effectively only one place to look for cookbook customisations and you did not have
   to think about the precedence rules. It felt much easier to manage our cookbooks.
