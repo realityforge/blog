@@ -1,23 +1,32 @@
 #!/usr/bin/env bash
 cat <<EOF
-********************************************************************
-*  RVM will install the environment for the Blog development now.
-********************************************************************
+*****************************************************
+*  RVM will setup the development environment now.  *
+*****************************************************
 EOF
 
-ruby_string="ruby-1.9.2-p320"
-bundler_gem_home="vendor/bundle"
+DIR="$( realpath "$(dirname "${BASH_SOURCE[0]}")")"
 
-if rvm list strings | grep -q "${ruby_string}" ; then
-  rvm use --create "${ruby_string}@blog"
+if [ -f "${DIR}/.ruby_version" ]; then
+  ruby_string=${RVM_RUBY_NAME-`cat "${DIR}/.ruby_version" 2>/dev/null`}
+  ruby_string="${ruby_string//[[:space:]]/}"
+else
+  ruby_string=${RVM_RUBY_NAME-"1.9.3"}
+fi
+export project_name=${RVM_GEMSET_NAME-`basename $DIR`}
 
+detected_version=`rvm list strings | grep ${ruby_string}`
+if [ "X" == "X${detected_version}" ] ; then
+  echo "${ruby_string} was not found, running 'rvm install ${ruby_string}'..."
+  rvm install ${ruby_string}
+fi
+
+rvm use --create "${ruby_string}@${project_name}"
+
+if [ -f "${DIR}/Gemfile" ]; then
   gem list | grep 'bundler' &> /dev/null
   if [ $? -gt 0 ]; then
-    echo "Installing bundler..."
     gem install bundler
   fi
-
-  bundle install
-else
-  echo "${ruby_string} was not found, please run 'rvm install ${ruby_string}' and then cd back into the project directory." 
+  bundle install --binstubs | grep -v 'Using' | grep -v 'complete' | sed '/^$/d'
 fi
