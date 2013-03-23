@@ -1,3 +1,14 @@
 * rake=thor=chef
 * java node for chef in EE app server
+* Blog Idea: Chef Provider nodes and their reuse patterns
+* Blog Idea: Chef Hates
+* Equation for Change:
+  - http://www.kitchensoap.com/2013/01/03/availability-nuance-as-a-service/?utm_source=twitterfeed&utm_medium=twitter
 
+  Cost of Change = X
+  Cost of Recovery = Y
+  Probability of Failure = P
+  Cost of Failure = C
+  Benefit of Change = B
+
+  (1 - P).B - (P.C.Y + X)
