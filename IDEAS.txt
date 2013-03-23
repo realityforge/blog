@@ -1,5 +1,6 @@
 * rake=thor=chef
 * java node for chef in EE app server
+* Our Chef Workflow
 * Blog Idea: Chef Provider nodes and their reuse patterns
 * Blog Idea: Chef Hates
 * Equation for Change:
