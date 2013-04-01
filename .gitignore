@@ -1,7 +1,7 @@
-_site
+/_site
 .DS_Store
-_feeds
+/_feeds
 /_includes/smugmug.html
-blog.iml
-blog.ipr
-blog.iws
+/blog.iml
+/blog.ipr
+/blog.iws
