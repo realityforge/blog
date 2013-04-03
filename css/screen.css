@@ -81,11 +81,6 @@ Dark => Light
 
 	p img { padding: 0; max-width: 100%; }
 
-/* disqus */
-.dsq-community-box, .dsq-like-thread, .dsq-global-toolbar, .dsq-global-toolbar-right, .dsq-dislike-thread, .dsq-like-panel, .dsq-like, #dsq-comments-title, .dsq-options, .dsq-request-user-stats, .dsq-authenticate, .dsq-dc-logo, .dsq-sharing-options, .dsq-media-link { display: none !important; }
-.dsq-comment-header, .dsq-toolbar-item { background-color: #A4C1DA !important; color: #2E4559 !important; font-size-adjust:none;}
-
-
 ul.article_list li span {width:7em;display: inline-block;}
 
 
