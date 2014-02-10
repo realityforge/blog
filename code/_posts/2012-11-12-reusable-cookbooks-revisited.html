@@ -77,20 +77,23 @@ node.override['glassfish']['domains']['mydomain'] =
     {
       'SomeappSQL' =>
       {
-        'datasourceclassname' => 'net.sourceforge.jtds.jdbcx.JtdsDataSource',
-        'restype' => 'javax.sql.DataSource',
-        'isconnectvalidatereq' => 'true',
-        'validationmethod' => 'auto-commit',
-        'ping' => 'true',
-        'description' => 'SomeappSQL Connection Pool',
-        'properties' =>
+        'config' =>
         {
-           'Instance' => 'Instance1',
-           'ServerName' => 'db.example.com',
-           'User' => 'dbadmin',
-           'Password' => 'dbsecret'
-           'PortNumber' => '1433',
-           'DatabaseName' => 'SOMEAPP'
+          'datasourceclassname' => 'net.sourceforge.jtds.jdbcx.JtdsDataSource',
+          'restype' => 'javax.sql.DataSource',
+          'isconnectvalidatereq' => 'true',
+          'validationmethod' => 'auto-commit',
+          'ping' => 'true',
+          'description' => 'SomeappSQL Connection Pool',
+          'properties' =>
+          {
+             'Instance' => 'Instance1',
+             'ServerName' => 'db.example.com',
+             'User' => 'dbadmin',
+             'Password' => 'dbsecret'
+             'PortNumber' => '1433',
+             'DatabaseName' => 'SOMEAPP'
+          }
         },
         'resources' =>
         {
