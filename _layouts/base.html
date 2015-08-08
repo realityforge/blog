@@ -1,0 +1,33 @@
+<html>
+<head profile="http://gmpg.org/xfn/11">
+  <title>{{ page.title }}</title>
+  <meta name="author" content="{{ site.blog.author }}"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <link href="/atom.xml" rel="alternate" title="{{ page.blog.title }}" type="application/atom+xml"/>
+  <link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+  <link rel='index' title='RealityForge.org' href='{{ site.blog.url }}'/>
+
+  <!-- syntax highlighting CSS -->
+  <link rel="stylesheet" href="/css/syntax.css" type="text/css"/>
+  <link rel="stylesheet" href="/css/screen.css" type="text/css" media="screen, projection"/>
+</head>
+<body>
+{% include ie_warning.html %}
+
+{{ content }}
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try{
+var pageTracker = _gat._getTracker("UA-107024-1");
+pageTracker._trackPageview();
+} catch(err) {}
+</script>
+<!-- Google Analytics end -->
+
+</body>
+</html>
