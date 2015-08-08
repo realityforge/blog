@@ -8,13 +8,13 @@ task :build do
   sh 'jekyll build'
 end
 
-desc 'Start server with --auto'
+desc 'Start server with --watch'
 task :server do
-  sh 'jekyll --server --auto'
+  sh 'jekyll serve --watch'
 end
 
-desc 'Start server without --auto'
+desc 'Start server without --watch'
 task :noauto_server do
-  sh 'jekyll --server'
+  sh 'jekyll serve'
 end
 
