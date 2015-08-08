@@ -5,7 +5,7 @@ task :default => :build
 desc 'Build site with Jekyll'
 task :build do
   sh 'rm -rf _site'
-  jekyll
+  jekyll('build')
 end
 
 desc 'Start server with --auto'
@@ -25,6 +25,6 @@ task :deploy => [:build] do
   sh 'rsync -rtzh --progress --delete --exclude "/laptop"  --exclude "/static" _site/ pdonald@realityforge.org:~/www/www.realityforge.org/'
 end
 
-def jekyll(opts = '')
+def jekyll(opts)
   sh 'jekyll ' + opts
 end
