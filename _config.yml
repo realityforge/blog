@@ -1,5 +1,5 @@
 markdown: rdiscount
-pygments: true
+highlighter: pygments
 exclude: ['Rakefile', 'README.textile', 'blog.ipr', 'blog.iws', 'blog.iml']
 blog:
     title: RealityForge.org
