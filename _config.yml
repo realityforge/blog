@@ -1,6 +1,6 @@
 markdown: rdiscount
 highlighter: pygments
-exclude: ['Rakefile', 'README.textile', 'blog.ipr', 'blog.iws', 'blog.iml']
+exclude: ['Rakefile', 'blog.ipr', 'blog.iws', 'blog.iml']
 blog:
     title: RealityForge.org
     subtitle: A little short for a storm trooper
