@@ -18,13 +18,6 @@ task :noauto_server do
   jekyll('--server')
 end
 
-desc 'Rebuild and deploy'
-task :deploy => [:build] do
-  task(:build).invoke
-  copy '.htaccess', '_site/.htaccess'
-  sh 'rsync -rtzh --progress --delete --exclude "/laptop"  --exclude "/static" _site/ pdonald@realityforge.org:~/www/www.realityforge.org/'
-end
-
 def jekyll(opts)
   sh 'jekyll ' + opts
 end
