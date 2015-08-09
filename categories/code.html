@@ -3,6 +3,9 @@ layout: page
 title: Code
 ---
 <h1>{{ page.title }}</h1>
+
+<p>I am a programmer and I like what I do so I often write about it. This page is the launch page for the articles that talk about code.</p>
+
 <ul class="article_list">
 {% for post in site.categories.code %}
 <li><span>{{ post.date | date_to_string }}</span> &raquo; <a href="{{ post.url }}">{{ post.title }}</a></li>
