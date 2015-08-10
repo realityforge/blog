@@ -40,6 +40,7 @@ Dark => Light
 
 /* layout */
 	#wrap { width:990px; margin:0 auto 0; overflow:hidden; }
+	#c_error { width:640px; float:left; overflow:hidden; padding:0; margin:0; background-color: white;  border: solid 6px #2E4559; padding-left: 59px; padding-right: 59px; }
 	#c1 { width:580px; float:left; overflow:hidden; padding:0; margin:0; background-color: white;  border: solid 6px #2E4559; padding-left: 59px; padding-right: 59px; }
   .c1_end { overflow:hidden; text-align: center; padding:15px; }
 	.aside { width:238px; float:left; overflow:hidden; padding:10px; margin:0 0 0 10px; line-height:160%; color:#2E4559; background-color: white; border: solid 6px #2E4559; }
