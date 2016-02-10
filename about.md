@@ -16,7 +16,7 @@ Once upon a time I was enrolled in a PhD student at [La Trobe University](http:/
 
 Feel free to browse the site and if you need to contact me, here is my email address:
 
-p=. ![Email Address](/images/email.png "Email Address")
+![Email Address](/images/email.png "Email Address")
 
 <div id="footer">
 {{ site.blog.title }} is powered by <a href="http://github.com/mojombo/jekyll" target="_blank">Jekyll</a> and [Disqus](http://disqus.com) for comments.
