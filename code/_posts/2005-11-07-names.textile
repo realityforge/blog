@@ -1,7 +1,8 @@
---- 
+---
 layout: post
 title: Names
 ---
+
 I seem to have trouble starting projects without a name that I can use. Crazy as it seems I have waited around on starting on various software projects until a name came along that I liked. So this page is just a list of various names that are "coolish" sounding. It is unlikely that I will use any of them but hopefully they will inspire me enough to pick another name and just get started.
 
 h3. General Names
@@ -11,7 +12,7 @@ h3. General Names
 
 h3. Babble Names
 
-Babble was the name of the programming language I started to develop as an experiment. 
+Babble was the name of the programming language I started to develop as an experiment.
 
 * Pod
 * Beam
