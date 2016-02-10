@@ -5,17 +5,17 @@ task :default => :build
 desc 'Build site with Jekyll'
 task :build do
   sh 'rm -rf _site'
-  sh 'jekyll build'
+  sh 'bundle exec jekyll build'
 end
 
 desc 'Start server with --watch'
 task :server do
-  sh 'jekyll serve --watch'
+  sh 'bundle exec jekyll serve --watch'
 end
 
 desc 'Start server without --watch'
 task :noauto_server do
-  sh 'jekyll serve'
+  sh 'bundle exec jekyll serve'
 end
 
 task :convert_textile_to_markdown do
