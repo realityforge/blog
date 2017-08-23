@@ -1,5 +1,3 @@
-markdown: kramdown
-highlighter: rogue
 exclude: ['Rakefile', 'blog.ipr', 'blog.iws', 'blog.iml']
 blog:
     title: RealityForge.org
