@@ -1,10 +1,44 @@
 ---
-layout: page
+layout: base
 title: RealityForge.org
 ---
-<h1>Latest Blog Posts</h1>
-<ul class="article_list">
-{% for post in site.posts limit:5 %}
-<li><span>{{ post.date | date_to_string }}</span> &raquo; <a href="{{ post.url }}">{{ post.title }}</a></li>
-{% endfor %}
-</ul>
+
+<style>
+  .message-box {
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: solid 6px #2E4559;
+    margin: 0;
+    background-color: white;
+    padding: 0 59px;
+  }
+
+  .end-title {
+    text-transform: uppercase;
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: 15px;
+    text-align: center;
+  }
+
+  .end-subtitle {
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 5px;
+    text-align: center;
+  }
+</style>
+
+<div class="message-box">
+  <div>
+    <h1 class="end-title">Realityforge.org</h1>
+    <h2 class="end-subtitle">Site closed</h2>
+  </div>
+  <p>
+    This site has closed after much inactivity. The articles are still there if you know the direct link
+    or want to visit the <a href="old_index.html">old launch page</a>. Most interesting and active work
+    can still be accessed via the <a href="https://github.com/realityforge">github account</a> .
+  </p>
+</div>
