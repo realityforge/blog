@@ -2,7 +2,7 @@
 .DS_Store
 /_feeds
 /_includes/smugmug.html
-/blog.iml
-/blog.ipr
-/blog.iws
+/*.iml
+/*.ipr
+/*.iws
 /.rakeTasks
